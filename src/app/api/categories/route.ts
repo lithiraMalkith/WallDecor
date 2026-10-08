@@ -59,10 +59,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ success: true, data: list });
   } catch (error) {
     console.error("GET /api/categories error:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to fetch categories" },
-      { status: 500 },
-    );
+    return NextResponse.json({
+      success: true,
+      data: adminStore.categories,
+    });
   }
 }
 

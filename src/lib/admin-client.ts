@@ -27,7 +27,15 @@ export async function fetchApi<T>(
   };
 
   const response = await fetch(path, { ...options, headers });
-  const payload: ApiResponse<T> = await response.json();
+  
+  let payload: ApiResponse<T>;
+  try {
+    payload = await response.json();
+  } catch {
+    throw new Error(
+      `API Request to ${path} failed with status ${response.status} (${response.statusText || "Server error"})`
+    );
+  }
 
   if (!response.ok || payload.success === false) {
     throw new Error(

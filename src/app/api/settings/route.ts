@@ -30,10 +30,10 @@ export async function GET() {
     return NextResponse.json({ success: true, data: settings });
   } catch (error) {
     console.error("GET /api/settings error:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to fetch settings" },
-      { status: 500 },
-    );
+    return NextResponse.json({
+      success: true,
+      data: adminStore.settings,
+    });
   }
 }
 

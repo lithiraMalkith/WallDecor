@@ -10,28 +10,42 @@ const projectId =
   process.env.FIREBASE_ADMIN_PROJECT_ID ||
   process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
 const clientEmail = process.env.FIREBASE_ADMIN_CLIENT_EMAIL;
-let privateKey = process.env.FIREBASE_ADMIN_PRIVATE_KEY;
+let rawPrivateKey = process.env.FIREBASE_ADMIN_PRIVATE_KEY;
 
-if (privateKey) {
-  // Support both unescaped and escaped newline formats from env
-  privateKey = privateKey.replace(/\\n/g, "\n");
+let privateKey: string | undefined = undefined;
+if (rawPrivateKey) {
+  let cleaned = rawPrivateKey.trim();
+  // Strip wrapping double or single quotes if pasted from env file into Vercel UI
+  if (
+    (cleaned.startsWith('"') && cleaned.endsWith('"')) ||
+    (cleaned.startsWith("'") && cleaned.endsWith("'"))
+  ) {
+    cleaned = cleaned.slice(1, -1).trim();
+  }
+  // Convert escaped newlines into real newlines
+  cleaned = cleaned.replace(/\\n/g, "\n");
+  privateKey = cleaned;
 }
 
 export const isFirebaseAdminConfigured = Boolean(
-  projectId && clientEmail && privateKey
+  projectId &&
+    clientEmail &&
+    privateKey &&
+    privateKey.includes("-----BEGIN PRIVATE KEY-----")
 );
 
 let adminApp: App | null = null;
 let adminAuth: Auth | null = null;
 let adminDb: Firestore | null = null;
 
-if (typeof window === "undefined" && isFirebaseAdminConfigured) {
+if (typeof window === "undefined" && isFirebaseAdminConfigured && privateKey) {
   try {
-    if (!getApps().length) {
+    const existingApps = getApps();
+    if (existingApps.length === 0) {
       adminApp = initializeApp({
         credential: cert({
-          projectId,
-          clientEmail,
+          projectId: projectId!,
+          clientEmail: clientEmail!,
           privateKey,
         }),
       });
@@ -39,15 +53,20 @@ if (typeof window === "undefined" && isFirebaseAdminConfigured) {
       adminApp = getApp();
     }
 
-    adminAuth = getAuth(adminApp);
-    adminDb = getFirestore(adminApp);
-    try {
-      adminDb.settings({ ignoreUndefinedProperties: true });
-    } catch {
-      // Ignore if settings already locked
+    if (adminApp) {
+      adminAuth = getAuth(adminApp);
+      adminDb = getFirestore(adminApp);
+      try {
+        adminDb.settings({ ignoreUndefinedProperties: true });
+      } catch {
+        // Settings already applied
+      }
     }
   } catch (err) {
-    console.warn("Firebase Admin SDK initialization notice:", err);
+    console.warn("[Firebase Admin] Initialization failed, using in-memory store fallback:", err);
+    adminApp = null;
+    adminAuth = null;
+    adminDb = null;
   }
 }
 

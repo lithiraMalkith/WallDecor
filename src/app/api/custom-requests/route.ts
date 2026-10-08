@@ -37,10 +37,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ success: true, data: list });
   } catch (error) {
     console.error("GET /api/custom-requests error:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to fetch custom requests" },
-      { status: 500 },
-    );
+    return NextResponse.json({
+      success: true,
+      data: adminStore.customRequests,
+    });
   }
 }
 

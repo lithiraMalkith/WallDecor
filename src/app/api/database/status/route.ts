@@ -11,18 +11,31 @@ import {
 import type { UserProfile } from "@/types";
 
 export async function GET() {
-  const status = getDatabaseStatus();
-  return NextResponse.json({
-    success: true,
-    data: {
-      ...status,
-      isAdminSdkConfigured: isFirebaseAdminConfigured,
-      timestamp: new Date().toISOString(),
-      note: isFirebaseAdminConfigured || status.isConfigured
-        ? "Connected to live Google Cloud Firestore DB."
-        : "Running in local developer fallback mode.",
-    },
-  });
+  try {
+    const status = getDatabaseStatus();
+    return NextResponse.json({
+      success: true,
+      data: {
+        ...status,
+        isAdminSdkConfigured: isFirebaseAdminConfigured,
+        timestamp: new Date().toISOString(),
+        note: isFirebaseAdminConfigured || status.isConfigured
+          ? "Connected to live Google Cloud Firestore DB."
+          : "Running in local developer fallback mode.",
+      },
+    });
+  } catch (error: any) {
+    return NextResponse.json({
+      success: true,
+      data: {
+        isConfigured: false,
+        mode: "in-memory-fallback",
+        isAdminSdkConfigured: false,
+        timestamp: new Date().toISOString(),
+        note: "Fallback mode active.",
+      },
+    });
+  }
 }
 
 export async function POST(req: NextRequest) {
