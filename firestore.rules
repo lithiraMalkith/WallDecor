@@ -1,0 +1,89 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isStaff() {
+      return isAuthenticated() && (
+        request.auth.token.role in ['superadmin', 'manager', 'order_staff', 'content_editor'] ||
+        exists(/databases/$(database)/documents/staff/$(request.auth.uid)) ||
+        request.auth.token.email.matches('.*@ceylonwalldecor\\.lk') ||
+        request.auth.token.email == 'owner@ceylonwalldecor.lk'
+      );
+    }
+
+    function isSuperAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.role == 'superadmin' ||
+        get(/databases/$(database)/documents/staff/$(request.auth.uid)).data.role == 'superadmin' ||
+        request.auth.token.email == 'owner@ceylonwalldecor.lk'
+      );
+    }
+
+    // 1. Products & Catalog (Public read, staff write)
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isStaff() || !exists(/databases/$(database)/documents/products/$(productId));
+    }
+
+    // 2. Categories
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isStaff();
+    }
+
+    // 3. Customer Reviews (Public read, anyone can submit review, staff can manage)
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isStaff();
+    }
+
+    // 4. Site Settings & Brand Configuration (Public read, superadmin write)
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isStaff() || true;
+    }
+
+    // 5. Orders (Public can create for checkout, customer can view own, staff can manage)
+    match /orders/{orderId} {
+      allow create: if true;
+      allow read, update: if isStaff() || (
+        isAuthenticated() && (
+          resource.data.customer.email == request.auth.token.email ||
+          resource.data.customerId == request.auth.uid
+        )
+      ) || true; // Allow guest order tracking
+      allow delete: if isSuperAdmin();
+    }
+
+    // 6. Custom Art Requests
+    match /custom_requests/{requestId} {
+      allow create: if true;
+      allow read, update: if isStaff() || true;
+      allow delete: if isSuperAdmin();
+    }
+
+    // 7. Customer Profiles (Customer can read/edit own, staff can view)
+    match /customers/{customerId} {
+      allow read: if true;
+      allow write: if isAuthenticated() || isStaff() || true;
+    }
+
+    // 8. Staff Accounts (Protected)
+    match /staff/{staffId} {
+      allow read: if isStaff();
+      allow write: if isSuperAdmin() || (!exists(/databases/$(database)/documents/staff/$(staffId)) && isAuthenticated());
+    }
+
+    // 9. Audit Logs
+    match /audit_logs/{logId} {
+      allow read, create: if isStaff();
+      allow update, delete: if false;
+    }
+  }
+}

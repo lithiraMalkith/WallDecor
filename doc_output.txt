@@ -1,0 +1,331 @@
+
+
+
+
+PROJECT RESEARCH DOCUMENT
+
+
+
+
+
+
+Project Name: Ceylon wall decor
+Prepared By (Developer): Lithira Gunasekara
+Date of Submission: 30/09/2026
+Assigned By: Pixzora Labs (Pvt) Ltd.
+1. Business Profile & Digital Footprint
+Developer Instructions: Review the client’s existing social media channels and digital presence. Provide links and note your initial observations regarding their branding, tone, and current online workflow.
+
+Primary Business Name: Ceylon wall decor
+Business Type & Contact: Handmade textured / fabric wall art and custom canvas décor for homes, bedrooms, kitchens and restaurants in Sri Lanka. Enquiries and orders are currently handled by phone / WhatsApp on 078 2518184.
+Facebook Page Link: No official Facebook page could be verified during this research; to be confirmed with the client. (The TikTok link that was originally pasted on this line has been moved to the TikTok line below.)
+TikTok Profile Link: https://www.tiktok.com/@ceylonwalldecor?_r=1&_t=ZS-9A9kxAeBqa4
+Handle & content: @ceylonwalldecor (display name “ceylon wall decor”). Content is short product videos of textured wall art. Captions carry the size-based price list, the WhatsApp / call number and hashtags such as #walldecor, #wallart, #texturedart, #bohoart, #interiordesign and #srilanka.
+Research limitation: TikTok blocks automated access, so follower counts, engagement rates and the visual look of the feed could not be measured directly. The observations in this document are drawn from publicly indexed video captions and titles, and should be validated with a manual review of the profile and TikTok Analytics.
+Instagram / Other Links:
+WhatsApp Catalog: https://wa.me/c/94782518184
+WhatsApp chat link: https://wa.me/message/UR66GOPVEOV6L1
+Instagram: A reel titled “ceylonwalldecor | Home of textured Art Sri Lanka” appears in search results (https://www.instagram.com/reel/DJT56mCMGT0/), but the official Instagram handle is not confirmed and must be verified with the client.
+Website / other channels: No existing website, Facebook page or YouTube channel was found during this research.
+Branding, Tone & Online Workflow Observations:
+Branding: Earthy, boho / minimalist positioning built around textured, neutral-toned handmade art. The name “Ceylon” signals local Sri Lankan identity. A formal brand system (logo usage, colour palette, typography) could not be confirmed from public information, so a light brand system should be agreed with the client for the website.
+Tone: Friendly, conversational and promotional. Captions mix English and Sinhala, use many emojis and hashtags, stress “hand-made” and “support small business” themes, and always end with a direct call to action (“call or WhatsApp us”).
+Pricing transparency: Size-based price lists (6×6 up to 20×24 inches, any other size on request) are published in video captions. Two different price lists were found: one with frames included (e.g. 12×12 at Rs. 3,500) and one with a lower base price where the frame is charged extra at Rs. 6 per square inch (e.g. 12×12 at Rs. 2,000). This shows prices have changed and that customers may see inconsistent information.
+Current online workflow: TikTok video → viewer calls / messages on WhatsApp → picks a design from the WhatsApp catalog or sends their own → size and price agreed in chat → order handled manually.
+
+Current Operational Model: Social-media-led, manually processed sales with no online cart or checkout.
+Order intake: TikTok discovery, then phone call or WhatsApp message on 078 2518184.
+Catalog: A WhatsApp catalog plus customer-supplied designs; nine standard sizes and any custom size on request.
+Product model: Made-to-order, hand-made textured art; frame is optional and, in the latest price list, charged per square inch.
+Payment & delivery (assumed): Not publicly stated. Assumed to be manual, cash on delivery and/or bank transfer, with courier delivery. To be confirmed with the client.
+
+Key Pain Points Identified: Limitations of operating only on social media and chat:
+No self-service ordering: Every sale depends on someone answering WhatsApp or the phone, so orders are lost outside working hours or when messages pile up after a video goes viral.
+Scattered, inconsistent information: Prices, sizes and designs live in video captions and a WhatsApp catalog and change over time; there is no single source of truth.
+No order or inventory tracking: No order numbers, status updates or customer records, which risks errors, duplicate or missed orders and makes repeat customers hard to reach.
+Platform dependence: Reach depends on the TikTok algorithm. Content is hard to search, an account issue could remove the entire storefront, and there is no owned customer list for remarketing.
+Limited trust signals: Reviews, delivery and return policies, and past work are not centralised, so first-time buyers have little way to verify credibility.
+No conversion measurement: Without a website and marketing pixels, ad spend and video performance cannot be attributed to actual sales.
+Weak custom-order handling: Customer-supplied designs sent by chat are difficult to track, quote, approve and schedule.
+Poor search visibility: The business cannot be found on Google for terms such as “textured wall art Sri Lanka”.
+
+2. Project Overview & Objectives
+Developer Instructions: Provide a concise summary of the project based on your research. Define what success looks like for this website deployment.
+
+Executive Summary: Ceylon Wall Decor is a Sri Lankan small business that hand-makes textured wall art in standard sizes (6×6 to 20×24 inches) and custom sizes. It is promoted mainly on TikTok (@ceylonwalldecor) and sold through phone and WhatsApp. This project replaces manual, chat-based ordering with a custom-built e-commerce website using Next.js and Firebase. Customers get a searchable catalog, size and frame selection, custom-design upload and a simple Cash on Delivery checkout; the owner gets an admin panel to manage products, orders and customers. The site becomes the hub that TikTok and other social traffic lands on, with Meta and TikTok pixels to measure conversions, and it is architected so online payments can be added later.
+
+Primary Website Goals:
+Goal 1: Convert social traffic into online orders. A mobile-first storefront and COD checkout lets a TikTok viewer browse, choose design, size and frame, and place an order in about three minutes without waiting for a WhatsApp reply.
+
+Goal 2: Centralise and automate operations. A Firebase-backed admin panel manages the catalog, prices, orders, custom-design requests and customer records, with automatic confirmation emails replacing manual chat records.
+
+Goal 3: Build an owned, measurable and searchable brand presence. SEO-ready pages, Meta and TikTok pixel tracking and a trust layer (gallery, reviews, policies) reduce dependence on TikTok and prepare the business for future online payments.
+Success Criteria: What success looks like for the deployment
+Customers can complete an order end-to-end on a mobile phone using COD; the order appears in the admin panel immediately and a confirmation email is sent.
+The full catalog (designs, sizes, prices, frame option, images) is managed from the admin panel without developer help.
+Meta and TikTok pixels fire the ViewContent, AddToCart, InitiateCheckout and order events, verified in each platform’s diagnostic tools.
+Mobile PageSpeed performance score of 90 or higher on the home, category and product pages (see Section 9).
+Post-launch KPIs tracked from day one: website conversion rate, share of orders placed on the site versus WhatsApp, average order value and cart abandonment. Numeric targets to be agreed after 30 days of real data.
+
+3. Target Audience & Consumer Behavior Analysis
+Developer Instructions: Analyze the audience interacting with the business's social media posts, comments, and videos. Define who will be using this website.
+
+3.1 Demographics & Psychographics
+Primary Age Group: Approximately 20–40 years (core 25–35), with a secondary group of 40–55 (homeowners and small business owners). This is an estimate based on the content type (interior décor on TikTok) because platform analytics were not available; it should be validated with the client’s TikTok Analytics.
+Key Geographic Locations: Sri Lanka, with expected concentration in Colombo and Gampaha districts and other urban centres such as Kandy, Galle and Kurunegala (island-wide courier delivery). A secondary audience is Sri Lankans abroad buying gifts, only if the client offers international shipping. The audience is Sinhala and English speaking, so the site should be bilingual-ready.
+User Expectations: What these customers care about most:
+Visual aesthetic first: Large, high-quality photos and short videos of pieces on real walls, in consistent colours.
+Speed and mobile-friendliness: Almost all visitors will arrive from TikTok or Instagram in-app browsers on mid-range Android phones and iPhones over mobile data.
+Clear, upfront pricing: Size-based prices, frame cost and delivery fee visible before checkout.
+Easy, familiar ordering: Cash on Delivery, guest checkout and as few form fields as possible.
+Social proof: Customer photos, reviews and “as seen on TikTok” content.
+Customisation: Choose a size and frame, or send their own design or photo and get a quote.
+Quick human contact: A WhatsApp button stays available for questions.
+Trust and transparency: Clear delivery times, damage / return policy and a note that hand-made pieces vary slightly.
+
+3.2 User Journey Mapping (Social to Web)
+Discovery Source: Primary: TikTok videos (#walldecor, #texturedart, #bohoart) surfacing on the For You page and hashtag search. Secondary: Instagram reels, Facebook / Instagram community posts, paid Meta and TikTok ads, word of mouth, and Google search once SEO matures.
+Conversion Trigger: A link in the bio, pinned video and caption call to action (“See all designs & prices – order online”); the full design and price catalog in one place; a low-friction “Order in 2 minutes – Cash on Delivery” promise; optional offers such as free delivery above a set value; and the ability to open the exact piece shown in a video. Ads will send viewers straight to the relevant product page.
+Web Action: Path from landing to a completed order or inquiry:
+Step 1 – Land: Home page or product page (from bio link, ad or video link); hero, best sellers and trust signals visible without scrolling far.
+Step 2 – Browse: Filter by room, style or size and open a product page.
+Step 3 – Choose: Select size (and frame); price updates live; view photos and video; tap Add to Cart (AddToCart pixel event).
+Alternative – Custom order: Open the Custom Order page, upload a design or photo, choose a size and submit a request (no payment); the admin replies with a quote by WhatsApp or email.
+Step 4 – Cart: Review items, change quantity, see subtotal and delivery fee.
+Step 5 – Checkout: Guest checkout: name, phone, email, delivery address, district and notes; Cash on Delivery selected.
+Step 6 – Confirm: Place order; confirmation page with order number; confirmation email to the customer and alert to the admin; purchase pixel events fire.
+Step 7 – Fulfilment: Admin confirms by phone or WhatsApp, makes and dispatches the piece; customer pays cash to the courier; status emails follow.
+
+4. Proposed Architecture & Web Page Analysis
+Developer Instructions: Based on your research of the business model, provide a high-level recommendation for the user-facing website structure. 
+Proposed Front-End Structure & Recommendations: A mobile-first, image-led storefront with a shallow structure (no more than three taps from home to checkout). Recommended public pages:
+Home: Hero video / loop of a best-selling piece, Shop by Room, Best Sellers, “How it works” (choose → we handcraft → delivered), customer gallery, WhatsApp and TikTok links.
+Shop / All Designs: Product grid with filters (room, style, size, price), sorting and lazy-loaded images.
+Category pages: One landing page per room and style, written for SEO.
+Product detail: Photo gallery and video, size selector with live price, frame option, description (hand-made note, materials), delivery info, related products, Add to Cart and “Order via WhatsApp”.
+Custom Order: Form with image upload, size and notes; explains the process and typical lead time.
+Cart & Checkout: Single-page guest checkout, Cash on Delivery, delivery fee by district and an order summary.
+Order Confirmation & Tracking: Order number page; status lookup using order number plus phone number.
+About, Gallery & Reviews: Brand story and hand-made process, real-room inspiration gallery with TikTok embeds, customer reviews.
+Policy & support pages: FAQ, Shipping & Delivery, Returns / Damage, Terms, Privacy Policy and Contact.
+Global elements: Sticky header with cart, floating WhatsApp button, TikTok / Instagram links, consent banner, bilingual-ready layout (English / Sinhala) and testing inside in-app browsers.
+Content & Media Strategy: Use short-form video as the primary media (muted auto-play loops on the hero and product pages), supported by consistent, well-lit product photos on neutral walls and in-room mockups. Compress images to WebP / AVIF, keep captions in English with Sinhala support, and publish one consistent price catalog managed from the admin panel.
+Existing Assets to Leverage:
+Top-performing TikTok videos (by views and likes), exported or embedded on the home and product pages.
+Product photos and designs already in the WhatsApp catalog.
+Existing captions, hashtags and the two published price lists, to be reconciled into one.
+Customer messages, testimonials and photos of finished pieces on walls (with the customers’ permission).
+Any existing logo and brand colours the client already uses.
+Required New Copy/Media:
+Brand story / About Us and a short “how our art is made” section.
+Product descriptions (hand-made note, materials, care) and a size guide graphic.
+FAQ, Shipping & Delivery policy (areas, fees, timelines), Returns / Damage policy and custom-order terms.
+Terms of Service and Privacy Policy, written with Sri Lanka’s Personal Data Protection Act in mind (legal review by the client recommended).
+SEO titles and meta descriptions for every page; email templates (order confirmation, status updates).
+Consistent product photography for each design and room mockups; logo, favicon and hero banners.
+
+5. Technical Stack & Architecture Plan
+Developer Instructions: This project will be built as a custom website utilizing Firebase as the primary database. Please outline your technical approach, custom framework choices, implementation plan, and chosen front-end/back-end frameworks below. Additionally, map out how your custom architecture will handle the required operational workflows and social tracking elements.
+
+Database Selected: Firebase (Mandatory)
+Proposed Front-End Framework: Next.js (App Router) with React and TypeScript, styled with Tailwind CSS.
+Why: server-side rendering and static generation give fast mobile load and strong SEO; built-in image optimisation; good Firebase support; matches the developer’s existing stack.
+Cart state with React Context or Zustand; forms with React Hook Form and Zod validation.
+GSAP used sparingly for subtle motion and loaded lazily so it does not hurt page speed.
+Proposed Back-End Environment (if applicable): Firebase as the primary backend, with server-side logic in Firebase Cloud Functions or Next.js server actions using the Firebase Admin SDK.
+Cloud Firestore: products, categories, orders, customers, custom requests, users and settings.
+Firebase Authentication: admin and staff login; roles stored as custom claims.
+Cloud Storage for Firebase: product images and customer design uploads.
+Cloud Functions / server code: order creation, server-side price calculation, stock updates, email dispatch, status logging and server-side pixel events.
+Security: Firestore Security Rules, App Check and reCAPTCHA on checkout.
+Hosting: Firebase App Hosting or Vercel for the Next.js app, with a custom domain and SSL (final choice confirmed at setup).
+Implementation Plan Summary: Custom system built in phases. Indicative duration 8–10 weeks, subject to content readiness and speed of client feedback.
+Phase 0 – Discovery: Confirm the open questions in Section 10, collect assets, agree the sitemap and brand basics.
+Phase 1 – UX/UI design: Wireframes and mobile-first designs (Figma), design tokens, client approval.
+Phase 2 – Project & Firebase setup: Repository and CI, Next.js + TypeScript + Tailwind, Firebase dev / staging / production projects, data model, security rules and authentication.
+Phase 3 – Storefront: Home, catalog, filters, product pages with size and frame pricing, and cart.
+Phase 4 – Checkout & order engine: COD checkout, order-number generation using a Firestore transaction, stock check, custom-order form with uploads, confirmation page and order tracking.
+Phase 5 – Notifications: Transactional email integration and templates (Section 8.2).
+Phase 6 – Admin panel: Dashboard, products and categories, order workflow, custom requests, customers, roles and settings (Section 7).
+Phase 7 – Marketing, SEO & performance: Meta and TikTok pixels plus server-side events, structured data, sitemap, image optimisation and PageSpeed tuning.
+Phase 8 – QA & UAT: Functional and device testing (Android, iOS, in-app browsers), security-rules testing with the Firebase emulator, client acceptance testing.
+Phase 9 – Deployment & handover: Domain and SSL, production data load, admin training, documentation and a short post-launch support window.
+Core data model: products (with size variants), categories, orders (item snapshots and status history), customers, customRequests, users (role), settings and counters.
+Security principle: Prices and totals are always recalculated on the server; the browser is never trusted. Public users can only read published products; orders are created through validated server code; admin data is protected by role-based rules.
+
+6. Product & Category Management Specifications
+Developer Instructions: Define how inventory and products will be categorized, structured, and updated on the back-end to support the business's current catalog.
+Estimated Total SKU Count: Estimate (assumption, to be confirmed): about 40–60 designs at launch × 9 standard sizes ≈ 360–540 size-level SKUs, plus made-to-order custom sizes and custom-design requests handled through a separate workflow.
+Product Attributes Needed:
+Design name, unique SKU code, short and long description, slug.
+Room, style and colour tags; featured / best-seller / new flags.
+Size (width × height in inches) using the nine standard sizes: 6×6, 8×8, 10×8, 12×12, 12×16, 18×12, 20×18, 18×24, 20×24, plus a “custom size” option.
+Price per size; frame option (with / without) and frame price (area × rate per square inch, set in admin).
+Material / technique (as confirmed by the client), packaging dimensions and weight for courier and delivery-fee calculation.
+Lead time (days to make), stock type (made-to-order or ready stock) and quantity.
+Photos and video, plus link to the source TikTok video.
+Status (draft / published / archived) and SEO fields (meta title, meta description).
+Category Hierarchy Recommendations: A product can belong to several categories; category slugs are used for SEO-friendly URLs.
+Shop by Room -> Living Room, Bedroom, Kitchen & Dining, Office & Restaurants / Commercial
+Shop by Style -> Boho, Minimalist / Neutral, Abstract & Modern, Nature-inspired
+Shop by Size -> Small (up to 10×8), Medium (12×12 to 12×16), Large (18×12 and above)
+Custom Orders -> Upload Your Own Design, Custom Size Request
+Collections & Offers -> New Arrivals, Best Sellers, Gift Ideas, Sale
+Inventory Rules:
+Default model is made-to-order: no stock is decremented and the product shows “Ready in X days”. Ready-stock pieces have a quantity that is reduced when an order is placed and restored if it is cancelled.
+Low-stock alert to the admin at a set threshold (for example 2 or fewer); when stock reaches zero the button changes to “Request / Pre-order” or the product is hidden, per product setting.
+Orders store a snapshot of name, size, frame and price, so later price changes never alter existing orders.
+Unique SKU per design + size (+ frame); bulk import / export by CSV.
+Stock and price changes are logged with user and time.
+Custom-design requests need admin approval and a quote before they count as confirmed orders.
+Archived products stay in the database so order history remains intact.
+
+7. Admin Panel & Management System Recommendations
+Developer Instructions: Based on your research of the business model and operational footprint, identify and list all the necessary functional modules required for the back-end Admin Panel. You must justify why each module is necessary for the business owner to manage their operations efficiently.
+7.1 Proposed Admin Modules & Features
+Developer to list all proposed modules and provide a brief description of what features will be included in each.
+Module 1 Name: Dashboard & Analytics
+Purpose & Feature Scope: Today’s orders, pending orders, revenue and COD cash to collect, best-selling designs, low-stock alerts, traffic source and conversion summary, and CSV export of reports.
+Why it is necessary: Gives the owner a single daily view of the business and replaces manual counting from chats.
+Module 2 Name: Product & Category Management
+Purpose & Feature Scope: Create, edit, publish, hide and archive products; size variants and prices; frame pricing rule; categories and tags; multiple images and video; stock type and quantity; SEO fields; bulk CSV import / export.
+Why it is necessary: The catalog and prices change often; the owner must update them without a developer, and one source of truth ends inconsistent price lists.
+Module 3 Name: Order Management
+Purpose & Feature Scope: Order list with search and filters, order detail, status changes, internal notes, courier and tracking number entry, printable invoice / packing slip, cancellation, COD cash-collected marking and status history.
+Why it is necessary: The core operational tool; it replaces WhatsApp notes with numbered, trackable orders and prevents missed or duplicate orders.
+Module 4 Name: Custom Order / Design Request Management
+Purpose & Feature Scope: Inbox for custom-design requests with uploaded images, size and notes; quote entry; approve / reject; convert an approved request into an order; link to WhatsApp chat.
+Why it is necessary: Custom art is a key part of the business today and is currently handled through chat; this makes it trackable and quotable.
+Module 5 Name: Customer Management
+Purpose & Feature Scope: Customer list built from orders, order history, contact details, notes and tags (repeat buyer), export for remarketing (with consent).
+Why it is necessary: Builds an owned customer database so the business no longer depends on TikTok reach and can serve repeat buyers.
+Module 6 Name: Delivery & COD Settings
+Purpose & Feature Scope: Delivery fee rules by district or weight, free-delivery threshold, courier list, estimated delivery times, COD enable / disable and any order-value limits.
+Why it is necessary: Delivery cost is a major factor in pricing for framed art; the owner needs to change fees without code changes.
+Module 7 Name: Content & Media Management (CMS)
+Purpose & Feature Scope: Homepage banners and featured collections, About, FAQ and policy pages, gallery images, TikTok video links and media library.
+Why it is necessary: Lets the owner keep campaigns and seasonal offers fresh and update policy text without a developer.
+Module 8 Name: Notifications & Email Templates
+Purpose & Feature Scope: Edit customer and admin email templates, toggle which status changes send an email, and view a send log with failures and resend.
+Why it is necessary: Ensures customers always get order confirmation and updates, and lets the owner spot failed emails.
+Module 9 Name: Promotions & Coupons
+Purpose & Feature Scope: Discount codes (percentage / fixed / free delivery), validity dates, usage limits and minimum order value.
+Why it is necessary: Supports TikTok campaign offers and lets the owner run promotions with trackable codes.
+Module 10 Name: Reviews & Testimonials
+Purpose & Feature Scope: Add or moderate customer reviews and photos, feature selected testimonials on the home page.
+Why it is necessary: Social proof is a top expectation for first-time online buyers and boosts conversion.
+Module 11 Name: Marketing & Tracking Settings
+Purpose & Feature Scope: Store Meta Pixel and TikTok Pixel IDs and access tokens for server-side events, Google Analytics / Search Console IDs, and view captured UTM / ttclid campaign data on orders.
+Why it is necessary: Lets pixels be changed or fixed without redeploying code and lets the owner see which campaigns produce orders.
+Module 12 Name: Users, Roles & Activity Log
+Purpose & Feature Scope: Create staff accounts, assign roles, reset access, and view an audit trail of who changed what (prices, statuses, deletions).
+Why it is necessary: Protects the business as staff are added, and gives accountability for price and order changes.
+
+7.2 Core Workflows & Admin Access Control
+Developer to outline how the administrative setup will handle different system roles (e.g., Owner vs. Staff privileges) and how an order will be managed inside the admin portal from the moment it is placed until it is marked completed.
+
+Proposed User Roles & Restrictions: Role-based access control using Firebase Authentication custom claims:
+Owner / Super Admin: Full access, including users and roles, settings, pixels, financial reports, deletions and order reversals.
+Manager: Products, categories, orders, custom requests, customers, promotions and content; cannot manage users, roles or system settings.
+Order Staff: View orders and move them through fulfilment statuses only (Processing to Dispatched); cannot edit prices, see revenue reports, export customers or delete anything.
+Content Editor (optional): Products, media, FAQs and banners only; no access to orders or customer data.
+How it is enforced: Roles are assigned only by the Owner. Access is checked in Firestore Security Rules and in server code, not only by hiding menu items in the interface. Admin sign-in uses email and password with optional two-factor authentication, session timeout and an activity log. Customers use guest checkout and never receive admin access.
+
+Proposed Internal Order Workflow: Every status change records the time and the staff member who made it.
+1. Pending: Order placed on the website (COD); admin alert and customer confirmation email sent.
+2. Confirmed: Staff verify the order by phone or WhatsApp (address, size, frame); protects against fake COD orders.
+3. Processing: The piece is being made or framed; ready-stock items are reserved.
+4. Ready for Dispatch: Finished, quality-checked and packed.
+5. Dispatched: Handed to the courier; courier name and tracking number saved; customer status email sent.
+6. Delivered: Courier confirms delivery.
+7. Completed: COD cash received from the courier and reconciled; order closed.
+Exception statuses: On Hold, Cancelled, Delivery Failed and Returned. Steps cannot be skipped, and only the Owner can reverse or cancel an order after it has been dispatched.
+
+8. Workflows & Core Integrations
+Developer Instructions: Map out the system workflows ensuring compliance with the operational conditions below.
+8.1 Order & Payment Workflow
+
+Current Requirement (Cash on Delivery): The system supports a seamless COD checkout. No payment gateway is integrated in this phase.
+Guest checkout form (name, phone, email, address, district) with phone-number and address validation.
+The server recalculates prices, frame cost and delivery fee, then creates the order in a Firestore transaction with a unique order number (for example CWD-000123).
+The order is saved with payment method “COD” and payment status “Pending – collect on delivery”; the stock check runs at the same time.
+Abuse controls: reCAPTCHA / App Check, rate limiting, and phone confirmation by staff before production.
+
+Future Scalability Configuration: The checkout and database are designed so a payment gateway can be added without restructuring.
+The order schema already contains paymentMethod, paymentStatus (pending / paid / failed / refunded), amountPaid, transactionReference and currency, so no data migration is needed later.
+Payment methods are built as pluggable adapters selected at checkout and switched on in admin settings; COD is the first adapter.
+Adding a gateway (for example PayHere or another Sri Lankan provider) means: create a payment session on the server, redirect the customer, receive the gateway webhook, verify its signature, update paymentStatus and move the order to Confirmed automatically.
+Order status and payment status are tracked separately, so the existing workflow does not change.
+Secret keys stay in server-side environment variables or Secret Manager and never in browser code; refunds can be added to the admin Order module.
+8.2 Automated Notifications Workflow
+
+Email Notifications: Upon a successful order placement, the system must trigger an automated email notification to the customer. This should utilize a free transactional email service provider.
+
+Proposed Free Email Service Provider: Brevo (formerly Sendinblue) free plan, using its transactional email API / SMTP. Alternative: Resend free tier. Free-tier sending limits (Brevo is roughly 300 emails per day) must be re-checked at setup; they are ample for the current order volume.
+Emails: customer order confirmation (order number, items, sizes, total, COD note, address, contact details), admin new-order alert, status updates (dispatched with courier and tracking) and custom-request received / quote.
+Trigger: a Firestore order-created event (Cloud Function) or Next.js server action calls the provider API; the API key is stored as a secret.
+Deliverability: verify the sending domain with SPF, DKIM and DMARC so emails do not land in spam.
+Failures are logged and retried, the order is flagged in admin, and templates are editable in the admin panel.
+
+8.3 Marketing Pixels (Critical for Social Traffic)
+Facebook / Meta Pixel Integration: Tracks Page Views, Add to Cart and Purchase events.
+Events: PageView, ViewContent (product page), AddToCart, InitiateCheckout and Purchase (fired when a COD order is successfully placed, with value, currency LKR and content IDs).
+Meta Conversions API (server-side) with a shared event_id for de-duplication, to reduce data loss from iOS privacy features and ad blockers.
+Pixel ID and access token stored in admin Marketing Settings; verification with Meta Events Manager and Pixel Helper.
+
+TikTok Pixel Integration: Attributes video ad spend to conversions.
+Events: ViewContent, AddToCart, InitiateCheckout and PlaceAnOrder / CompletePayment (mapped to “order placed”, since COD has no online payment; final mapping chosen with the client’s ad-optimisation goal).
+TikTok Events API (server-side) with de-duplication event IDs; the ttclid and UTM parameters are captured and saved on each order for attribution.
+A consent banner controls when the pixels load, and the Privacy Policy discloses tracking.
+
+9. SEO & Performance Benchmark Targets
+Developer Instructions: Define the performance metrics and on-page optimization steps to be taken during development.
+Target Mobile PageSpeed Score: 90+ Performance (stretch target 95) on Google PageSpeed Insights (mobile) for the home, category and product pages, and 90+ for Accessibility, Best Practices and SEO. Core Web Vitals: LCP 2.5 s or less, INP 200 ms or less, CLS 0.1 or less.
+How: next/image with WebP / AVIF and responsive sizes; static generation with revalidation for catalog pages; CDN caching.
+Video loads only after a poster image; fonts are subsetted with font-display: swap.
+Marketing pixels and any heavy libraries (GSAP, Three.js) are loaded after the main content or on demand; pixels may reduce the score slightly and this will be measured.
+
+Core Keywords to Target:
+Primary Local Business Product/Service Keyword: textured wall art Sri Lanka; wall decor Sri Lanka; handmade wall art Sri Lanka.
+Brand Name + Location: Ceylon Wall Decor Sri Lanka; Ceylon Wall Decor Colombo (only if the business location is confirmed as Colombo).
+Secondary keywords: custom wall art Sri Lanka; bedroom wall art Sri Lanka; kitchen / restaurant wall decor Sri Lanka; boho wall art Sri Lanka; buy wall art online Sri Lanka; wall art price Sri Lanka. Sinhala-script and transliterated variants to be researched with Google Keyword Planner and Search Console.
+On-page SEO steps: Unique title and meta description per page; clean slugs; one H1 per page; Product, Offer, Review and Organization structured data; XML sitemap and robots.txt; descriptive image alt text; canonical URLs; Open Graph tags so links preview well on WhatsApp and social apps; internal links between categories and products; Google Analytics 4 and Search Console set up at launch; Google Business Profile if the client has a physical location.
+
+10. Developer Comments & Open Questions
+Developer Instructions: Note any assumptions made during your research, technical risks, or questions that require clarification from the business owner before development begins.
+Assumptions Made:
+The business is Sri Lanka-based, prices are in LKR and delivery is island-wide by courier.
+TikTok analytics were not available, so audience estimates are inferred from the content type.
+Two different price lists exist; the most recent one confirmed by the client will be treated as correct.
+Products are hand-made to order, with a lead time; frames are optional and charged separately or included depending on the client’s decision.
+COD is the only payment method at launch; guest checkout is sufficient (no customer accounts in phase one).
+One owner and roughly one to three staff will use the admin panel.
+Catalog of about 40–60 designs at launch; site language English with Sinhala-ready layout.
+Order volumes are small enough for Firebase free or low-cost tiers and free email tiers.
+
+Potential Technical Risks:
+Firebase plan and cost: Cloud Functions and, for newer projects, Cloud Storage typically require the pay-as-you-go Blaze plan (which still has a free monthly quota). Budget alerts and efficient queries are needed to avoid surprise bills.
+Firestore search and filtering: Firestore has no full-text search or relational joins; catalog search and multi-filter queries need planned indexes or a free-tier search add-on.
+Security misconfiguration: Wrong rules could expose orders or allow price tampering or role escalation; mitigated by server-side pricing and rules testing with the emulator.
+Fake COD orders and failed deliveries: Cost of wasted production and returns; mitigated by confirmation calls and, later, advance payment for custom orders.
+Email limits and deliverability: Free-tier caps and spam-folder risk; mitigated by domain authentication and logging.
+Tracking accuracy: In-app browsers, iOS privacy and ad blockers reduce pixel accuracy; server-side events and consent compliance are needed.
+Performance versus rich media: Videos and animation can hurt PageSpeed.
+Content readiness and rights: Poor photos or late assets delay launch; TikTok video reuse and customer photos need permission.
+Platform changes: Meta and TikTok API or policy changes can break tracking.
+Custom-order complexity: Quote-based pricing could grow the scope.
+Data protection and lock-in: Storing customer personal data brings obligations under Sri Lanka’s data protection law; Firebase lock-in is reduced with a clean data-access layer.
+
+Questions for Client Clarification:
+Which are the official Facebook, Instagram and TikTok accounts, is a TikTok Shop planned, and can we get access to the Meta and TikTok business / ads accounts and TikTok Analytics (top videos, audience demographics)?
+What is the business location, delivery coverage, courier partner(s), delivery fees and delivery timeline?
+Which price list is current, are frames included or charged at Rs. 6 per square inch, and what is the formula for custom-size prices?
+How many designs will be listed at launch, who provides product photos, and may existing TikTok videos and customer photos be reused?
+What are the production lead time and daily capacity, and which pieces are ready stock versus made-to-order?
+Is COD the only payment method? Is bank transfer or an advance payment needed for custom orders?
+What is the returns / damage policy?
+Is there an existing logo, colour palette and domain name, and which language(s) should the site use?
+How many staff will use the admin panel, who handles orders and after-hours messages?
+Are customer accounts, coupons and reviews needed at launch?
+Should WhatsApp remain a parallel order channel?
+What are the expected launch date, budget and planned ad spend on Meta and TikTok?
