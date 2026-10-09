@@ -1,9 +1,10 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { CLOUDINARY_SEED_IMAGES } from "@/lib/cloudinary";
-import { products } from "@/lib/products";
+import { products, mapAdminProductToStorefront, type Product } from "@/lib/products";
 import { ProductCard } from "./product-card";
 import { Reveal } from "./reveal";
 import { HeroStudio } from "./hero-studio";
@@ -11,17 +12,53 @@ import { BentoShowcase } from "./bento-showcase";
 import { CraftTicker } from "./craft-ticker";
 import { CollectorVoice } from "./collector-voice";
 
-export function Home() {
+export function Home({ initialProducts }: { initialProducts?: Product[] } = {}) {
+  const [catalog, setCatalog] = useState<Product[]>(
+    initialProducts && initialProducts.length > 0 ? initialProducts : products,
+  );
+
+  useEffect(() => {
+    if (initialProducts && initialProducts.length > 0) {
+      setCatalog(initialProducts);
+    }
+  }, [initialProducts]);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadLiveProducts() {
+      try {
+        const res = await fetch("/api/products");
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+            const mapped = json.data
+              .filter((p: any) => p.visibility === "published")
+              .map(mapAdminProductToStorefront);
+            if (isMounted && mapped.length > 0) {
+              setCatalog(mapped);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("Could not fetch live products in Home:", err);
+      }
+    }
+    loadLiveProducts();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <>
       {/* 1. ElevenLabs-Style Interactive Hero Wall Studio */}
-      <HeroStudio />
+      <HeroStudio products={catalog} />
 
       {/* 2. Micro Ticker / Craft Provenance Bar (GSAP Text Rotator) */}
       <CraftTicker />
 
       {/* 3. Asymmetric Bento Grid Showcase (ElevenLabs Inspired) */}
-      <BentoShowcase />
+      <BentoShowcase products={catalog} />
 
       {/* 4. The Artwork Collection Catalog */}
       <section className="container-x py-20 bg-[#FDFCFC]">
@@ -43,7 +80,7 @@ export function Home() {
         </Reveal>
 
         <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4">
-          {products.map((p) => (
+          {catalog.map((p) => (
             <Reveal key={p.id}>
               <ProductCard product={p} />
             </Reveal>

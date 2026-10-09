@@ -298,6 +298,22 @@ export async function getAllCustomersFromFirestore(): Promise<Customer[]> {
  * ----------------------------------------------------------------------------
  */
 export async function getProductsFromFirestore(): Promise<Product[] | null> {
+  if (typeof window === "undefined") {
+    try {
+      const { adminDb } = await import("./firebase-admin");
+      if (adminDb) {
+        const snap = await adminDb.collection(COLLECTIONS.PRODUCTS).get();
+        if (!snap.empty) {
+          const prods: Product[] = [];
+          snap.forEach((d) => prods.push(d.data() as Product));
+          return prods;
+        }
+      }
+    } catch (err) {
+      console.warn("adminDb fetch in getProductsFromFirestore error:", err);
+    }
+  }
+
   if (!db || !isFirebaseConfigured) return null;
 
   try {
@@ -314,10 +330,23 @@ export async function getProductsFromFirestore(): Promise<Product[] | null> {
 }
 
 export async function saveProductToFirestore(product: Product): Promise<void> {
+  const cleanProduct = JSON.parse(JSON.stringify(product));
+
+  if (typeof window === "undefined") {
+    try {
+      const { adminDb } = await import("./firebase-admin");
+      if (adminDb) {
+        await adminDb.collection(COLLECTIONS.PRODUCTS).doc(product.id).set(cleanProduct, { merge: true });
+        return;
+      }
+    } catch (err) {
+      console.warn("adminDb save in saveProductToFirestore error:", err);
+    }
+  }
+
   if (!db || !isFirebaseConfigured) return;
 
   try {
-    const cleanProduct = JSON.parse(JSON.stringify(product));
     const ref = doc(db, COLLECTIONS.PRODUCTS, product.id);
     await setDoc(ref, cleanProduct, { merge: true });
   } catch (err) {
@@ -326,6 +355,18 @@ export async function saveProductToFirestore(product: Product): Promise<void> {
 }
 
 export async function deleteProductFromFirestore(id: string): Promise<void> {
+  if (typeof window === "undefined") {
+    try {
+      const { adminDb } = await import("./firebase-admin");
+      if (adminDb) {
+        await adminDb.collection(COLLECTIONS.PRODUCTS).doc(id).delete();
+        return;
+      }
+    } catch (err) {
+      console.warn("adminDb delete in deleteProductFromFirestore error:", err);
+    }
+  }
+
   if (!db || !isFirebaseConfigured) return;
 
   try {

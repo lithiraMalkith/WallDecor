@@ -18,25 +18,14 @@ const links = [
 export function Header() {
   const [menu, setMenu] = useState(false);
   const [search, setSearch] = useState(false);
+  const [headerQuery, setHeaderQuery] = useState("");
   const router = useRouter();
   const { count, setOpen } = useCart();
   const { customer } = useCustomerAuth();
 
   return (
     <>
-      {/* ElevenLabs-style Top Micro-Banner
-      <div className="border-b border-[#EBE8E4] bg-[#F5F3F1] py-2 px-4 text-center text-[11px] font-normal text-[#111111] tracking-wide flex items-center justify-center gap-2">
-        <span className="inline-block size-1.5 rounded-full bg-[#BA8E23]" />
-        <span>Island-wide Cash on Delivery (COD) · Handcrafted by Sri Lankan Artisans</span>
-        <Link
-          href="/custom-order"
-          className="ml-2 hidden sm:inline-flex items-center gap-1 font-medium underline underline-offset-2 hover:text-[#BA8E23] transition-colors"
-        >
-          <span>Request Custom Size</span>
-          <span>→</span>
-        </Link>
-      </div> */}
-
+      {/* ElevenLabs-style Top Micro-Banner */}
       <header className="sticky top-0 z-40 border-b border-[#EBE8E4] bg-[#FDFCFC]/90 backdrop-blur-md">
         <div className="container-x flex h-16 items-center justify-between">
           {/* Mobile menu button */}
@@ -109,19 +98,46 @@ export function Header() {
         {search && (
           <div className="border-t border-[#EBE8E4] bg-[#FFFFFF] py-3 shadow-sm">
             <div className="container-x">
-              <input
-                className="input text-xs rounded-full border-[#EBE8E4] focus:border-black"
-                autoFocus
-                // placeholder="Search textured artwork designs by room, style, or title… (Press Enter)"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    router.push(
-                      `/shop?search=${encodeURIComponent(e.currentTarget.value)}`,
-                    );
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const val = headerQuery.trim();
+                  if (val) {
+                    if (typeof window !== "undefined") {
+                      window.dispatchEvent(
+                        new CustomEvent("catalog-search", { detail: val }),
+                      );
+                    }
+                    router.push(`/shop?search=${encodeURIComponent(val)}`);
                     setSearch(false);
                   }
                 }}
-              />
+                className="relative flex items-center"
+              >
+                <Search
+                  size={15}
+                  className="absolute left-3.5 text-[#777169] pointer-events-none"
+                />
+                <input
+                  value={headerQuery}
+                  onChange={(e) => setHeaderQuery(e.target.value)}
+                  className="input pl-10 pr-10 text-xs rounded-full border-[#EBE8E4] focus:border-black w-full"
+                  autoFocus
+                  placeholder="Search textured artwork designs by room, style, or title… (Press Enter)"
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      setSearch(false);
+                    }
+                  }}
+                />
+                <button
+                  type="submit"
+                  aria-label="Search"
+                  className="absolute right-3 p-1 text-[#777169] hover:text-[#000000] transition-colors"
+                >
+                  <Search size={15} />
+                </button>
+              </form>
             </div>
           </div>
         )}

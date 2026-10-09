@@ -24,12 +24,13 @@ const FRAME_OPTIONS = [
   { id: "black", name: "Matte Black Float", surcharge: 1400 },
 ];
 
-export function HeroStudio() {
+export function HeroStudio({ products: propProducts }: { products?: Product[] } = {}) {
+  const activeProducts = propProducts && propProducts.length > 0 ? propProducts : products;
   const { add } = useCart();
 
   // Selected artwork (defaults to first bestseller)
   const [selectedProduct, setSelectedProduct] = useState<Product>(
-    products[0] || {
+    activeProducts[0] || {
       id: "prod_01",
       slug: "golden-rise",
       name: "Golden Rise",
@@ -40,6 +41,15 @@ export function HeroStudio() {
       description: "Hand-sculpted sunrise relief in warm ivory and Ceylon yellow.",
     }
   );
+
+  React.useEffect(() => {
+    if (propProducts && propProducts.length > 0) {
+      setSelectedProduct((prev) => {
+        const found = propProducts.find((p) => p.id === prev.id);
+        return found || propProducts[0];
+      });
+    }
+  }, [propProducts]);
 
   const [activeWall, setActiveWall] = useState(WALL_SURFACES[1]);
   const [activeFrame, setActiveFrame] = useState(FRAME_OPTIONS[0]);
@@ -239,7 +249,7 @@ export function HeroStudio() {
                     </label>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
-                    {products.slice(0, 4).map((p) => (
+                    {activeProducts.slice(0, 6).map((p) => (
                       <button
                         key={p.id}
                         type="button"

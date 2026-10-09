@@ -1,16 +1,121 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Search, SlidersHorizontal } from "lucide-react";
-import { products } from "@/lib/products";
+import { products, mapAdminProductToStorefront, type Product } from "@/lib/products";
 import { ProductCard } from "./product-card";
 import type { CategoryNode } from "@/types";
 
-export function ShopBrowser({ initial = "All" }: { initial?: string }) {
-  const [q, setQ] = useState("");
-  const [filter, setFilter] = useState(initial);
+function ShopBrowserContent({
+  initial = "All",
+  initialQuery = "",
+  initialRoom,
+  initialProducts,
+}: {
+  initial?: string;
+  initialQuery?: string;
+  initialRoom?: string;
+  initialProducts?: Product[];
+}) {
+  const effectiveInitialRoom = initialRoom || initial || "All";
+  const searchParams = useSearchParams();
+  const searchParamQuery = searchParams.get("search") || initialQuery;
+  const searchParamRoom = searchParams.get("room") || effectiveInitialRoom;
+
+  const [catalog, setCatalog] = useState<Product[]>(
+    initialProducts && initialProducts.length > 0 ? initialProducts : products,
+  );
+  const [q, setQ] = useState(searchParamQuery);
+  const [filter, setFilter] = useState(searchParamRoom);
   const [sort, setSort] = useState("featured");
   const [dbCategories, setDbCategories] = useState<CategoryNode[]>([]);
+
+  // Keep catalog synced if initialProducts updates from server
+  useEffect(() => {
+    if (initialProducts && initialProducts.length > 0) {
+      setCatalog(initialProducts);
+    }
+  }, [initialProducts]);
+
+  // Client-side fetch to ensure live published catalog
+  useEffect(() => {
+    let isMounted = true;
+    async function loadLiveProducts() {
+      try {
+        const res = await fetch("/api/products");
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+            const mapped = json.data
+              .filter((p: any) => p.visibility === "published")
+              .map(mapAdminProductToStorefront);
+            if (isMounted && mapped.length > 0) {
+              setCatalog(mapped);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("Could not fetch live products in ShopBrowser:", err);
+      }
+    }
+    loadLiveProducts();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Synchronize with initialQuery / initialRoom prop updates from Server Component
+  useEffect(() => {
+    if (initialQuery !== undefined) {
+      setQ(initialQuery);
+      if (initialQuery.trim().length > 0) {
+        setFilter("All");
+      }
+    }
+  }, [initialQuery]);
+
+  useEffect(() => {
+    if (initialRoom !== undefined) {
+      setFilter(initialRoom);
+    }
+  }, [initialRoom]);
+
+  // Synchronize when URL searchParams changes
+  useEffect(() => {
+    const urlSearch = searchParams.get("search");
+    const urlRoom = searchParams.get("room");
+
+    if (urlSearch !== null) {
+      setQ(urlSearch);
+      if (urlSearch.trim().length > 0) {
+        setFilter("All");
+      }
+    } else if (!initialQuery) {
+      setQ("");
+    }
+
+    if (urlRoom) {
+      setFilter(urlRoom);
+    } else if (urlSearch === null && !initialQuery) {
+      setFilter(effectiveInitialRoom);
+    }
+  }, [searchParams, effectiveInitialRoom, initialQuery]);
+
+  // Listen to instantaneous catalog-search events from the header search bar
+  useEffect(() => {
+    const handleCatalogSearch = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      if (typeof customEvent.detail === "string") {
+        setQ(customEvent.detail);
+        setFilter("All");
+      }
+    };
+    window.addEventListener("catalog-search", handleCatalogSearch);
+    return () => {
+      window.removeEventListener("catalog-search", handleCatalogSearch);
+    };
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -41,8 +146,30 @@ export function ShopBrowser({ initial = "All" }: { initial?: string }) {
   }, [dbCategories]);
 
   const visible = useMemo(() => {
-    const query = q.toLowerCase().trim();
-    let v = products.filter((p) => {
+    const rawQuery = q.toLowerCase().trim();
+
+    // Store keywords that characterize all products in Ceylon Wall Decor
+    const genericStoreKeywords = new Set([
+      "art",
+      "artwork",
+      "artworks",
+      "wall",
+      "decor",
+      "design",
+      "designs",
+      "piece",
+      "pieces",
+      "sculpture",
+      "relief",
+      "reliefs",
+    ]);
+
+    const tokens = rawQuery.split(/\s+/).filter(Boolean);
+    // Specific search tokens excluding store-wide generic keywords
+    const specificTokens = tokens.filter((t) => !genericStoreKeywords.has(t));
+    const activeTokens = specificTokens.length > 0 ? specificTokens : tokens;
+
+    let v = catalog.filter((p) => {
       const matchRoom =
         filter === "All" ||
         p.room === filter ||
@@ -50,12 +177,37 @@ export function ShopBrowser({ initial = "All" }: { initial?: string }) {
         (p.room && filter.toLowerCase().includes(p.room.toLowerCase())) ||
         (p.rooms && p.rooms.some((r) => filter.toLowerCase().includes(r.toLowerCase())));
 
-      const matchSearch =
-        !query ||
-        p.name.toLowerCase().includes(query) ||
-        p.style.toLowerCase().includes(query) ||
-        (p.styles && p.styles.some((s) => s.toLowerCase().includes(query))) ||
-        (p.description && p.description.toLowerCase().includes(query));
+      if (!activeTokens.length) {
+        return matchRoom;
+      }
+
+      // If user typed only store-wide keywords (e.g. "wall art", "decor", "sculptures"), match all
+      if (specificTokens.length === 0 && tokens.length > 0) {
+        return matchRoom;
+      }
+
+      // Build complete searchable text string for this product
+      const searchable = [
+        p.name,
+        p.slug,
+        p.sku,
+        p.style,
+        ...(p.styles || []),
+        p.room,
+        ...(p.rooms || []),
+        p.description,
+        p.longDescription || "",
+        p.material || "",
+        p.technique || "",
+        p.badge || "",
+        p.sizes ? "frame framed unframed sizes" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      // Every specific search token must match somewhere in the product
+      const matchSearch = activeTokens.every((token) => searchable.includes(token));
 
       return matchRoom && matchSearch;
     });
@@ -63,7 +215,7 @@ export function ShopBrowser({ initial = "All" }: { initial?: string }) {
     if (sort === "low") v = [...v].sort((a, b) => a.price - b.price);
     if (sort === "high") v = [...v].sort((a, b) => b.price - a.price);
     return v;
-  }, [q, filter, sort]);
+  }, [catalog, q, filter, sort]);
 
   return (
     <>
@@ -149,5 +301,35 @@ export function ShopBrowser({ initial = "All" }: { initial?: string }) {
         </div>
       )}
     </>
+  );
+}
+
+export function ShopBrowser({
+  initialProducts,
+  initial = "All",
+  initialRoom,
+  initialQuery = "",
+}: {
+  initialProducts?: Product[];
+  initial?: string;
+  initialRoom?: string;
+  initialQuery?: string;
+}) {
+  const effectiveRoom = initialRoom || initial;
+  return (
+    <Suspense
+      fallback={
+        <div className="py-20 text-center text-xs text-[#777169] font-mono">
+          Loading collection...
+        </div>
+      }
+    >
+      <ShopBrowserContent
+        initialProducts={initialProducts}
+        initial={effectiveRoom}
+        initialRoom={effectiveRoom}
+        initialQuery={initialQuery}
+      />
+    </Suspense>
   );
 }

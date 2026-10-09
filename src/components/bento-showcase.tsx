@@ -2,10 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { products, formatPrice } from "@/lib/products";
+import { products, formatPrice, type Product } from "@/lib/products";
 
-export function BentoShowcase() {
-  const featured = products[0];
+export function BentoShowcase({ products: propProducts }: { products?: Product[] } = {}) {
+  const activeProducts = propProducts && propProducts.length > 0 ? propProducts : products;
+  const featured =
+    activeProducts.find((p) => p.badge === "Bestseller" || p.badge === "Featured") ||
+    activeProducts[0];
 
   return (
     <section className="py-16 md:py-24 bg-[#F5F3F1] border-y border-[#EBE8E4]">

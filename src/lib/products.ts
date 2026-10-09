@@ -24,7 +24,7 @@ export type Product = {
 
 import { CLOUDINARY_SEED_IMAGES } from "@/lib/cloudinary";
 
-function mapAdminProductToStorefront(p: AdminProduct): Product {
+export function mapAdminProductToStorefront(p: AdminProduct): Product {
   const minPrice =
     p.sizes && p.sizes.length > 0
       ? Math.min(...p.sizes.map((s) => s.priceWithoutFrame))
@@ -72,23 +72,15 @@ export function getProduct(slugOrId: string): Product | undefined {
 }
 
 /**
- * Asynchronous lookup that queries Firestore if not found in local memory cache
+ * Asynchronous lookup that queries Firestore to ensure latest published products
  */
 export async function getProductAsync(slugOrId: string): Promise<Product | undefined> {
-  const local = getProduct(slugOrId);
-  if (local) return local;
-
   try {
-    const { getProductsFromFirestore } = await import("@/lib/firestore-service");
-    const remote = await getProductsFromFirestore();
-    if (remote && remote.length > 0) {
-      adminStore.products = remote;
-      return getProduct(slugOrId);
-    }
+    await syncProductsFromFirestore();
   } catch (err) {
     console.warn("Failed to fetch product asynchronously from Firestore:", err);
   }
-  return undefined;
+  return getProduct(slugOrId);
 }
 
 /**
@@ -105,6 +97,10 @@ export async function syncProductsFromFirestore(): Promise<Product[]> {
     console.warn("Could not sync products from Firestore:", err);
   }
   return getLiveProducts();
+}
+
+export async function getLiveProductsAsync(): Promise<Product[]> {
+  return syncProductsFromFirestore();
 }
 
 export const formatPrice = (n: number) => `Rs. ${n.toLocaleString("en-LK")}`;
