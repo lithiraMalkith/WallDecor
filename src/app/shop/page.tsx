@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/page-shell";
 import { ShopBrowser } from "@/components/shop-browser";
-import { syncProductsFromFirestore } from "@/lib/products";
+import { getLiveProductsAsync } from "@/lib/catalog-server";
 
 export const metadata: Metadata = {
   title: "Shop Textured Wall Art",
@@ -18,7 +18,7 @@ export default async function Page({
   const params = await searchParams;
   const initialSearch = params?.search || "";
   const initialRoom = params?.room || "All";
-  const liveProducts = await syncProductsFromFirestore();
+  const liveProducts = await getLiveProductsAsync();
 
   return (
     <PageShell

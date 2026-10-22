@@ -160,8 +160,8 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   };
 
   const roleColors: Record<string, string> = {
-    superadmin: "bg-brand-gold-muted text-brand-gold border-brand-gold/30",
-    manager: "bg-brand-gold-muted text-brand-gold border-brand-gold/30",
+    superadmin: "bg-brand-accent-muted text-brand-accent border-brand-accent/30",
+    manager: "bg-brand-accent-muted text-brand-accent border-brand-accent/30",
     order_staff: "bg-black/5 text-brand-text border-black/10",
     content_editor: "bg-black/5 text-brand-text border-black/10",
   };
@@ -196,7 +196,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
               href="/admin"
               className="flex items-center gap-3 overflow-hidden"
             >
-              <div className="w-9 h-9 rounded-xl bg-brand-gold text-white flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-brand-accent text-white flex items-center justify-center shrink-0">
                 <Sparkles className="w-5 h-5" />
               </div>
               {(!sidebarCollapsed || mobileOpen) && (
@@ -204,7 +204,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                   <span className="font-serif text-base font-semibold tracking-wide text-black block truncate leading-tight">
                     Ceylon Wall Decor
                   </span>
-                  <span className="text-[10px] uppercase tracking-widest text-brand-gold font-medium block">
+                  <span className="text-[10px] uppercase tracking-widest text-brand-accent font-medium block">
                     Admin Portal
                   </span>
                 </div>
@@ -234,7 +234,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all group relative",
                     active
-                      ? "bg-brand-gold-muted text-brand-gold border border-brand-gold/30 shadow-xs"
+                      ? "bg-brand-accent-muted text-brand-accent border border-brand-accent/30 shadow-xs"
                       : "text-brand-muted hover:text-brand-text hover:bg-brand-surface-hover/70",
                   )}
                 >
@@ -242,7 +242,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                     className={cn(
                       "w-5 h-5 shrink-0 transition-colors",
                       active
-                        ? "text-brand-gold"
+                        ? "text-brand-accent"
                         : "text-brand-muted group-hover:text-brand-text",
                     )}
                   />
@@ -250,7 +250,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                     <span className="truncate">{item.label}</span>
                   )}
                   {active && (
-                    <div className="absolute left-0 top-2 bottom-2 w-1 bg-brand-gold rounded-r-md" />
+                    <div className="absolute left-0 top-2 bottom-2 w-1 bg-brand-accent rounded-r-md" />
                   )}
                 </Link>
               );
@@ -267,7 +267,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                 title="Switch Active Testing Role"
               >
                 <div className="flex items-center gap-2 min-w-0">
-                  <div className="w-7 h-7 rounded-lg bg-brand-gold text-white flex items-center justify-center font-bold text-xs shrink-0">
+                  <div className="w-7 h-7 rounded-lg bg-brand-accent text-white flex items-center justify-center font-bold text-xs shrink-0">
                     {user?.displayName ? user.displayName[0] : "A"}
                   </div>
                   {(!sidebarCollapsed || mobileOpen) && (
@@ -278,7 +278,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                       <span
                         className={cn(
                           "text-[10px] px-1.5 py-0.2 rounded border font-medium inline-block mt-0.5",
-                          roleColors[role] || "text-brand-gold",
+                          roleColors[role] || "text-brand-accent",
                         )}
                       >
                         {ROLE_LABELS[role as BuiltInRole] || role}
@@ -287,7 +287,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                   )}
                 </div>
                 {(!sidebarCollapsed || mobileOpen) && (
-                  <UserCheck className="w-4 h-4 text-brand-muted hover:text-brand-gold shrink-0 ml-1" />
+                  <UserCheck className="w-4 h-4 text-brand-muted hover:text-brand-accent shrink-0 ml-1" />
                 )}
               </button>
 
@@ -314,13 +314,13 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                       className={cn(
                         "w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium flex items-center justify-between transition-colors",
                         role === r
-                          ? "bg-brand-gold-muted text-brand-gold border border-brand-gold/30"
+                          ? "bg-brand-accent-muted text-brand-accent border border-brand-accent/30"
                           : "text-brand-text hover:bg-brand-surface-hover",
                       )}
                     >
                       <span>{ROLE_LABELS[r]}</span>
                       {role === r && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-brand-gold" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
                       )}
                     </button>
                   ))}
@@ -389,7 +389,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                 className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-brand-border bg-white hover:bg-brand-surface text-xs font-medium text-brand-text transition-colors"
               >
                 <span>View Storefront</span>
-                <ExternalLink className="w-3.5 h-3.5 text-brand-gold" />
+                <ExternalLink className="w-3.5 h-3.5 text-brand-accent" />
               </Link>
 
               {/* Active Role Tag */}

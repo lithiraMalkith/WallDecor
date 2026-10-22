@@ -92,8 +92,8 @@ export default function AdminUsersPage() {
   };
 
   const roleColors: Record<BuiltInRole, string> = {
-    superadmin: "bg-brand-gold/10 text-brand-gold border-brand-gold/30",
-    manager: "bg-brand-gold/10 text-brand-gold border-brand-gold/30",
+    superadmin: "bg-brand-accent/10 text-brand-accent border-brand-accent/30",
+    manager: "bg-brand-accent/10 text-brand-accent border-brand-accent/30",
     order_staff: "bg-black/5 text-brand-text border-black/10",
     content_editor: "bg-black/5 text-brand-text border-black/10",
   };
@@ -114,7 +114,7 @@ export default function AdminUsersPage() {
 
         <button
           onClick={() => setModalOpen(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm"
         >
           <UserPlus className="w-4 h-4" />
           <span>Invite Staff Member</span>
@@ -151,7 +151,7 @@ export default function AdminUsersPage() {
                 >
                   <td>
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-brand-gold/15 text-brand-gold border border-brand-gold/30 flex items-center justify-center font-bold text-xs shrink-0">
+                      <div className="w-9 h-9 rounded-full bg-brand-accent/15 text-brand-accent border border-brand-accent/30 flex items-center justify-center font-bold text-xs shrink-0">
                         {user.name[0]}
                       </div>
                       <div>
@@ -184,7 +184,7 @@ export default function AdminUsersPage() {
                       onClick={() => handleToggle(user.id)}
                       className={`text-xs px-2.5 py-0.5 rounded-full font-medium ${
                         user.isActive
-                          ? "bg-brand-gold/10 text-brand-gold border border-brand-gold/30"
+                          ? "bg-brand-accent/10 text-brand-accent border border-brand-accent/30"
                           : "bg-black/5 text-brand-muted border border-black/10"
                       }`}
                     >
@@ -209,7 +209,7 @@ export default function AdminUsersPage() {
       {/* RBAC Role Permissions Matrix Reference */}
       <div className="bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-xl space-y-4">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-text flex items-center gap-2">
-          <Lock className="w-4 h-4 text-brand-gold" />
+          <Lock className="w-4 h-4 text-brand-accent" />
           <span>Role Permissions Matrix (Ceylon Wall Decor Standard)</span>
         </h2>
         <p className="text-xs text-brand-muted">
@@ -233,10 +233,10 @@ export default function AdminUsersPage() {
                 <td className="p-3 font-medium text-brand-text">
                   Dashboard & Revenue Analytics
                 </td>
-                <td className="p-3 text-center text-brand-gold font-bold">
+                <td className="p-3 text-center text-brand-accent font-bold">
                   ✓ Full
                 </td>
-                <td className="p-3 text-center text-brand-gold font-bold">
+                <td className="p-3 text-center text-brand-accent font-bold">
                   ✓ Full
                 </td>
                 <td className="p-3 text-center text-brand-muted">Orders only</td>
@@ -246,16 +246,16 @@ export default function AdminUsersPage() {
                 <td className="p-3 font-medium text-brand-text">
                   Artwork Catalog & Pricing Editing
                 </td>
-                <td className="p-3 text-center text-brand-gold font-bold">
+                <td className="p-3 text-center text-brand-accent font-bold">
                   ✓
                 </td>
-                <td className="p-3 text-center text-brand-gold font-bold">
+                <td className="p-3 text-center text-brand-accent font-bold">
                   ✓
                 </td>
                 <td className="p-3 text-center text-brand-muted">
                   ✕ No Access
                 </td>
-                <td className="p-3 text-center text-brand-gold font-bold">
+                <td className="p-3 text-center text-brand-accent font-bold">
                   ✓
                 </td>
               </tr>
@@ -263,13 +263,13 @@ export default function AdminUsersPage() {
                 <td className="p-3 font-medium text-brand-text">
                   7-Step Order Fulfillment Workflow
                 </td>
-                <td className="p-3 text-center text-brand-gold font-bold">
+                <td className="p-3 text-center text-brand-accent font-bold">
                   ✓
                 </td>
-                <td className="p-3 text-center text-brand-gold font-bold">
+                <td className="p-3 text-center text-brand-accent font-bold">
                   ✓
                 </td>
-                <td className="p-3 text-center text-brand-gold font-bold">
+                <td className="p-3 text-center text-brand-accent font-bold">
                   ✓ Fulfillment
                 </td>
                 <td className="p-3 text-center text-brand-muted">
@@ -280,10 +280,10 @@ export default function AdminUsersPage() {
                 <td className="p-3 font-medium text-brand-text">
                   Custom Design Inbox & Quoting
                 </td>
-                <td className="p-3 text-center text-brand-gold font-bold">
+                <td className="p-3 text-center text-brand-accent font-bold">
                   ✓
                 </td>
-                <td className="p-3 text-center text-brand-gold font-bold">
+                <td className="p-3 text-center text-brand-accent font-bold">
                   ✓
                 </td>
                 <td className="p-3 text-center text-brand-muted">✕</td>
@@ -293,7 +293,7 @@ export default function AdminUsersPage() {
                 <td className="p-3 font-medium text-brand-text">
                   Staff Accounts & System Settings
                 </td>
-                <td className="p-3 text-center text-brand-gold font-bold">
+                <td className="p-3 text-center text-brand-accent font-bold">
                   ✓ Owner Only
                 </td>
                 <td className="p-3 text-center text-brand-muted">✕</td>
@@ -391,7 +391,7 @@ export default function AdminUsersPage() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-2 px-3 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg text-xs font-semibold"
+                  className="flex-1 py-2 px-3 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg text-xs font-semibold"
                 >
                   Send Invitation
                 </button>

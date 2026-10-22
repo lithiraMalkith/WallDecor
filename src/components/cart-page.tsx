@@ -116,7 +116,7 @@ export function CartPage() {
           Island-wide Cash on Delivery (COD). Free delivery on orders over Rs. 10,000.
         </p>
 
-        <Link href="/checkout" className="btn btn-yellow w-full justify-center text-xs font-medium">
+        <Link href="/checkout" className="btn btn-accent w-full justify-center text-xs font-medium">
           Proceed to Checkout
         </Link>
       </aside>

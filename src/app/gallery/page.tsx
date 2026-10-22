@@ -1,44 +1,37 @@
+import { getStorefrontMedia } from "@/lib/storefront-media-server";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 
-import { CLOUDINARY_SEED_IMAGES } from "@/lib/cloudinary";
-
 export const metadata: Metadata = {
-  title: "Customer Gallery",
-  description: "See Ceylon Wall Decor textured artworks in real rooms.",
+  title: "Room Gallery",
+  description: "Explore sage-toned interiors and handcrafted wall-art inspiration from Ceylon Wall Decor.",
 };
 
-const imgs = [
-  CLOUDINARY_SEED_IMAGES.hero,
-  CLOUDINARY_SEED_IMAGES.sunrise,
-  CLOUDINARY_SEED_IMAGES.botanica,
-  CLOUDINARY_SEED_IMAGES.contour,
-];
+export const dynamic = "force-dynamic";
 
-export default function Page() {
+export default async function Page() {
+  const scenes = (await getStorefrontMedia()).filter(scene => scene.galleryOrder !== undefined).sort((a,b) => a.galleryOrder! - b.galleryOrder!);
   return (
     <PageShell
-      eyebrow="Real Homes &amp; Spaces"
-      title="On the wall."
-      intro="Collector photography featuring sculpted plaster reliefs in contemporary Sri Lankan living rooms, bedrooms, and dining spaces."
+      eyebrow="Spaces & textures"
+      title="Art, at home."
+      intro="A little inspiration for quieter, greener spaces. Natural textures, soft sage tones, and art that makes a room feel like yours."
     >
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-        {imgs.map((s, i) => (
-          <div
-            key={s}
-            className={`relative rounded-2xl overflow-hidden border border-[#EBE8E4] bg-[#F5F3F1] shadow-[0_1px_2px_rgba(0,0,0,0.02)] group elevenlabs-grain ${
-              i === 0 ? "col-span-2 aspect-[16/10] md:col-span-2" : "aspect-[4/5]"
-            }`}
-          >
-            <Image
-              src={s}
-              alt="Ceylon Wall Decor artwork in a customer room"
-              fill
-              className="object-cover group-hover:scale-[1.02] transition-transform duration-500 ease-out"
-            />
-          </div>
+      <div className="gallery-grid">
+        {scenes.map((scene, index) => (
+          <figure key={scene.image} className={`gallery-piece ${scene.wide ? "gallery-piece-wide" : ""} ${index === scenes.length - 1 ? "gallery-piece-last" : ""}`}>
+            <div className="gallery-media elevenlabs-grain">
+              <Image src={scene.image} alt={scene.alt} fill sizes={scene.wide ? "(max-width: 767px) calc(100vw - 40px), 66vw" : "(max-width: 767px) calc(50vw - 28px), 33vw"} loading={index === 0 ? "eager" : "lazy"} className="object-cover" />
+            </div>
+            <figcaption><span>{scene.title}</span><span>{scene.detail}</span></figcaption>
+          </figure>
         ))}
+      </div>
+      <div className="gallery-endnote">
+        <p>AI-generated room studies to help you imagine the collection in your space.</p>
+        <Link href="/custom-order" className="btn btn-accent">Create something for your space</Link>
       </div>
     </PageShell>
   );

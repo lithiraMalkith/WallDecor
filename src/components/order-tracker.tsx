@@ -88,20 +88,20 @@ function getStatusBadgeConfig(status: string) {
     case "dispatched":
       return {
         label: "En Route · Dispatched",
-        color: "bg-[#BA8E23]",
-        pillClass: "border-[#BA8E23] bg-[#BA8E23] text-black font-medium",
+        color: "bg-[var(--store-accent)]",
+        pillClass: "border-[var(--store-accent-border)] bg-[var(--store-accent)] text-black font-medium",
       };
     case "processing":
     case "ready_for_dispatch":
       return {
         label: "In Studio Sculpting",
-        color: "bg-[#BA8E23]",
+        color: "bg-[var(--store-accent)]",
         pillClass: "border-[#EBE8E4] bg-[#FFFFFF] text-[#000000]",
       };
     case "confirmed":
       return {
         label: "Verified by Workshop",
-        color: "bg-[#BA8E23]",
+        color: "bg-[var(--store-accent)]",
         pillClass: "border-[#EBE8E4] bg-[#FFFFFF] text-[#000000]",
       };
     default:
@@ -262,7 +262,7 @@ function TrackerContent() {
       {/* Error / Not Found Alert */}
       {searched && errorMsg && (
         <div className="p-4 sm:p-5 rounded-2xl border border-[#000000] bg-[#F5F3F1] text-xs text-[#000000] flex items-start gap-3">
-          <AlertCircle size={18} className="text-[#BA8E23] shrink-0 mt-0.5" />
+          <AlertCircle size={18} className="text-[var(--store-accent-ink)] shrink-0 mt-0.5" />
           <div className="space-y-1">
             <p className="font-medium">{errorMsg}</p>
             <p className="text-[#59544F]">
@@ -352,7 +352,7 @@ function TrackerContent() {
                       {i < STAGES.length - 1 && (
                         <div
                           className={`absolute left-3.5 top-8 w-[1px] h-[calc(100%+8px)] transition-colors ${
-                            i < activeIndex ? "bg-[#BA8E23]" : "bg-[#EBE8E4]"
+                            i < activeIndex ? "bg-[var(--store-accent)]" : "bg-[#EBE8E4]"
                           }`}
                         />
                       )}
@@ -363,7 +363,7 @@ function TrackerContent() {
                           isCurrent
                             ? "bg-[#000000] text-white border-2 border-black ring-4 ring-black/10"
                             : isPastOrCurrent
-                            ? "bg-[#BA8E23] text-black border border-[#BA8E23]"
+                            ? "bg-[var(--store-accent)] text-black border border-[var(--store-accent-border)]"
                             : "bg-[#F5F3F1] text-[#777169] border border-[#EBE8E4]"
                         }`}
                       >
@@ -405,7 +405,7 @@ function TrackerContent() {
                         {/* Artisan Note Callout */}
                         {historyEntry?.note && (
                           <div className="mt-2.5 p-2.5 rounded-xl bg-[#F5F3F1] border border-[#EBE8E4] text-[11px] text-[#000000] font-mono flex items-center gap-2">
-                            <span className="text-[#BA8E23]">✦</span>
+                            <span className="text-[var(--store-accent-ink)]">✦</span>
                             <span>{historyEntry.note}</span>
                           </div>
                         )}
@@ -417,7 +417,7 @@ function TrackerContent() {
 
               {/* Crafting Guarantee Footnote */}
               <div className="pt-4 border-t border-[#EBE8E4] flex items-center gap-2 text-xs text-[#777169]">
-                <ShieldCheck size={14} className="text-[#BA8E23] shrink-0" />
+                <ShieldCheck size={14} className="text-[var(--store-accent-ink)] shrink-0" />
                 <span>
                   Every artwork undergoes 48-hour moisture curing and kiln-dried timber check before dispatch.
                 </span>
@@ -459,7 +459,7 @@ function TrackerContent() {
                       <div className="min-w-0 flex-1">
                         <Link
                           href={`/product/${item.productSlug}`}
-                          className="text-xs font-medium text-[#000000] hover:text-[#BA8E23] transition-colors truncate block"
+                          className="text-xs font-medium text-[#000000] hover:text-[var(--store-accent-ink)] transition-colors truncate block"
                         >
                           {item.productName}
                         </Link>
@@ -482,7 +482,7 @@ function TrackerContent() {
                   <div className="p-3.5 rounded-xl bg-[#F5F3F1] border border-[#EBE8E4] space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="flex items-center gap-1.5 text-[#000000] font-medium">
-                        <Truck size={14} className="text-[#BA8E23]" />
+                        <Truck size={14} className="text-[var(--store-accent-ink)]" />
                         {order.courierName || "Express Courier"}
                       </span>
                       <span className="pill-btn text-[10px] py-0.5 px-2 bg-white">

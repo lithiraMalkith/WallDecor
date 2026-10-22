@@ -116,7 +116,7 @@ export function CartDrawer() {
           <Link
             href="/checkout"
             onClick={() => setOpen(false)}
-            className="btn btn-yellow w-full justify-center text-xs font-medium"
+            className="btn btn-accent w-full justify-center text-xs font-medium"
           >
             Proceed to Checkout
           </Link>

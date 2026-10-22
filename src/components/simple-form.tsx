@@ -49,8 +49,8 @@ export function SimpleForm() {
 
   if (sent)
     return (
-      <div className="rounded-2xl border border-[#BA8E23] bg-[#F5F3F1] p-8 max-w-xl text-center space-y-3">
-        <div className="mx-auto size-12 rounded-full grid place-items-center bg-[#BA8E23] text-black">
+      <div className="rounded-2xl border border-[var(--store-accent-border)] bg-[#F5F3F1] p-8 max-w-xl text-center space-y-3">
+        <div className="mx-auto size-12 rounded-full grid place-items-center bg-[var(--store-accent)] text-black">
           <Check size={22} />
         </div>
         <h3 className="text-lg font-light text-[#000000]">Message Received</h3>
@@ -59,7 +59,7 @@ export function SimpleForm() {
         </p>
         <button
           onClick={() => setSent(false)}
-          className="mt-3 text-xs underline uppercase tracking-wider text-[#BA8E23] hover:text-black transition-colors"
+          className="mt-3 text-xs underline uppercase tracking-wider text-[var(--store-accent-ink)] hover:text-black transition-colors"
         >
           Send another message
         </button>
@@ -134,7 +134,7 @@ export function SimpleForm() {
       <button
         type="submit"
         disabled={loading}
-        className="btn btn-yellow w-full justify-center text-xs font-medium flex items-center gap-2"
+        className="btn btn-accent w-full justify-center text-xs font-medium flex items-center gap-2"
       >
         {loading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
         <span>{loading ? "Sending Message..." : "Send Inquiry"}</span>

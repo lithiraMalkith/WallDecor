@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { adminStore } from "@/lib/admin-data";
 import { productSchema } from "@/lib/validations";
 import { slugify, generateSKU } from "@/lib/utils";
-import { adminDb } from "@/lib/firebase-admin";
-import { saveProductToFirestore, getProductsFromFirestore } from "@/lib/firestore-service";
+import { catalogDb, readProducts } from "@/lib/catalog-server";
+
+export const dynamic = "force-dynamic";
 import type { Product } from "@/types";
 
 export async function GET(req: NextRequest) {
@@ -14,27 +15,7 @@ export async function GET(req: NextRequest) {
     const style = searchParams.get("style");
     const visibility = searchParams.get("visibility");
 
-    let productsList: Product[] = [];
-
-    if (adminDb) {
-      try {
-        const snap = await adminDb.collection("products").get();
-        productsList = snap.docs.map((d) => d.data() as Product);
-      } catch (err) {
-        console.warn("adminDb query error in /api/products:", err);
-      }
-    }
-
-    if (productsList.length === 0) {
-      const firestoreProducts = await getProductsFromFirestore();
-      if (firestoreProducts && firestoreProducts.length > 0) {
-        productsList = firestoreProducts;
-      } else {
-        productsList = adminStore.products;
-      }
-    }
-
-    adminStore.products = productsList;
+    const productsList = await readProducts();
     let filtered = [...productsList];
 
     if (search) {
@@ -58,13 +39,10 @@ export async function GET(req: NextRequest) {
       filtered = filtered.filter((p) => p.visibility === visibility);
     }
 
-    return NextResponse.json({ success: true, data: filtered });
+    return NextResponse.json({ success: true, data: filtered }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     console.error("GET /api/products error:", error);
-    return NextResponse.json({
-      success: true,
-      data: adminStore.products,
-    });
+    return NextResponse.json({ success: false, error: "The catalog is unavailable" }, { status: 503, headers: { "Cache-Control": "no-store" } });
   }
 }
 
@@ -123,13 +101,7 @@ export async function POST(req: NextRequest) {
     };
 
     const cleanProduct = JSON.parse(JSON.stringify(newProduct));
-    if (adminDb) {
-      await adminDb.collection("products").doc(newId).set(cleanProduct);
-    } else {
-      await saveProductToFirestore(cleanProduct);
-    }
-
-    adminStore.products.unshift(newProduct);
+    await catalogDb().collection("products").doc(newId).set(cleanProduct);
 
     // Log audit
     adminStore.auditLogs.unshift({

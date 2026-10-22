@@ -3,7 +3,8 @@
 import { useMemo, useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Search, SlidersHorizontal } from "lucide-react";
-import { products, mapAdminProductToStorefront, type Product } from "@/lib/products";
+import type { Product } from "@/lib/products";
+import { useCatalog } from "@/lib/use-catalog";
 import { ProductCard } from "./product-card";
 import type { CategoryNode } from "@/types";
 
@@ -23,47 +24,11 @@ function ShopBrowserContent({
   const searchParamQuery = searchParams.get("search") || initialQuery;
   const searchParamRoom = searchParams.get("room") || effectiveInitialRoom;
 
-  const [catalog, setCatalog] = useState<Product[]>(
-    initialProducts && initialProducts.length > 0 ? initialProducts : products,
-  );
+  const { catalog, catalogError } = useCatalog(initialProducts);
   const [q, setQ] = useState(searchParamQuery);
   const [filter, setFilter] = useState(searchParamRoom);
   const [sort, setSort] = useState("featured");
   const [dbCategories, setDbCategories] = useState<CategoryNode[]>([]);
-
-  // Keep catalog synced if initialProducts updates from server
-  useEffect(() => {
-    if (initialProducts && initialProducts.length > 0) {
-      setCatalog(initialProducts);
-    }
-  }, [initialProducts]);
-
-  // Client-side fetch to ensure live published catalog
-  useEffect(() => {
-    let isMounted = true;
-    async function loadLiveProducts() {
-      try {
-        const res = await fetch("/api/products");
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-            const mapped = json.data
-              .filter((p: any) => p.visibility === "published")
-              .map(mapAdminProductToStorefront);
-            if (isMounted && mapped.length > 0) {
-              setCatalog(mapped);
-            }
-          }
-        }
-      } catch (err) {
-        console.warn("Could not fetch live products in ShopBrowser:", err);
-      }
-    }
-    loadLiveProducts();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   // Synchronize with initialQuery / initialRoom prop updates from Server Component
   useEffect(() => {
@@ -287,7 +252,7 @@ function ShopBrowserContent({
       ) : (
         <div className="border border-[#EBE8E4] rounded-2xl py-20 text-center bg-[#F5F3F1]">
           <p className="text-sm text-[#59544F]">
-            No artwork designs match &ldquo;{q}&rdquo;.
+            {catalogError ? "The collection is unavailable. Please try again shortly." : catalog.length === 0 ? "No artworks are available yet." : <>No artwork designs match &ldquo;{q}&rdquo;.</>}
           </p>
           <button
             onClick={() => {

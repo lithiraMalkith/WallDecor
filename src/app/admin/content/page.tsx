@@ -87,7 +87,7 @@ export default function AdminContentPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
       </div>
     );
   }
@@ -109,7 +109,7 @@ export default function AdminContentPage() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm disabled:opacity-50"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           <span>{isSaving ? "Publishing Changes..." : "Save CMS Content"}</span>
@@ -117,7 +117,7 @@ export default function AdminContentPage() {
       </div>
 
       {savedSuccess && (
-        <div className="p-4 rounded-xl bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-brand-accent/10 border border-brand-accent/30 text-brand-accent text-xs flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>
             Content blocks saved and synchronized across the storefront!
@@ -128,7 +128,7 @@ export default function AdminContentPage() {
       {/* Hero Headline Editor */}
       <div className="bg-brand-surface border border-brand-border rounded-2xl p-6 space-y-4 shadow-xl">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-text flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-brand-gold" />
+          <Sparkles className="w-4 h-4 text-brand-accent" />
           <span>Homepage Hero Section</span>
         </h2>
 
@@ -160,7 +160,7 @@ export default function AdminContentPage() {
       {/* About Brand Story */}
       <div className="bg-brand-surface border border-brand-border rounded-2xl p-6 space-y-4 shadow-xl">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-text flex items-center gap-2">
-          <FileText className="w-4 h-4 text-brand-gold" />
+          <FileText className="w-4 h-4 text-brand-accent" />
           <span>Brand Story & "How It's Made"</span>
         </h2>
 
@@ -177,12 +177,12 @@ export default function AdminContentPage() {
       <div className="bg-brand-surface border border-brand-border rounded-2xl p-6 space-y-4 shadow-xl">
         <div className="flex items-center justify-between border-b border-brand-border pb-3">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-text flex items-center gap-2">
-            <HelpCircle className="w-4 h-4 text-brand-gold" />
+            <HelpCircle className="w-4 h-4 text-brand-accent" />
             <span>Store FAQ Entries</span>
           </h2>
           <button
             onClick={handleAddFaq}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-bg hover:bg-brand-surface-hover border border-brand-border text-xs font-semibold text-brand-gold transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-bg hover:bg-brand-surface-hover border border-brand-border text-xs font-semibold text-brand-accent transition-colors"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Add FAQ</span>

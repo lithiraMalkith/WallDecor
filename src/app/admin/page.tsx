@@ -110,7 +110,7 @@ export default function AdminDashboardPage() {
   if (loading || !stats) {
     return (
       <div className="min-h-[500px] flex flex-col items-center justify-center space-y-4">
-        <div className="w-8 h-8 border-2 border-brand-gold border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-brand-accent border-t-transparent rounded-full animate-spin" />
         <p className="text-xs uppercase tracking-widest text-brand-muted">
           Loading Live Store Analytics...
         </p>
@@ -135,14 +135,14 @@ export default function AdminDashboardPage() {
         <div className="flex items-center gap-2">
           <Link
             href="/admin/orders"
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-brand-surface border border-brand-border text-xs font-semibold text-brand-text hover:bg-brand-surface-hover hover:border-brand-gold/30 transition-colors"
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-brand-surface border border-brand-border text-xs font-semibold text-brand-text hover:bg-brand-surface-hover hover:border-brand-accent/30 transition-colors"
           >
-            <ShoppingBag className="w-4 h-4 text-brand-gold" />
+            <ShoppingBag className="w-4 h-4 text-brand-accent" />
             <span>Manage Orders</span>
           </Link>
           <Link
             href="/admin/products/new"
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg text-xs font-semibold transition-colors shadow-sm"
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg text-xs font-semibold transition-colors shadow-sm"
           >
             <Sparkles className="w-4 h-4" />
             <span>Add New Design</span>
@@ -158,7 +158,7 @@ export default function AdminDashboardPage() {
             <span className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
               Today's Orders
             </span>
-            <div className="w-9 h-9 rounded-xl bg-brand-gold/10 text-brand-gold flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-brand-accent/10 text-brand-accent flex items-center justify-center">
               <ShoppingBag className="w-4 h-4" />
             </div>
           </div>
@@ -166,7 +166,7 @@ export default function AdminDashboardPage() {
             <span className="text-3xl font-bold text-brand-text">
               {stats.ordersToday}
             </span>
-            <span className="text-xs font-medium text-brand-gold flex items-center">
+            <span className="text-xs font-medium text-brand-accent flex items-center">
               <TrendingUp className="w-3 h-3 mr-0.5" /> +{stats.ordersTrend}%
             </span>
           </div>
@@ -184,7 +184,7 @@ export default function AdminDashboardPage() {
             <span className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
               Pending Attention
             </span>
-            <div className="w-9 h-9 rounded-xl bg-brand-gold/10 text-brand-gold flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-brand-accent/10 text-brand-accent flex items-center justify-center">
               <Clock className="w-4 h-4" />
             </div>
           </div>
@@ -207,12 +207,12 @@ export default function AdminDashboardPage() {
             <span className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
               COD Cash to Collect
             </span>
-            <div className="w-9 h-9 rounded-xl bg-brand-gold/10 text-brand-gold flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-brand-accent/10 text-brand-accent flex items-center justify-center">
               <DollarSign className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3">
-            <span className="text-2xl sm:text-3xl font-bold text-brand-gold">
+            <span className="text-2xl sm:text-3xl font-bold text-brand-accent">
               {formatPrice(stats.codCashToCollect)}
             </span>
           </div>
@@ -259,7 +259,7 @@ export default function AdminDashboardPage() {
                 Daily cash-on-delivery order volume in LKR
               </p>
             </div>
-            <span className="text-xs font-mono font-medium text-brand-gold bg-brand-gold/10 border border-brand-gold/20 px-2.5 py-1 rounded-lg">
+            <span className="text-xs font-mono font-medium text-brand-accent bg-brand-accent/10 border border-brand-accent/20 px-2.5 py-1 rounded-lg">
               This Week: {formatPrice(stats.revenueThisWeek)}
             </span>
           </div>
@@ -269,8 +269,8 @@ export default function AdminDashboardPage() {
               <AreaChart data={stats.revenueData}>
                 <defs>
                   <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#BA8E23" stopOpacity={0.35} />
-                    <stop offset="95%" stopColor="#BA8E23" stopOpacity={0} />
+                    <stop offset="5%" stopColor="var(--color-brand-accent)" stopOpacity={0.35} />
+                    <stop offset="95%" stopColor="var(--color-brand-accent)" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <XAxis
@@ -302,7 +302,7 @@ export default function AdminDashboardPage() {
                 <Area
                   type="monotone"
                   dataKey="revenue"
-                  stroke="#BA8E23"
+                  stroke="var(--color-brand-accent)"
                   strokeWidth={2.5}
                   fillOpacity={1}
                   fill="url(#revenueGrad)"
@@ -349,7 +349,7 @@ export default function AdminDashboardPage() {
 
           <Link
             href="/admin/orders"
-            className="mt-6 flex items-center justify-between py-2 text-xs font-semibold text-brand-gold hover:text-brand-gold-hover transition-colors border-t border-brand-border pt-4"
+            className="mt-6 flex items-center justify-between py-2 text-xs font-semibold text-brand-accent hover:text-brand-accent-hover transition-colors border-t border-brand-border pt-4"
           >
             <span>Open Order Fulfillment Board</span>
             <ChevronRight className="w-4 h-4" />
@@ -372,7 +372,7 @@ export default function AdminDashboardPage() {
             </div>
             <Link
               href="/admin/orders"
-              className="text-xs font-semibold text-brand-gold hover:text-brand-gold-hover"
+              className="text-xs font-semibold text-brand-accent hover:text-brand-accent-hover"
             >
               View All →
             </Link>
@@ -396,7 +396,7 @@ export default function AdminDashboardPage() {
                     className="hover:bg-brand-surface-hover/60"
                   >
                     <td>
-                      <span className="font-mono text-xs font-bold text-brand-gold">
+                      <span className="font-mono text-xs font-bold text-brand-accent">
                         {order.orderRef}
                       </span>
                     </td>
@@ -455,7 +455,7 @@ export default function AdminDashboardPage() {
                       {design.orders} orders • {formatPrice(design.revenue)}
                     </p>
                   </div>
-                  <span className="text-xs font-mono font-bold text-brand-gold">
+                  <span className="text-xs font-mono font-bold text-brand-accent">
                     #{idx + 1}
                   </span>
                 </div>

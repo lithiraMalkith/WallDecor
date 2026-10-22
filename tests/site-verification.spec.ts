@@ -13,14 +13,14 @@ test.describe("Ceylon Wall Decor — Full Site Build & Journey Verification", ()
     const heroHeading = page.locator("h1");
     await expect(heroHeading).toBeVisible();
 
-    // Verify catalog artworks exist and load Cloudinary images
+    // Verify catalog artworks exist
     const productCards = page.locator("a[href^='/product/']");
     await expect(productCards.first()).toBeVisible();
     const count = await productCards.count();
     expect(count).toBeGreaterThan(0);
 
-    // Verify Cloudinary images rendered on page
-    const images = page.locator("img[src*='res.cloudinary.com']");
+    // Verify the generated green seed artwork is used
+    const images = page.locator("img[src*='sage-arches']");
     const imgCount = await images.count();
     expect(imgCount).toBeGreaterThan(0);
   });
@@ -46,8 +46,8 @@ test.describe("Ceylon Wall Decor — Full Site Build & Journey Verification", ()
     await page.goto("/product/golden-rise");
     await expect(page.locator("h1")).toContainText(/Golden Rise/i);
 
-    // Verify main artwork image displays Cloudinary CDN image
-    const mainImg = page.locator("img[src*='cloudinary']").first();
+    // Verify main artwork image displays the replacement sage seed
+    const mainImg = page.locator("main img[src*='sage-arches']").first();
     await expect(mainImg).toBeVisible();
 
     // Select a size variant
@@ -73,13 +73,13 @@ test.describe("Ceylon Wall Decor — Full Site Build & Journey Verification", ()
     await expect(page.locator("input[placeholder*='name' i], input#name, input[name='name']").first()).toBeVisible();
   });
 
-  test("5. Customer Room Gallery (/gallery)", async ({ page }) => {
+  test("5. Room Inspiration Gallery (/gallery)", async ({ page }) => {
     await page.goto("/gallery");
-    await expect(page.locator("h1")).toContainText(/On the wall|Gallery/i);
+    await expect(page.locator("h1")).toContainText(/Art, at home/i);
 
     // Verify gallery images render
-    const galleryImgs = page.locator("img[src*='cloudinary']");
-    expect(await galleryImgs.count()).toBeGreaterThan(0);
+    const galleryImgs = page.locator(".gallery-grid img");
+    await expect(galleryImgs).toHaveCount(7);
   });
 
   test("6. Staff Sign In with Seeded Role Credentials (/adminlogin)", async ({ page }) => {
@@ -133,7 +133,7 @@ test.describe("Ceylon Wall Decor — Full Site Build & Journey Verification", ()
     expect(await productImgs.count()).toBeGreaterThan(0);
   });
 
-  test("9. Admin Minimalist Artwork Media Uploader (/admin/products/new)", async ({ page }) => {
+  test("9. Admin Minimalist Artwork Media Uploader (/admin/products/new)", async ({ page, request }) => {
     // Sign in first
     await page.goto("/adminlogin");
     await page.fill("input[type='email']", "owner@ceylonwalldecor.lk");
@@ -162,12 +162,19 @@ test.describe("Ceylon Wall Decor — Full Site Build & Journey Verification", ()
     await expect(page.getByRole("button", { name: "Standard (20)", exact: true })).toBeVisible();
     await expect(page.getByRole("button", { name: "Deep (30)", exact: true })).toBeVisible();
 
-    // Verify preset pills
-    await expect(page.getByRole("button", { name: "Golden Rise", exact: true })).toBeVisible();
-    await expect(page.getByRole("button", { name: "Quiet Contour", exact: true })).toBeVisible();
-
-    // Test clicking preset pill updates URL
-    await page.getByRole("button", { name: "Quiet Contour", exact: true }).click();
-    await expect(urlInput).toHaveValue(/contour\.jpg/);
+    // Product media starts empty and uses actual hosted URLs from Firestore.
+    await expect(urlInput).toHaveValue("");
+    await expect(page.getByRole("button", { name: "Golden Rise", exact: true })).toHaveCount(0);
+    const response = await request.get("/api/products?visibility=published");
+    expect(response.ok()).toBe(true);
+    const product = (await response.json()).data[0];
+    await urlInput.fill(product.images[0]);
+    await expect(urlInput).toHaveValue(product.images[0]);
+    await page.getByRole("button", { name: "Deep (30)", exact: true }).click();
+    await expect(urlInput).toHaveValue(/e_noise:30/);
+    await page.getByRole("button", { name: "Off", exact: true }).click();
+    await expect(urlInput).not.toHaveValue(/e_noise:/);
+    await page.getByRole("button", { name: "Standard (20)", exact: true }).click();
+    await expect(urlInput).toHaveValue(/e_noise:20/);
   });
 });

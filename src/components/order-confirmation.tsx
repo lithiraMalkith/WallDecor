@@ -38,7 +38,7 @@ export function OrderConfirmation({ id }: { id: string }) {
 
   return (
     <div className="mx-auto max-w-2xl py-16 px-4 text-center">
-      <div className="mx-auto size-16 rounded-full grid place-items-center bg-[#BA8E23] text-black">
+      <div className="mx-auto size-16 rounded-full grid place-items-center bg-[var(--store-accent)] text-black">
         <Check size={32} />
       </div>
 
@@ -73,7 +73,7 @@ export function OrderConfirmation({ id }: { id: string }) {
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
         <Link
           href={`/order/track?ref=${encodeURIComponent(id)}${customerPhone ? `&phone=${encodeURIComponent(customerPhone)}` : ""}`}
-          className="btn btn-yellow w-full sm:w-auto text-xs font-medium"
+          className="btn btn-accent w-full sm:w-auto text-xs font-medium"
         >
           <Truck size={14} />
           Track Live Status

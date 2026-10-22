@@ -108,7 +108,7 @@ export default function AdminNotificationsPage() {
 
         <button
           onClick={handleSave}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm"
         >
           <Save className="w-4 h-4" />
           <span>Save Email Template</span>
@@ -116,7 +116,7 @@ export default function AdminNotificationsPage() {
       </div>
 
       {savedSuccess && (
-        <div className="p-4 rounded-xl bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-brand-accent/10 border border-brand-accent/30 text-brand-accent text-xs flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>Email template saved successfully!</span>
         </div>
@@ -136,7 +136,7 @@ export default function AdminNotificationsPage() {
                 onClick={() => handleSelect(tpl)}
                 className={`w-full text-left p-4 rounded-xl border transition-all ${
                   selectedTpl.id === tpl.id
-                    ? "bg-brand-gold/15 border-brand-gold text-brand-text shadow-sm"
+                    ? "bg-brand-accent/15 border-brand-accent text-brand-text shadow-sm"
                     : "bg-brand-surface border-brand-border text-brand-muted hover:text-brand-text hover:bg-brand-surface-hover"
                 }`}
               >
@@ -144,7 +144,7 @@ export default function AdminNotificationsPage() {
                   <span className="font-semibold text-xs text-brand-text">
                     {tpl.name}
                   </span>
-                  <Mail className="w-3.5 h-3.5 text-brand-gold" />
+                  <Mail className="w-3.5 h-3.5 text-brand-accent" />
                 </div>
                 <p className="text-[11px] text-brand-muted mt-1">
                   {tpl.trigger}
@@ -165,7 +165,7 @@ export default function AdminNotificationsPage() {
                 Trigger: {selectedTpl.trigger}
               </span>
             </div>
-            <span className="text-[11px] font-mono text-brand-gold bg-brand-bg px-2 py-0.5 rounded border border-brand-border">
+            <span className="text-[11px] font-mono text-brand-accent bg-brand-bg px-2 py-0.5 rounded border border-brand-border">
               Brevo / Resend SDK
             </span>
           </div>
@@ -198,7 +198,7 @@ export default function AdminNotificationsPage() {
             <span className="font-semibold text-brand-text block">
               Available Dynamic Variables:
             </span>
-            <p className="font-mono text-[11px] text-brand-gold">
+            <p className="font-mono text-[11px] text-brand-accent">
               {"{customerName}"}, {"{orderRef}"}, {"{totalPrice}"},{" "}
               {"{courierName}"}, {"{trackingNumber}"}, {"{address}"}, {"{city}"}
             </p>
@@ -244,7 +244,7 @@ export default function AdminNotificationsPage() {
                     </span>
                   </td>
                   <td>
-                    <span className="text-xs px-2.5 py-0.5 rounded-full font-medium bg-brand-gold/10 text-brand-gold border border-brand-gold/30">
+                    <span className="text-xs px-2.5 py-0.5 rounded-full font-medium bg-brand-accent/10 text-brand-accent border border-brand-accent/30">
                       Delivered
                     </span>
                   </td>

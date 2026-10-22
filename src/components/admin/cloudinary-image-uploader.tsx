@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { CLOUDINARY_SEED_IMAGES, getElevenLabsNoiseUrl } from "@/lib/cloudinary";
+import { getElevenLabsNoiseUrl } from "@/lib/cloudinary";
 
 interface CloudinaryImageUploaderProps {
   value: string;
@@ -257,34 +257,7 @@ export function CloudinaryImageUploader({
         </div>
       </div>
 
-      {/* Curated Presets Pills */}
-      <div className="pt-3 border-t border-[#EBE8E4] flex flex-wrap items-center gap-2 text-xs">
-        <span className="text-[11px] text-[#777169] uppercase tracking-[0.05em]">
-          Presets:
-        </span>
-        {[
-          { name: "Golden Rise", url: CLOUDINARY_SEED_IMAGES.sunrise },
-          { name: "Quiet Contour", url: CLOUDINARY_SEED_IMAGES.contour },
-          { name: "Botanica", url: CLOUDINARY_SEED_IMAGES.botanica },
-          { name: "Studio Hero", url: CLOUDINARY_SEED_IMAGES.hero },
-        ].map((preset) => {
-          const isSelected = value === preset.url;
-          return (
-            <button
-              key={preset.name}
-              type="button"
-              onClick={() => onChange(preset.url)}
-              className={`px-3 py-1 rounded-full border text-xs transition-colors cursor-pointer ${
-                isSelected
-                  ? "border-[#000000] bg-[#000000] text-white font-normal"
-                  : "border-[#EBE8E4] bg-white text-[#777169] hover:text-[#000000] hover:border-[#000000]"
-              }`}
-            >
-              {preset.name}
-            </button>
-          );
-        })}
-      </div>
+
     </div>
   );
 }

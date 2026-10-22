@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     if (adminDb) {
       try {
         const snap = await adminDb.collection("custom_requests").orderBy("createdAt", "desc").get();
-        list = snap.docs.map((d) => d.data() as CustomRequest);
+        list = snap.docs.map((d) => ({ ...d.data(), id: d.id }) as CustomRequest);
       } catch (err) {
         console.warn("adminDb error in GET /api/custom-requests:", err);
       }

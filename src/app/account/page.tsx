@@ -119,10 +119,10 @@ export default function AccountPage() {
         return "border-black bg-black text-white";
       case "dispatched":
       case "ready_for_dispatch":
-        return "border-[#BA8E23] bg-[#BA8E23] text-black font-medium";
+        return "border-[var(--store-accent-border)] bg-[var(--store-accent)] text-black font-medium";
       case "processing":
       case "confirmed":
-        return "border-[#BA8E23] text-[#000000] bg-[#F5F3F1]";
+        return "border-[var(--store-accent-border)] text-[#000000] bg-[#F5F3F1]";
       default:
         return "border-[#EBE8E4] text-[#777169] bg-[#F5F3F1]";
     }
@@ -371,7 +371,7 @@ export default function AccountPage() {
                             <span className="text-sm font-medium text-[#000000]">
                               Custom Artwork Request
                             </span>
-                            <span className="text-[10px] uppercase font-mono px-2.5 py-0.5 rounded-full border border-[#BA8E23] bg-[#BA8E23]/20 text-black">
+                            <span className="text-[10px] uppercase font-mono px-2.5 py-0.5 rounded-full border border-[var(--store-accent-border)] bg-[var(--store-accent)]/20 text-black">
                               {req.status}
                             </span>
                           </div>
@@ -430,8 +430,8 @@ export default function AccountPage() {
                 </p>
 
                 {savedSuccess && (
-                  <div className="mb-6 p-3 rounded-xl border border-[#BA8E23] bg-[#F5F3F1] text-xs text-[#000000] flex items-center gap-2">
-                    <CheckCircle2 size={14} className="text-[#BA8E23]" />
+                  <div className="mb-6 p-3 rounded-xl border border-[var(--store-accent-border)] bg-[#F5F3F1] text-xs text-[#000000] flex items-center gap-2">
+                    <CheckCircle2 size={14} className="text-[var(--store-accent-ink)]" />
                     Delivery details updated successfully!
                   </div>
                 )}
@@ -552,7 +552,7 @@ export default function AccountPage() {
 
                   <button
                     type="submit"
-                    className="btn btn-yellow w-full justify-center mt-4 text-xs font-medium"
+                    className="btn btn-accent w-full justify-center mt-4 text-xs font-medium"
                   >
                     <Save size={14} />
                     Save Delivery Profile

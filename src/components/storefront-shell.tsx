@@ -19,10 +19,12 @@ export function StorefrontShell({ children }: { children: React.ReactNode }) {
   return (
     <CustomerAuthProvider>
       <CartProvider>
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <CartDrawer />
+        <div className="storefront-theme">
+          <Header />
+          <main>{children}</main>
+          <Footer />
+          <CartDrawer />
+        </div>
       </CartProvider>
     </CustomerAuthProvider>
   );

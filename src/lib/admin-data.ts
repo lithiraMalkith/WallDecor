@@ -20,180 +20,7 @@ import type {
   CustomRole,
   UserMessage,
 } from "@/types";
-import { calculateFramePrice } from "@/lib/utils";
-
-// Helper to generate 9 standard sizes
-function createStandardSizes(baseName: string, basePrice12x12: number) {
-  const standardDims = [
-    { w: 6, h: 6, label: "6×6", ratio: 0.5 },
-    { w: 8, h: 8, label: "8×8", ratio: 0.65 },
-    { w: 8, h: 10, label: "8×10", ratio: 0.75 },
-    { w: 10, h: 10, label: "10×10", ratio: 0.85 },
-    { w: 10, h: 12, label: "10×12", ratio: 0.9 },
-    { w: 12, h: 12, label: "12×12", ratio: 1.0 },
-    { w: 12, h: 16, label: "12×16", ratio: 1.25 },
-    { w: 16, h: 20, label: "16×20", ratio: 1.8 },
-    { w: 20, h: 24, label: "20×24", ratio: 2.5 },
-  ];
-
-  return standardDims.map(({ w, h, label, ratio }) => {
-    const priceWithout = Math.round((basePrice12x12 * ratio) / 50) * 50;
-    const frameCost = calculateFramePrice(w, h, 6);
-    const priceWith = priceWithout + frameCost;
-    const skuCode = label.replace("×", "X");
-    return {
-      width: w,
-      height: h,
-      label,
-      priceWithoutFrame: priceWithout,
-      priceWithFrame: priceWith,
-      sku: `CWD-${baseName.toUpperCase().replace(/\s+/g, "-")}-${skuCode}`,
-      inStock: true,
-    };
-  });
-}
-
-// ----------------------------------------------------------------------------
-// SEED DATA
-// ----------------------------------------------------------------------------
-export const initialProducts: Product[] = [
-  {
-    id: "prod_01",
-    name: "Golden Rise",
-    slug: "golden-rise",
-    sku: "CWD-GOLDEN-RISE",
-    shortDescription:
-      "Hand-sculpted sunrise relief in warm ivory and Ceylon yellow.",
-    longDescription:
-      "Inspired by early morning light breaking over the central hills of Sri Lanka. Crafted with layered mineral plaster on reinforced stretched canvas, finished with lightfast earth pigments and a subtle satin sheen.",
-    images: ["https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451905/ceylon-wall-decor/products/sunrise.jpg", "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/contour.jpg"],
-    video: "",
-    tiktokVideoLink: "https://www.tiktok.com/@ceylonwalldecor",
-    room: ["Living Room", "Bedroom"],
-    style: ["Minimalist", "Boho"],
-    colourTags: ["Warm Ivory", "Ceylon Yellow", "Earth Tone"],
-    sizes: createStandardSizes("Golden Rise", 3500),
-    frameOption: "optional",
-    framePricePerSqInch: 6,
-    material: "Textured plaster on gallery canvas",
-    technique: "Hand-applied dimensional relief with palette knives",
-    leadTimeDays: 5,
-    stockType: "made_to_order",
-    isFeatured: true,
-    isBestseller: true,
-    isNew: false,
-    featuredOrder: 1,
-    featuredBadge: "Bestseller",
-    visibility: "published",
-    metaTitle: "Golden Rise Textured Wall Art | Ceylon Wall Decor",
-    metaDescription:
-      "Shop handcrafted Golden Rise textured wall art in Sri Lanka. Custom sizes and framing options available with island-wide COD delivery.",
-    createdAt: "2026-02-10T10:00:00Z",
-    updatedAt: "2026-03-01T12:00:00Z",
-    createdBy: "owner@ceylonwalldecor.lk",
-  },
-  {
-    id: "prod_02",
-    name: "Quiet Contour",
-    slug: "quiet-contour",
-    sku: "CWD-QUIET-CONTOUR",
-    shortDescription:
-      "Graphic curves shaped by hand in plaster and charcoal pigment.",
-    longDescription:
-      "A meditative study in fluid movement and quiet contrast. Organic curved ridges cast dramatic shadows across changing room light. Built by hand using durable architectural plaster on double-primed canvas.",
-    images: ["https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/contour.jpg", "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/botanica.jpg"],
-    video: "",
-    tiktokVideoLink: "https://www.tiktok.com/@ceylonwalldecor",
-    room: ["Bedroom", "Office"],
-    style: ["Abstract", "Modern"],
-    colourTags: ["Charcoal", "Bone White", "Graphite"],
-    sizes: createStandardSizes("Quiet Contour", 3800),
-    frameOption: "optional",
-    framePricePerSqInch: 6,
-    material: "Architectural plaster and charcoal pigment",
-    technique: "Sculpted linear contouring",
-    leadTimeDays: 6,
-    stockType: "made_to_order",
-    isFeatured: true,
-    isBestseller: false,
-    isNew: true,
-    featuredOrder: 2,
-    featuredBadge: "New Arrival",
-    visibility: "published",
-    metaTitle: "Quiet Contour Minimalist Wall Art | Ceylon Wall Decor",
-    metaDescription:
-      "Handmade modern abstract relief sculpture for serene living spaces and bedrooms in Sri Lanka.",
-    createdAt: "2026-02-18T14:30:00Z",
-    updatedAt: "2026-03-05T09:15:00Z",
-    createdBy: "owner@ceylonwalldecor.lk",
-  },
-  {
-    id: "prod_03",
-    name: "Ceylon Botanica",
-    slug: "ceylon-botanica",
-    sku: "CWD-BOTANICA",
-    shortDescription:
-      "A botanical relief inspired by the island’s tropical canopy.",
-    longDescription:
-      "Broad textured tropical fronds sculpted in low relief. Captures the lush biodiversity of Sri Lanka’s southern rainforests in tactile monochrome plaster.",
-    images: ["https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/botanica.jpg", "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451908/ceylon-wall-decor/products/hero.jpg"],
-    room: ["Dining", "Living Room"],
-    style: ["Nature", "Boho"],
-    colourTags: ["Sage Olive", "Neutral Sand"],
-    sizes: createStandardSizes("Ceylon Botanica", 4200),
-    frameOption: "included",
-    framePricePerSqInch: 6,
-    material: "Fibre-reinforced plaster relief",
-    technique: "Hand-moulded botanical impressions",
-    leadTimeDays: 7,
-    stockType: "made_to_order",
-    isFeatured: true,
-    isBestseller: true,
-    isNew: false,
-    featuredOrder: 3,
-    featuredBadge: "Featured",
-    visibility: "published",
-    metaTitle: "Ceylon Botanica Botanical Wall Art",
-    metaDescription:
-      "Exquisite tropical botanical relief art handcrafted in Colombo, Sri Lanka.",
-    createdAt: "2026-01-25T11:20:00Z",
-    updatedAt: "2026-02-28T16:40:00Z",
-    createdBy: "owner@ceylonwalldecor.lk",
-  },
-  {
-    id: "prod_04",
-    name: "Sun Room Horizon",
-    slug: "sun-room",
-    sku: "CWD-SUN-ROOM",
-    shortDescription:
-      "Large-format flowing relief with a burnished golden disc.",
-    longDescription:
-      "A focal statement piece designed for dining spaces and high-ceiling foyers. Features a burnished gold Leaf focal disc surrounded by sweeping circular textural waves.",
-    images: ["https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451908/ceylon-wall-decor/products/hero.jpg", "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451905/ceylon-wall-decor/products/sunrise.jpg"],
-    room: ["Office", "Living Room"],
-    style: ["Modern", "Abstract"],
-    colourTags: ["Gold Leaf", "Warm Cream", "Terracotta"],
-    sizes: createStandardSizes("Sun Room Horizon", 5500),
-    frameOption: "optional",
-    framePricePerSqInch: 6,
-    material: "Plaster, gold leaf foil, heavy texture paste",
-    technique: "Rotational knife carving and foil leaf gilding",
-    leadTimeDays: 7,
-    stockType: "ready_stock",
-    quantity: 4,
-    isFeatured: true,
-    isBestseller: true,
-    isNew: false,
-    featuredOrder: 4,
-    visibility: "published",
-    metaTitle: "Sun Room Horizon Gold Leaf Relief Art",
-    metaDescription:
-      "High-end gold leaf and textured plaster statement artwork for luxury home interiors.",
-    createdAt: "2026-01-10T09:00:00Z",
-    updatedAt: "2026-03-02T18:00:00Z",
-    createdBy: "owner@ceylonwalldecor.lk",
-  },
-];
+import { CLOUDINARY_SEED_IMAGES } from "@/lib/cloudinary";
 
 export const initialOrders: Order[] = [
   {
@@ -204,7 +31,7 @@ export const initialOrders: Order[] = [
         productId: "prod_01",
         productName: "Golden Rise",
         productSlug: "golden-rise",
-        image: "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451905/ceylon-wall-decor/products/sunrise.jpg",
+        image: CLOUDINARY_SEED_IMAGES.sunrise,
         sizeLabel: "12×16",
         width: 12,
         height: 16,
@@ -218,7 +45,7 @@ export const initialOrders: Order[] = [
         productId: "prod_02",
         productName: "Quiet Contour",
         productSlug: "quiet-contour",
-        image: "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/contour.jpg",
+        image: CLOUDINARY_SEED_IMAGES.contour,
         sizeLabel: "10×12",
         width: 10,
         height: 12,
@@ -274,7 +101,7 @@ export const initialOrders: Order[] = [
         productId: "prod_03",
         productName: "Ceylon Botanica",
         productSlug: "ceylon-botanica",
-        image: "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/botanica.jpg",
+        image: CLOUDINARY_SEED_IMAGES.botanica,
         sizeLabel: "16×20",
         width: 16,
         height: 20,
@@ -334,7 +161,7 @@ export const initialOrders: Order[] = [
         productId: "prod_04",
         productName: "Sun Room Horizon",
         productSlug: "sun-room",
-        image: "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451908/ceylon-wall-decor/products/hero.jpg",
+        image: CLOUDINARY_SEED_IMAGES.hero,
         sizeLabel: "20×24",
         width: 20,
         height: 24,
@@ -397,7 +224,7 @@ export const initialOrders: Order[] = [
         productId: "prod_01",
         productName: "Golden Rise",
         productSlug: "golden-rise",
-        image: "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451905/ceylon-wall-decor/products/sunrise.jpg",
+        image: CLOUDINARY_SEED_IMAGES.sunrise,
         sizeLabel: "12×12",
         width: 12,
         height: 12,
@@ -466,7 +293,7 @@ export const initialOrders: Order[] = [
         productId: "prod_02",
         productName: "Quiet Contour",
         productSlug: "quiet-contour",
-        image: "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/contour.jpg",
+        image: CLOUDINARY_SEED_IMAGES.contour,
         sizeLabel: "16×20",
         width: 16,
         height: 20,
@@ -541,7 +368,7 @@ export const initialOrders: Order[] = [
         productId: "prod_04",
         productName: "Sun Room Horizon",
         productSlug: "sun-room",
-        image: "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451908/ceylon-wall-decor/products/hero.jpg",
+        image: CLOUDINARY_SEED_IMAGES.hero,
         sizeLabel: "16×20",
         width: 16,
         height: 20,
@@ -621,7 +448,7 @@ export const initialOrders: Order[] = [
         productId: "prod_01",
         productName: "Golden Rise",
         productSlug: "golden-rise",
-        image: "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451905/ceylon-wall-decor/products/sunrise.jpg",
+        image: CLOUDINARY_SEED_IMAGES.sunrise,
         sizeLabel: "12×16",
         width: 12,
         height: 16,
@@ -691,7 +518,7 @@ export const initialCustomRequests: CustomRequest[] = [
     customerName: "Minoli Perera",
     customerEmail: "minoli.p@gmail.com",
     customerPhone: "0779887766",
-    designUploadUrls: ["https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/contour.jpg"],
+    designUploadUrls: [CLOUDINARY_SEED_IMAGES.contour],
     sizeWidth: 18,
     sizeHeight: 24,
     sizeLabel: "18×24",
@@ -707,7 +534,7 @@ export const initialCustomRequests: CustomRequest[] = [
     customerName: "Dinesh Silva",
     customerEmail: "dinesh.silva@gmail.com",
     customerPhone: "0714455667",
-    designUploadUrls: ["https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451905/ceylon-wall-decor/products/sunrise.jpg"],
+    designUploadUrls: [CLOUDINARY_SEED_IMAGES.sunrise],
     sizeWidth: 20,
     sizeHeight: 24,
     sizeLabel: "20×24",
@@ -726,7 +553,7 @@ export const initialCustomRequests: CustomRequest[] = [
     customerName: "Shangri-La Residences Interior",
     customerEmail: "projects@interiordesign.lk",
     customerPhone: "0773322110",
-    designUploadUrls: ["https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451908/ceylon-wall-decor/products/hero.jpg"],
+    designUploadUrls: [CLOUDINARY_SEED_IMAGES.hero],
     sizeWidth: 36,
     sizeHeight: 48,
     sizeLabel: "36×48 (Extra Large)",
@@ -1065,7 +892,7 @@ export const initialReviews: Review[] = [
     rating: 5,
     comment:
       "The Golden Rise piece looks breathtaking on our living room wall! The texture and gold details catch the sunlight beautifully.",
-    photoUrls: ["https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451905/ceylon-wall-decor/products/sunrise.jpg"],
+    photoUrls: [CLOUDINARY_SEED_IMAGES.sunrise],
     productName: "Golden Rise",
     productId: "prod_01",
     orderRef: "CWD-000088",
@@ -1094,7 +921,7 @@ export const initialReviews: Review[] = [
     rating: 5,
     comment:
       "Loved having COD! Was hesitant ordering handmade art online but the piece exceeded expectations.",
-    photoUrls: ["https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/botanica.jpg"],
+    photoUrls: [CLOUDINARY_SEED_IMAGES.botanica],
     productName: "Ceylon Botanica",
     productId: "prod_03",
     isVerifiedPurchase: true,
@@ -1182,7 +1009,6 @@ export const initialMessages: UserMessage[] = [
 // In-Memory Mutable State Container (Singleton for dev runtime)
 // ----------------------------------------------------------------------------
 class AdminDataStore {
-  products: Product[] = [...initialProducts];
   orders: Order[] = [...initialOrders];
   customRequests: CustomRequest[] = [...initialCustomRequests];
   categories: CategoryNode[] = [...initialCategories];
@@ -1193,7 +1019,7 @@ class AdminDataStore {
   auditLogs: AuditLog[] = [...initialAuditLogs];
 
   // Dashboard Stats Aggregator
-  getDashboardStats(): DashboardStats {
+  getDashboardStats(products: Product[]): DashboardStats {
     const today = new Date().toISOString().slice(0, 10);
     const todayOrders = this.orders.filter((o) =>
       o.createdAt.startsWith(today),
@@ -1241,13 +1067,13 @@ class AdminDataStore {
     });
 
     const statusColors: Record<string, string> = {
-      pending: "#BA8E23",
+      pending: "#104F37",
       confirmed: "#D4AF37",
-      processing: "#A07B1E",
-      ready_for_dispatch: "#BA8E23",
+      processing: "#1F6748",
+      ready_for_dispatch: "#104F37",
       dispatched: "#C89D2B",
-      delivered: "#8A6B1A",
-      completed: "#BA8E23",
+      delivered: "#45654C",
+      completed: "#104F37",
       cancelled: "#111111",
     };
 
@@ -1255,7 +1081,7 @@ class AdminDataStore {
       ([status, count]) => ({
         status: status.replace(/_/g, " ").toUpperCase(),
         count,
-        color: statusColors[status] || "#BA8E23",
+        color: statusColors[status] || "#104F37",
       }),
     );
 
@@ -1270,11 +1096,11 @@ class AdminDataStore {
       { day: "Sun", revenue: 38000 },
     ];
 
-    const topDesigns = this.products.slice(0, 4).map((p, idx) => ({
+    const topDesigns = products.slice(0, 4).map((p, idx) => ({
       name: p.name,
       orders: 18 - idx * 3,
       revenue: (18 - idx * 3) * 6500,
-      image: p.images[0] || "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451908/ceylon-wall-decor/products/hero.jpg",
+      image: p.images[0] || CLOUDINARY_SEED_IMAGES.hero,
     }));
 
     const trafficSources = [
@@ -1312,7 +1138,7 @@ class AdminDataStore {
       revenueTotal,
       codCashToCollect,
       lowStockProducts: 1,
-      totalProducts: this.products.length,
+      totalProducts: products.length,
       totalCustomers: 45,
       newCustomRequests: this.customRequests.filter((r) => r.status === "new")
         .length,

@@ -150,12 +150,12 @@ export function CheckoutForm() {
         {!isAuthenticated && (
           <div className="rounded-2xl border border-[#EBE8E4] bg-[#F5F3F1] p-4 flex items-center justify-between text-xs">
             <span className="text-[#59544F] flex items-center gap-2">
-              <User size={15} className="text-[#BA8E23]" />
+              <User size={15} className="text-[var(--store-accent-ink)]" />
               Have an account with Ceylon Wall Decor?
             </span>
             <Link
               href="/account/login?redirect=/checkout"
-              className="font-medium text-[#000000] underline hover:text-[#BA8E23]"
+              className="font-medium text-[#000000] underline hover:text-[var(--store-accent-ink)]"
             >
               Sign In to auto-fill details →
             </Link>
@@ -176,7 +176,7 @@ export function CheckoutForm() {
               <h2 className="text-xl font-light text-[#000000] tracking-[-0.02em] mt-1">Contact Information</h2>
             </div>
             {isAuthenticated && (
-              <span className="text-xs text-[#BA8E23] flex items-center gap-1 font-medium">
+              <span className="text-xs text-[var(--store-accent-ink)] flex items-center gap-1 font-medium">
                 <Check size={14} /> Logged in as {customer?.name}
               </span>
             )}
@@ -251,9 +251,9 @@ export function CheckoutForm() {
         </section>
 
         {/* Payment terms */}
-        <section className="rounded-2xl border border-[#BA8E23]/40 bg-[#BA8E23]/10 p-5">
+        <section className="rounded-2xl border border-[var(--store-accent-border)]/40 bg-[var(--store-accent)]/10 p-5">
           <div className="flex items-center gap-2">
-            <ShieldCheck size={18} className="text-[#BA8E23]" />
+            <ShieldCheck size={18} className="text-[var(--store-accent-ink)]" />
             <h2 className="text-sm font-medium text-[#000000]">
               Island-wide Cash on Delivery (COD)
             </h2>
@@ -333,7 +333,7 @@ export function CheckoutForm() {
             </span>
           </div>
           {discount > 0 && (
-            <div className="flex justify-between text-[#BA8E23]">
+            <div className="flex justify-between text-[var(--store-accent-ink)]">
               <span>Discount ({code.toUpperCase()})</span>
               <span className="font-mono">−{formatPrice(discount)}</span>
             </div>
@@ -347,7 +347,7 @@ export function CheckoutForm() {
         <button
           type="submit"
           disabled={busy || !lines.length}
-          className="btn btn-yellow w-full justify-center disabled:opacity-40 text-xs font-medium"
+          className="btn btn-accent w-full justify-center disabled:opacity-40 text-xs font-medium"
         >
           {busy ? "Placing order in Admin..." : "Confirm COD Order"}
         </button>

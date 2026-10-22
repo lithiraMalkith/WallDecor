@@ -1,0 +1,27 @@
+{
+  "mode": "Built-in image_gen",
+  "purpose": "Generated editorial inspiration for the homepage carousel; these are not product catalog photographs.",
+  "reference": "https://motionsites.ai/?prompt=reelmark-v2",
+  "assets": [
+    {
+      "file": "/images/carousel/botanical.webp",
+      "prompt": "Use case: product-mockup. Asset type: portrait photograph for a Ceylon Wall Decor website carousel. Primary request: a tall ivory plaster relief artwork with deeply sculpted tropical monstera and palm leaves, in a thin natural oak floating frame, hung on a muted sage wall, edge of a linen armchair below. Style: premium editorial interior photography, realistic handcrafted artwork, understated Sri Lankan tropical modern interiors. Composition: portrait 2:3, canvas fully visible and large in frame with modest surrounding wall space; straight on, close view. Lighting: soft natural daylight, gentle directional shadows. Palette: creamy white, sage green, natural oak, warm earth accents. Constraints: single cohesive photograph, no collage, no typography, no logos, no watermarks."
+    },
+    {
+      "file": "/images/carousel/sunrise.webp",
+      "prompt": "Use case: product-mockup. Asset type: portrait photograph for a Ceylon Wall Decor website carousel. Primary request: a tall minimalist sculpted plaster canvas depicting a warm terracotta sun and concentric ivory arches, hung on a warm cream wall with soft morning shadows, edge of an oak console below. Style: premium editorial interior photography, realistic handcrafted artwork, understated Sri Lankan tropical modern interiors. Composition: portrait 2:3, canvas fully visible and large in frame with modest surrounding wall space; straight on, close view. Lighting: soft natural daylight, gentle directional shadows. Palette: creamy white, sage green, natural oak, warm earth accents. Constraints: single cohesive photograph, no collage, no typography, no logos, no watermarks."
+    },
+    {
+      "file": "/images/carousel/coastal.webp",
+      "prompt": "Use case: product-mockup. Asset type: portrait photograph for a Ceylon Wall Decor website carousel. Primary request: a tall ivory sculptural plaster relief canvas with flowing ocean wave ridges, in a thin natural oak floating frame, hung on a pale seafoam wall, tiny edge of a ceramic vessel below. Style: premium editorial interior photography, realistic handcrafted artwork, understated Sri Lankan tropical modern interiors. Composition: portrait 2:3, canvas fully visible and large in frame with modest surrounding wall space; straight on, close view. Lighting: soft natural daylight, gentle directional shadows. Palette: creamy white, sage green, natural oak, warm earth accents. Constraints: single cohesive photograph, no collage, no typography, no logos, no watermarks."
+    },
+    {
+      "file": "/images/carousel/craft.webp",
+      "prompt": "Use case: product-mockup. Asset type: portrait photograph for a Ceylon Wall Decor website carousel. Primary request: close-up of an artisan hand with a palette knife shaping thick ivory plaster into sweeping organic ridges on a vertical canvas in a sunlit art studio, with tactile delicate texture and natural shadows. Style: premium editorial interior photography, realistic handcrafted artwork, understated Sri Lankan tropical modern interiors. Composition: portrait 2:3, canvas fully visible and large in frame with modest surrounding wall space; straight on, close view. Lighting: soft natural daylight, gentle directional shadows. Palette: creamy white, sage green, natural oak, warm earth accents. Constraints: single cohesive photograph, no collage, no typography, no logos, no watermarks."
+    },
+    {
+      "file": "/images/carousel/contour.webp",
+      "prompt": "Use case: product-mockup. Asset type: portrait photograph for a Ceylon Wall Decor website carousel. Primary request: a tall sand-colored abstract plaster relief canvas with concentric organic topographic contour lines, in a thin natural oak frame on a warm taupe wall, with a sunbeam across the wall. Style: premium editorial interior photography, realistic handcrafted artwork, understated Sri Lankan tropical modern interiors. Composition: portrait 2:3, canvas fully visible and large in frame with modest surrounding wall space; straight on, close view. Lighting: soft natural daylight, gentle directional shadows. Palette: creamy white, sage green, natural oak, warm earth accents. Constraints: single cohesive photograph, no collage, no typography, no logos, no watermarks."
+    }
+  ]
+}

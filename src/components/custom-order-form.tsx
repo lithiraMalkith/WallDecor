@@ -78,7 +78,7 @@ export function CustomOrderForm() {
   if (done) {
     return (
       <div className="rounded-2xl border border-[#EBE8E4] bg-white p-10 text-center max-w-2xl mx-auto shadow-[0_1px_2px_rgba(0,0,0,0.02)] my-8">
-        <div className="mx-auto size-14 rounded-full grid place-items-center bg-[#BA8E23] text-black">
+        <div className="mx-auto size-14 rounded-full grid place-items-center bg-[var(--store-accent)] text-black">
           <Check size={28} />
         </div>
         <p className="eyebrow mt-6 text-[#777169]">Bespoke Order Desk</p>
@@ -93,11 +93,11 @@ export function CustomOrderForm() {
 
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
           {isAuthenticated ? (
-            <Link href="/account" className="btn btn-yellow text-xs">
+            <Link href="/account" className="btn btn-accent text-xs">
               View in My Account
             </Link>
           ) : (
-            <Link href="/shop" className="btn btn-yellow text-xs">
+            <Link href="/shop" className="btn btn-accent text-xs">
               Explore Collection
             </Link>
           )}
@@ -123,18 +123,18 @@ export function CustomOrderForm() {
       {!isAuthenticated ? (
         <div className="rounded-2xl border border-[#EBE8E4] bg-[#F5F3F1] p-4 flex items-center justify-between text-xs">
           <span className="text-[#59544F] flex items-center gap-2">
-            <User size={15} className="text-[#BA8E23]" />
+            <User size={15} className="text-[var(--store-accent-ink)]" />
             Have an account with Ceylon Wall Decor?
           </span>
           <Link
             href="/account/login?redirect=/custom-order"
-            className="font-medium text-[#000000] underline hover:text-[#BA8E23]"
+            className="font-medium text-[#000000] underline hover:text-[var(--store-accent-ink)]"
           >
             Sign In to track your quote in Account →
           </Link>
         </div>
       ) : (
-        <div className="text-xs text-[#BA8E23] flex items-center gap-1.5 pb-1 font-medium">
+        <div className="text-xs text-[var(--store-accent-ink)] flex items-center gap-1.5 pb-1 font-medium">
           <Check size={14} /> Signed in as {customer?.name}. This request will
           link directly to your account.
         </div>
@@ -179,7 +179,7 @@ export function CustomOrderForm() {
 
       {/* Reference upload mock */}
       <label className="flex min-h-36 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-[#EBE8E4] bg-[#F5F3F1] hover:bg-white hover:border-black transition-all text-center p-8">
-        <Upload size={22} className="text-[#BA8E23]" />
+        <Upload size={22} className="text-[var(--store-accent-ink)]" />
         <span className="mt-2 text-sm text-[#000000]">
           {fileCount > 0
             ? `${fileCount} image(s) selected`
@@ -247,7 +247,7 @@ export function CustomOrderForm() {
       <button
         type="submit"
         disabled={busy}
-        className="btn btn-yellow w-full justify-center disabled:opacity-50 text-xs font-medium"
+        className="btn btn-accent w-full justify-center disabled:opacity-50 text-xs font-medium"
       >
         {busy ? "Submitting request..." : "Submit Bespoke Request"}
         <Sparkles size={14} />

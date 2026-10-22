@@ -2,13 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { products, formatPrice, type Product } from "@/lib/products";
+import { formatPrice, type Product } from "@/lib/products";
 
 export function BentoShowcase({ products: propProducts }: { products?: Product[] } = {}) {
-  const activeProducts = propProducts && propProducts.length > 0 ? propProducts : products;
+  const activeProducts = propProducts || [];
   const featured =
     activeProducts.find((p) => p.badge === "Bestseller" || p.badge === "Featured") ||
     activeProducts[0];
+
+  if (!featured) return null;
 
   return (
     <section className="py-16 md:py-24 bg-[#F5F3F1] border-y border-[#EBE8E4]">
@@ -34,7 +36,7 @@ export function BentoShowcase({ products: propProducts }: { products?: Product[]
                 Featured Masterpiece
               </span>
               <span className="font-mono text-xs text-[#777169]">
-                From {formatPrice(featured ? featured.price : 3900)}
+                From {formatPrice(featured.price)}
               </span>
             </div>
 
@@ -91,15 +93,15 @@ export function BentoShowcase({ products: propProducts }: { products?: Product[]
 
             <div className="my-6 p-4 rounded-xl bg-[#F5F3F1] border border-[#EBE8E4] space-y-2.5 text-xs text-[#000000]">
               <div className="flex items-center gap-2">
-                <span className="size-1.5 rounded-full bg-[#BA8E23] shrink-0" />
+                <span className="size-1.5 rounded-full bg-[var(--store-accent)] shrink-0" />
                 <span>3-layer dimensional relief plaster</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="size-1.5 rounded-full bg-[#BA8E23] shrink-0" />
+                <span className="size-1.5 rounded-full bg-[var(--store-accent)] shrink-0" />
                 <span>UV-resistant satin protective seal</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="size-1.5 rounded-full bg-[#BA8E23] shrink-0" />
+                <span className="size-1.5 rounded-full bg-[var(--store-accent)] shrink-0" />
                 <span>Solid pine kiln-dried stretchers</span>
               </div>
             </div>

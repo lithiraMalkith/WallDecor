@@ -105,7 +105,7 @@ export default function AdminPromotionsPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
       </div>
     );
   }
@@ -126,7 +126,7 @@ export default function AdminPromotionsPage() {
 
         <button
           onClick={() => setModalOpen(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm"
         >
           <Plus className="w-4 h-4" />
           <span>Create Coupon Code</span>
@@ -142,13 +142,13 @@ export default function AdminPromotionsPage() {
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="font-mono text-base font-bold text-brand-gold bg-brand-bg px-2.5 py-1 rounded-lg border border-brand-border">
+                <span className="font-mono text-base font-bold text-brand-accent bg-brand-bg px-2.5 py-1 rounded-lg border border-brand-border">
                   {promo.code}
                 </span>
                 <span
                   className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
                     promo.isActive
-                      ? "bg-brand-gold/10 text-brand-gold border border-brand-gold/30"
+                      ? "bg-brand-accent/10 text-brand-accent border border-brand-accent/30"
                       : "bg-black/5 text-brand-muted border border-black/10"
                   }`}
                 >
@@ -288,7 +288,7 @@ export default function AdminPromotionsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 py-2 px-3 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg text-xs font-semibold"
+                  className="flex-1 py-2 px-3 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg text-xs font-semibold"
                 >
                   {isSubmitting ? "Creating..." : "Activate Coupon"}
                 </button>

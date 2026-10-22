@@ -142,7 +142,7 @@ export default function EditProductPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
       </div>
     );
   }
@@ -153,7 +153,7 @@ export default function EditProductPage() {
         <p>Product not found.</p>
         <Link
           href="/admin/products"
-          className="text-xs text-brand-gold mt-2 inline-block"
+          className="text-xs text-brand-accent mt-2 inline-block"
         >
           Return to Catalog
         </Link>
@@ -183,7 +183,7 @@ export default function EditProductPage() {
         <button
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm disabled:opacity-50"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           <span>{isSubmitting ? "Saving..." : "Update Design"}</span>
@@ -260,7 +260,7 @@ export default function EditProductPage() {
               <div className="flex items-center gap-2">
                 <span className="text-xs text-brand-muted">Rate/Sq.in:</span>
                 <div className="flex items-center">
-                  <span className="text-xs text-brand-gold font-bold px-2 py-1 bg-brand-bg rounded-l-md border border-brand-border">
+                  <span className="text-xs text-brand-accent font-bold px-2 py-1 bg-brand-bg rounded-l-md border border-brand-border">
                     Rs.
                   </span>
                   <input
@@ -313,7 +313,7 @@ export default function EditProductPage() {
                             className="form-input py-1 px-2 w-24 text-xs font-semibold"
                           />
                         </td>
-                        <td className="py-2.5 px-2 text-brand-gold">
+                        <td className="py-2.5 px-2 text-brand-accent">
                           +{formatPrice(frameCost)}
                         </td>
                         <td className="py-2.5 px-2 text-right font-bold text-brand-text">
@@ -362,7 +362,7 @@ export default function EditProductPage() {
                   type="checkbox"
                   checked={isBestseller}
                   onChange={(e) => setIsBestseller(e.target.checked)}
-                  className="rounded text-brand-gold"
+                  className="rounded text-brand-accent"
                 />
                 <span>Bestseller Badge</span>
               </label>
@@ -371,7 +371,7 @@ export default function EditProductPage() {
                   type="checkbox"
                   checked={isFeatured}
                   onChange={(e) => setIsFeatured(e.target.checked)}
-                  className="rounded text-brand-gold"
+                  className="rounded text-brand-accent"
                 />
                 <span>Pin to Homepage</span>
               </label>

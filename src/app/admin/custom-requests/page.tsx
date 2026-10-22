@@ -96,13 +96,13 @@ export default function AdminCustomRequestsPage() {
         );
       case "approved":
         return (
-          <span className="status-badge bg-brand-gold/10 text-brand-gold border-brand-gold/30">
+          <span className="status-badge bg-brand-accent/10 text-brand-accent border-brand-accent/30">
             Client Approved
           </span>
         );
       case "converted":
         return (
-          <span className="status-badge bg-brand-gold/10 text-brand-gold border-brand-gold/30">
+          <span className="status-badge bg-brand-accent/10 text-brand-accent border-brand-accent/30">
             Converted to Order
           </span>
         );
@@ -120,7 +120,7 @@ export default function AdminCustomRequestsPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex flex-col items-center justify-center space-y-3">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
         <p className="text-xs uppercase tracking-widest text-brand-muted">
           Loading Custom Requests Inbox...
         </p>
@@ -143,7 +143,7 @@ export default function AdminCustomRequestsPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs font-mono font-medium text-brand-gold bg-brand-gold/10 border border-brand-gold/20 px-3 py-1.5 rounded-lg">
+          <span className="text-xs font-mono font-medium text-brand-accent bg-brand-accent/10 border border-brand-accent/20 px-3 py-1.5 rounded-lg">
             {requests.filter((r) => r.status === "new").length} Needs Quote
           </span>
         </div>
@@ -170,7 +170,7 @@ export default function AdminCustomRequestsPage() {
                 onClick={() => setStatusFilter(st)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium capitalize transition-colors whitespace-nowrap ${
                   statusFilter === st
-                    ? "bg-brand-gold text-brand-bg font-semibold"
+                    ? "bg-brand-accent text-brand-bg font-semibold"
                     : "text-brand-muted hover:text-brand-text hover:bg-brand-surface"
                 }`}
               >
@@ -215,7 +215,7 @@ export default function AdminCustomRequestsPage() {
                     {getStatusBadge(req.status)}
                   </div>
                   {req.quotedPrice && (
-                    <div className="absolute bottom-3 right-3 bg-brand-bg/90 backdrop-blur-xs px-2.5 py-1 rounded-lg border border-brand-border font-mono text-xs font-bold text-brand-gold">
+                    <div className="absolute bottom-3 right-3 bg-brand-bg/90 backdrop-blur-xs px-2.5 py-1 rounded-lg border border-brand-border font-mono text-xs font-bold text-brand-accent">
                       Quote: {formatPrice(req.quotedPrice)}
                     </div>
                   )}
@@ -234,7 +234,7 @@ export default function AdminCustomRequestsPage() {
                   <div className="space-y-1 text-xs">
                     <p className="text-brand-text font-medium">
                       Dimensions:{" "}
-                      <span className="text-brand-gold">
+                      <span className="text-brand-accent">
                         {req.sizeLabel || "Custom sizing"}
                       </span>
                     </p>
@@ -272,7 +272,7 @@ export default function AdminCustomRequestsPage() {
                   className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-brand-surface hover:bg-brand-surface-hover border border-brand-border text-xs font-semibold text-brand-text transition-colors"
                 >
                   <span>Review & Quote</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-brand-gold" />
+                  <ArrowRight className="w-3.5 h-3.5 text-brand-accent" />
                 </button>
               </div>
             </div>

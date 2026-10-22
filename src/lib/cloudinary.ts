@@ -10,14 +10,10 @@ export const CLOUDINARY_CONFIG = {
 };
 
 export const CLOUDINARY_SEED_IMAGES = {
-  sunrise:
-    "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451905/ceylon-wall-decor/products/sunrise.jpg",
-  contour:
-    "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/contour.jpg",
-  botanica:
-    "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/botanica.jpg",
-  hero:
-    "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451908/ceylon-wall-decor/products/hero.jpg",
+  sunrise: "/images/gallery/sage-arches.webp",
+  contour: "/images/carousel/contour.webp",
+  botanica: "/images/carousel/botanical.webp",
+  hero: "/images/carousel/coastal.webp",
 } as const;
 
 /**

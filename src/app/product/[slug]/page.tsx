@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProductAsync, syncProductsFromFirestore } from "@/lib/products";
+import { getProductAsync } from "@/lib/catalog-server";
 import { ProductDetail } from "@/components/product-detail";
 
 export const dynamic = "force-dynamic";
 
-export async function generateStaticParams() {
-  const live = await syncProductsFromFirestore();
-  return live.map((p) => ({ slug: p.slug }));
-}
 export async function generateMetadata({
   params,
 }: {

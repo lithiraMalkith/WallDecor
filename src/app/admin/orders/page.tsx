@@ -122,7 +122,7 @@ export default function AdminOrdersPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex flex-col items-center justify-center space-y-3">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
         <p className="text-xs uppercase tracking-widest text-brand-muted">
           Loading Fulfillment Board...
         </p>
@@ -145,7 +145,7 @@ export default function AdminOrdersPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs font-mono font-medium text-brand-gold bg-brand-gold/10 border border-brand-gold/20 px-3 py-1.5 rounded-lg">
+          <span className="text-xs font-mono font-medium text-brand-accent bg-brand-accent/10 border border-brand-accent/20 px-3 py-1.5 rounded-lg">
             {orders.length} Total Orders
           </span>
         </div>
@@ -166,7 +166,7 @@ export default function AdminOrdersPage() {
               onClick={() => setActiveTab(tab.value)}
               className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
                 active
-                  ? "bg-brand-gold text-brand-bg font-semibold shadow-xs"
+                  ? "bg-brand-accent text-brand-bg font-semibold shadow-xs"
                   : "text-brand-muted hover:text-brand-text hover:bg-brand-surface"
               }`}
             >
@@ -220,7 +220,7 @@ export default function AdminOrdersPage() {
                   className="order-row hover:bg-brand-surface-hover/70 cursor-pointer transition-colors"
                 >
                   <td>
-                    <span className="font-mono text-xs font-bold text-brand-gold block">
+                    <span className="font-mono text-xs font-bold text-brand-accent block">
                       {order.orderRef}
                     </span>
                     <span className="text-[11px] text-brand-muted flex items-center gap-1 mt-0.5">
@@ -285,7 +285,7 @@ export default function AdminOrdersPage() {
                         e.stopPropagation();
                         router.push(`/admin/orders/${order.id}`);
                       }}
-                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-brand-bg hover:bg-brand-surface-hover border border-brand-border text-xs font-medium text-brand-gold transition-colors"
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-brand-bg hover:bg-brand-surface-hover border border-brand-border text-xs font-medium text-brand-accent transition-colors"
                     >
                       <span>Inspect</span>
                       <ArrowRight className="w-3 h-3" />

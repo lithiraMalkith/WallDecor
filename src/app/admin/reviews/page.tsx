@@ -162,7 +162,7 @@ export default function AdminReviewsPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
       </div>
     );
   }
@@ -184,7 +184,7 @@ export default function AdminReviewsPage() {
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#BA8E23] text-black hover:opacity-90 transition-opacity shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-accent text-white hover:opacity-90 transition-opacity shadow-sm"
           >
             <Plus className="w-4 h-4" />
             <span>Add Testimonial</span>
@@ -197,7 +197,7 @@ export default function AdminReviewsPage() {
                 onClick={() => setStatusFilter(st)}
                 className={`px-3 py-1 rounded-md text-xs font-semibold capitalize transition-colors ${
                   statusFilter === st
-                    ? "bg-brand-gold text-brand-bg shadow-sm"
+                    ? "bg-brand-accent text-brand-bg shadow-sm"
                     : "text-brand-muted hover:text-brand-text"
                 }`}
               >
@@ -242,7 +242,7 @@ export default function AdminReviewsPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, customerName: e.target.value })
                   }
-                  className="w-full px-3 py-2 border border-brand-border rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-text bg-white"
+                  className="w-full px-3 py-2 border border-brand-border rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-accent text-brand-text bg-white"
                 />
               </div>
 
@@ -256,7 +256,7 @@ export default function AdminReviewsPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, rating: Number(e.target.value) })
                     }
-                    className="w-full px-3 py-2 border border-brand-border rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-text bg-white"
+                    className="w-full px-3 py-2 border border-brand-border rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-accent text-brand-text bg-white"
                   >
                     <option value={5}>5 Stars ★★★★★</option>
                     <option value={4}>4 Stars ★★★★☆</option>
@@ -277,7 +277,7 @@ export default function AdminReviewsPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, productName: e.target.value })
                     }
-                    className="w-full px-3 py-2 border border-brand-border rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-text bg-white"
+                    className="w-full px-3 py-2 border border-brand-border rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-accent text-brand-text bg-white"
                   />
                 </div>
               </div>
@@ -294,7 +294,7 @@ export default function AdminReviewsPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, comment: e.target.value })
                   }
-                  className="w-full px-3 py-2 border border-brand-border rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-text bg-white resize-none"
+                  className="w-full px-3 py-2 border border-brand-border rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-accent text-brand-text bg-white resize-none"
                 />
               </div>
 
@@ -309,7 +309,7 @@ export default function AdminReviewsPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, photoUrl: e.target.value })
                   }
-                  className="w-full px-3 py-2 border border-brand-border rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-text bg-white"
+                  className="w-full px-3 py-2 border border-brand-border rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-accent text-brand-text bg-white"
                 />
               </div>
 
@@ -324,7 +324,7 @@ export default function AdminReviewsPage() {
                         isFeaturedHomepage: e.target.checked,
                       })
                     }
-                    className="rounded text-brand-gold focus:ring-brand-gold"
+                    className="rounded text-brand-accent focus:ring-brand-accent"
                   />
                   <span>Feature on Homepage Collector Voice</span>
                 </label>
@@ -339,7 +339,7 @@ export default function AdminReviewsPage() {
                         isVerifiedPurchase: e.target.checked,
                       })
                     }
-                    className="rounded text-brand-gold focus:ring-brand-gold"
+                    className="rounded text-brand-accent focus:ring-brand-accent"
                   />
                   <span>Verified Purchase</span>
                 </label>
@@ -356,7 +356,7 @@ export default function AdminReviewsPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 bg-[#BA8E23] text-black font-semibold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-1.5"
+                  className="px-4 py-2 bg-brand-accent text-white font-semibold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-1.5"
                 >
                   {submitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   <span>Save Testimonial</span>
@@ -377,12 +377,12 @@ export default function AdminReviewsPage() {
             <div className="space-y-3">
               {/* Top Row: Stars & Status */}
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1 text-brand-gold">
+                <div className="flex items-center gap-1 text-brand-accent">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star
                       key={i}
                       className={`w-4 h-4 ${
-                        i < rev.rating ? "fill-current text-brand-gold" : "text-brand-border"
+                        i < rev.rating ? "fill-current text-brand-accent" : "text-brand-border"
                       }`}
                     />
                   ))}
@@ -391,7 +391,7 @@ export default function AdminReviewsPage() {
                 <span
                   className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
                     rev.status === "approved"
-                      ? "bg-brand-gold/10 text-brand-gold border border-brand-gold/30"
+                      ? "bg-brand-accent/10 text-brand-accent border border-brand-accent/30"
                       : rev.status === "pending"
                         ? "bg-black/5 text-brand-text border-black/10"
                         : "bg-black/10 text-brand-text border-black/20"
@@ -428,7 +428,7 @@ export default function AdminReviewsPage() {
                     {rev.customerName}
                   </span>
                   {rev.isVerifiedPurchase && (
-                    <span className="flex items-center gap-1 text-[10px] text-brand-gold font-medium">
+                    <span className="flex items-center gap-1 text-[10px] text-brand-accent font-medium">
                       <ShieldCheck className="w-3 h-3" /> Verified Collector
                     </span>
                   )}
@@ -448,7 +448,7 @@ export default function AdminReviewsPage() {
                 }
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                   rev.isFeaturedHomepage
-                    ? "bg-brand-gold text-brand-bg"
+                    ? "bg-brand-accent text-brand-bg"
                     : "bg-brand-bg hover:bg-brand-surface-hover text-brand-muted hover:text-brand-text border border-brand-border"
                 }`}
               >
@@ -464,7 +464,7 @@ export default function AdminReviewsPage() {
                 {rev.status !== "approved" && (
                   <button
                     onClick={() => handleApprove(rev.id)}
-                    className="p-2 rounded-lg bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold border border-brand-gold/30 transition-colors"
+                    className="p-2 rounded-lg bg-brand-accent/10 hover:bg-brand-accent/20 text-brand-accent border border-brand-accent/30 transition-colors"
                     title="Approve Review"
                   >
                     <CheckCircle2 className="w-4 h-4" />

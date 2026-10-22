@@ -64,7 +64,7 @@ export default function AdminAuditPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
       </div>
     );
   }
@@ -83,7 +83,7 @@ export default function AdminAuditPage() {
           </p>
         </div>
 
-        <span className="text-xs font-mono text-brand-gold bg-brand-gold/10 border border-brand-gold/20 px-3 py-1.5 rounded-lg">
+        <span className="text-xs font-mono text-brand-accent bg-brand-accent/10 border border-brand-accent/20 px-3 py-1.5 rounded-lg">
           {logs.length} Total Audit Records
         </span>
       </div>
@@ -129,7 +129,7 @@ export default function AdminAuditPage() {
                     <span className="font-semibold text-brand-text text-xs block">
                       {item.userEmail}
                     </span>
-                    <span className="text-[10px] uppercase font-mono text-brand-gold">
+                    <span className="text-[10px] uppercase font-mono text-brand-accent">
                       {item.userRole}
                     </span>
                   </td>
@@ -141,7 +141,7 @@ export default function AdminAuditPage() {
                   </td>
 
                   <td>
-                    <span className="font-mono text-xs text-brand-gold">
+                    <span className="font-mono text-xs text-brand-accent">
                       {item.entityId}
                     </span>
                   </td>

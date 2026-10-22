@@ -132,7 +132,7 @@ export default function AdminCategoriesPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
       </div>
     );
   }
@@ -153,7 +153,7 @@ export default function AdminCategoriesPage() {
 
         <button
           onClick={openAddModal}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm"
         >
           <Plus className="w-4 h-4" />
           <span>Add {activeType.toUpperCase()} Category</span>
@@ -168,7 +168,7 @@ export default function AdminCategoriesPage() {
             onClick={() => setActiveType(type)}
             className={`px-4 py-2 rounded-lg text-xs font-semibold capitalize transition-colors ${
               activeType === type
-                ? "bg-brand-gold text-brand-bg shadow-xs"
+                ? "bg-brand-accent text-brand-bg shadow-xs"
                 : "text-brand-muted hover:text-brand-text hover:bg-brand-surface"
             }`}
           >
@@ -200,7 +200,7 @@ export default function AdminCategoriesPage() {
                 className="cat-row hover:bg-brand-surface-hover/70 transition-colors"
               >
                 <td>
-                  <span className="font-mono text-xs font-bold text-brand-gold bg-brand-bg px-2 py-1 rounded border border-brand-border">
+                  <span className="font-mono text-xs font-bold text-brand-accent bg-brand-bg px-2 py-1 rounded border border-brand-border">
                     {cat.order}
                   </span>
                 </td>
@@ -227,7 +227,7 @@ export default function AdminCategoriesPage() {
                   <div className="flex items-center justify-end gap-2">
                     <button
                       onClick={() => openEditModal(cat)}
-                      className="p-1.5 rounded-lg text-brand-muted hover:text-brand-gold hover:bg-brand-bg transition-colors"
+                      className="p-1.5 rounded-lg text-brand-muted hover:text-brand-accent hover:bg-brand-bg transition-colors"
                       title="Edit Category"
                     >
                       <Edit2 className="w-4 h-4" />
@@ -326,7 +326,7 @@ export default function AdminCategoriesPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 py-2 px-3 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg text-xs font-semibold"
+                  className="flex-1 py-2 px-3 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg text-xs font-semibold"
                 >
                   {isSubmitting ? "Saving..." : "Save Category"}
                 </button>

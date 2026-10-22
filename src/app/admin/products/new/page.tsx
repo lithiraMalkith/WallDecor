@@ -58,7 +58,7 @@ export default function NewProductPage() {
   const [isFeatured, setIsFeatured] = useState(false);
   const [rooms, setRooms] = useState<string[]>(["Living Room"]);
   const [styles, setStyles] = useState<string[]>(["Minimalist"]);
-  const [imageUrl, setImageUrl] = useState<string>(CLOUDINARY_SEED_IMAGES.sunrise);
+  const [imageUrl, setImageUrl] = useState<string>("");
   const [tiktokUrl, setTiktokUrl] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -195,7 +195,7 @@ export default function NewProductPage() {
         <button
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm disabled:opacity-50"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           <span>{isSubmitting ? "Saving..." : "Publish Design"}</span>
@@ -218,7 +218,7 @@ export default function NewProductPage() {
           {/* Basic Details */}
           <div className="bg-brand-surface border border-brand-border rounded-2xl p-6 space-y-4">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-text flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-brand-gold" />
+              <Sparkles className="w-4 h-4 text-brand-accent" />
               <span>Design Identity</span>
             </h2>
 
@@ -268,7 +268,7 @@ export default function NewProductPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-brand-border pb-3">
               <div>
                 <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-text flex items-center gap-2">
-                  <Calculator className="w-4 h-4 text-brand-gold" />
+                  <Calculator className="w-4 h-4 text-brand-accent" />
                   <span>Size & Frame Pricing Formula</span>
                 </h2>
                 <p className="text-xs text-brand-muted mt-0.5">
@@ -280,7 +280,7 @@ export default function NewProductPage() {
               <div className="flex items-center gap-2">
                 <span className="text-xs text-brand-muted">Rate/Sq.in:</span>
                 <div className="flex items-center">
-                  <span className="text-xs text-brand-gold font-bold px-2 py-1 bg-brand-bg rounded-l-md border border-brand-border">
+                  <span className="text-xs text-brand-accent font-bold px-2 py-1 bg-brand-bg rounded-l-md border border-brand-border">
                     Rs.
                   </span>
                   <input
@@ -340,7 +340,7 @@ export default function NewProductPage() {
                             className="form-input py-1 px-2 w-24 text-xs font-semibold"
                           />
                         </td>
-                        <td className="py-2.5 px-2 text-brand-gold">
+                        <td className="py-2.5 px-2 text-brand-accent">
                           +{formatPrice(frameCost)}
                         </td>
                         <td className="py-2.5 px-2 text-right font-bold text-brand-text">
@@ -415,7 +415,7 @@ export default function NewProductPage() {
                   type="checkbox"
                   checked={isBestseller}
                   onChange={(e) => setIsBestseller(e.target.checked)}
-                  className="rounded border-brand-border text-brand-gold focus:ring-brand-gold"
+                  className="rounded border-brand-border text-brand-accent focus:ring-brand-accent"
                 />
                 <span>Badge as "Bestseller"</span>
               </label>
@@ -425,7 +425,7 @@ export default function NewProductPage() {
                   type="checkbox"
                   checked={isFeatured}
                   onChange={(e) => setIsFeatured(e.target.checked)}
-                  className="rounded border-brand-border text-brand-gold focus:ring-brand-gold"
+                  className="rounded border-brand-border text-brand-accent focus:ring-brand-accent"
                 />
                 <span>Pin to Homepage Featured</span>
               </label>
@@ -527,7 +527,7 @@ export default function NewProductPage() {
                       onClick={() => toggleRoom(r)}
                       className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
                         rooms.includes(r)
-                          ? "bg-brand-gold text-brand-bg font-semibold"
+                          ? "bg-brand-accent text-brand-bg font-semibold"
                           : "bg-brand-bg text-brand-muted hover:text-brand-text border border-brand-border"
                       }`}
                     >
@@ -551,7 +551,7 @@ export default function NewProductPage() {
                       onClick={() => toggleStyle(s)}
                       className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
                         styles.includes(s)
-                          ? "bg-brand-gold text-brand-bg font-semibold"
+                          ? "bg-brand-accent text-brand-bg font-semibold"
                           : "bg-brand-bg text-brand-muted hover:text-brand-text border border-brand-border"
                       }`}
                     >

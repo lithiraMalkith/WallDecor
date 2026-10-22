@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, Search, ShoppingBag, X, User, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { Menu, Search, ShoppingBag, X, User, Leaf } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useCart } from "./cart-context";
 import { useCustomerAuth } from "@/contexts/customer-auth-context";
 
@@ -19,20 +19,39 @@ export function Header() {
   const [menu, setMenu] = useState(false);
   const [search, setSearch] = useState(false);
   const [headerQuery, setHeaderQuery] = useState("");
+  const menuDialog = useRef<HTMLDialogElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const { count, setOpen } = useCart();
   const { customer } = useCustomerAuth();
 
+  useEffect(() => {
+    if (!menu) return;
+    const dialog = menuDialog.current;
+    const previousOverflow = document.body.style.overflow;
+    dialog?.showModal();
+    document.body.style.overflow = "hidden";
+    return () => {
+      dialog?.close();
+      document.body.style.overflow = previousOverflow;
+      menuButton.current?.focus({ preventScroll: true });
+    };
+  }, [menu]);
+
   return (
     <>
       {/* ElevenLabs-style Top Micro-Banner */}
-      <header className="sticky top-0 z-40 border-b border-[#EBE8E4] bg-[#FDFCFC]/90 backdrop-blur-md">
-        <div className="container-x flex h-16 items-center justify-between">
+      <header className="reference-header sticky top-0 z-40 border-b backdrop-blur-md">
+        <div className="container-x header-inner">
           {/* Mobile menu button */}
           <button
+            ref={menuButton}
             aria-label="Open menu"
-            className="md:hidden p-2 text-[#111111]"
-            onClick={() => setMenu(true)}
+            aria-haspopup="dialog"
+            aria-expanded={menu}
+            aria-controls="mobile-navigation"
+            className="mobile-menu-trigger lg:hidden p-2 text-[#111111]"
+            onClick={() => { setSearch(false); setMenu(true); }}
           >
             <Menu size={20} />
           </button>
@@ -40,13 +59,13 @@ export function Header() {
           {/* Brand Logo */}
           <Link
             href="/"
-            className="text-base sm:text-lg font-normal tracking-tight uppercase text-[#000000] hover:opacity-80 transition-opacity"
+            className="reference-brand hover:opacity-80 transition-opacity"
           >
-            Wall <span className="text-[#BA8E23]">/</span> Decor
+            <Leaf size={25} strokeWidth={1.8} /><span>Ceylon<span className="reference-brand-sub">Wall Decor</span></span>
           </Link>
 
           {/* ElevenLabs-style Segmented Center Pill Navigation */}
-          <nav className="hidden md:flex items-center gap-1 bg-[#FFFFFF] px-1.5 py-1 rounded-full border-none shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+          <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-1 bg-[#FFFFFF] px-1.5 py-1 rounded-full border-none shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
             {links.map(([label, href]) => (
               <Link
                 key={href}
@@ -59,11 +78,11 @@ export function Header() {
           </nav>
 
           {/* Right Action Icons */}
-          <div className="flex items-center gap-2">
+          <div className="header-actions flex items-center gap-2">
             <button
               aria-label="Search"
               onClick={() => setSearch(!search)}
-              className="p-2 text-[#000000] hover:text-[#BA8E23] rounded-full hover:bg-[#F5F3F1] transition-colors"
+              className="p-2 text-[#000000] hover:text-[var(--store-accent-ink)] rounded-full hover:bg-[#F5F3F1] transition-colors"
             >
               <Search size={17} />
             </button>
@@ -77,7 +96,7 @@ export function Header() {
             >
               <User size={14} className="text-[#000000]" />
               <span className="hidden lg:inline text-[11px] font-normal text-[#000000]">
-                {customer ? customer.name.split(" ")[0] : "Sign In"}
+                {customer ? customer.name.split(" ")[0] : "Log in"}
               </span>
 
             </Link>
@@ -145,26 +164,33 @@ export function Header() {
 
       {/* Mobile Drawer */}
       {menu && (
-        <div className="fixed inset-0 z-50 bg-[#FFFFFF] text-[#000000] flex flex-col">
+        <dialog
+          ref={menuDialog}
+          id="mobile-navigation"
+          aria-label="Site navigation"
+          className="mobile-menu-dialog"
+          onCancel={() => setMenu(false)}
+          onClose={() => setMenu(false)}
+        >
           <div className="flex items-center justify-between border-b border-[#EBE8E4] p-5">
-            <span className="text-xs uppercase tracking-widest text-[#BA8E23] font-medium">
+            <span className="text-xs uppercase tracking-widest text-[var(--store-accent-ink)] font-medium">
               Ceylon Wall Decor
             </span>
             <button
               aria-label="Close menu"
               onClick={() => setMenu(false)}
-              className="p-1.5 text-[#000000] hover:text-[#BA8E23] transition-colors"
+              className="p-1.5 text-[#000000] hover:text-[var(--store-accent-ink)] transition-colors"
             >
               <X size={24} />
             </button>
           </div>
-          <nav className="flex flex-col p-6 text-3xl font-light space-y-2 flex-1 overflow-y-auto">
+          <nav aria-label="Mobile navigation" className="flex flex-col p-6 text-3xl font-light space-y-2 flex-1 overflow-y-auto">
             {links.map(([l, h]) => (
               <Link
                 key={h}
                 href={h}
                 onClick={() => setMenu(false)}
-                className="border-b border-[#EBE8E4] py-4 text-[#000000] hover:text-[#BA8E23] transition-colors"
+                className="border-b border-[#EBE8E4] py-4 text-[#000000] hover:text-[var(--store-accent-ink)] transition-colors"
               >
                 {l}
               </Link>
@@ -172,7 +198,7 @@ export function Header() {
             <Link
               href={customer ? "/account" : "/account/login"}
               onClick={() => setMenu(false)}
-              className="border-b border-[#EBE8E4] py-4 text-[#BA8E23] flex items-center justify-between pt-6"
+              className="border-b border-[#EBE8E4] py-4 text-[var(--store-accent-ink)] flex items-center justify-between pt-6"
             >
               <span>
                 {customer
@@ -181,7 +207,7 @@ export function Header() {
               </span>
             </Link>
           </nav>
-        </div>
+        </dialog>
       )}
     </>
   );

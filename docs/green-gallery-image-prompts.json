@@ -1,0 +1,22 @@
+{
+  "mode": "Built-in image_gen",
+  "purpose": "Generated interior and artwork inspiration for the green storefront palette.",
+  "assets": [
+    {
+      "file": "/images/gallery/sage-arches.webp",
+      "prompt": "Use case: product-mockup. Asset type: generated editorial inspiration photograph for Ceylon Wall Decor's gallery and green-themed storefront. Primary request: A tall handcrafted ivory plaster relief canvas with concentric sculpted arches and a muted sage-green sun, in a slim natural oak floating frame on a soft olive wall. Straight-on product photograph, canvas fully visible and large in frame, subtle plaster imperfections, soft diffuse daylight. Composition: portrait 2:3. Palette: soft sage, forest green, warm ivory, natural timber. Lighting: neutral soft natural daylight with subtle directional shadows. Style: realistic premium interior photography, tactile handmade plaster texture, quiet uncluttered interiors, subtle organic film grain. Constraints: no yellow or gold artwork, no terracotta accents, no text, no logos, no watermarks, no collage."
+    },
+    {
+      "file": "/images/gallery/living-room.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: generated editorial inspiration photograph for Ceylon Wall Decor's gallery and green-themed storefront. Primary request: A serene tropical modern living room in Sri Lanka: a large ivory sculpted botanical plaster relief in a thin oak frame over a low sage linen sofa, pale limewashed walls, indoor tropical plant, natural oak side table, woven textures, restrained composition. The framed relief is the main focal point, architectural interior editorial photograph. Composition: landscape 3:2. Palette: soft sage, forest green, warm ivory, natural timber. Lighting: neutral soft natural daylight with subtle directional shadows. Style: realistic premium interior photography, tactile handmade plaster texture, quiet uncluttered interiors, subtle organic film grain. Constraints: no yellow or gold artwork, no terracotta accents, no text, no logos, no watermarks, no collage."
+    },
+    {
+      "file": "/images/gallery/bedroom.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: generated editorial inspiration photograph for Ceylon Wall Decor's gallery and green-themed storefront. Primary request: A calm tropical modern bedroom with a pale sage limewash accent wall, large handcrafted ivory flowing-wave plaster relief above a bed in cream linen, sheer white curtains, a simple teak bedside table. Architectural interior editorial photograph, relief art clearly visible and prominent, restrained styling. Composition: landscape 3:2. Palette: soft sage, forest green, warm ivory, natural timber. Lighting: neutral soft natural daylight with subtle directional shadows. Style: realistic premium interior photography, tactile handmade plaster texture, quiet uncluttered interiors, subtle organic film grain. Constraints: no yellow or gold artwork, no terracotta accents, no text, no logos, no watermarks, no collage."
+    },
+    {
+      "file": "/images/gallery/dining.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: generated editorial inspiration photograph for Ceylon Wall Decor's gallery and green-themed storefront. Primary request: A quiet Sri Lankan tropical modern dining nook: muted olive wall, a large ivory abstract topographic plaster relief in a slim oak frame above an elegant timber console next to a small round dining table and woven chair, greenery at the edge. Editorial interior photograph, art is the main focal point. Composition: portrait 2:3. Palette: soft sage, forest green, warm ivory, natural timber. Lighting: neutral soft natural daylight with subtle directional shadows. Style: realistic premium interior photography, tactile handmade plaster texture, quiet uncluttered interiors, subtle organic film grain. Constraints: no yellow or gold artwork, no terracotta accents, no text, no logos, no watermarks, no collage."
+    }
+  ]
+}

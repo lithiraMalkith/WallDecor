@@ -65,7 +65,7 @@ export function CraftTicker() {
           key={index}
           className="ticker-item absolute inset-0 flex items-center justify-center text-center px-4 font-mono text-[11px] sm:text-xs uppercase tracking-wider"
         >
-          <span className="text-[#BA8E23] mr-2 text-sm leading-none font-sans">✦</span>
+          <span className="text-[var(--store-accent-ink)] mr-2 text-sm leading-none font-sans">✦</span>
           <span className="text-[#000000] font-medium tracking-tight sm:tracking-normal">
             {item.title}
           </span>

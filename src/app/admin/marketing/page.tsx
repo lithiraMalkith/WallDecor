@@ -65,7 +65,7 @@ export default function AdminMarketingPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
       </div>
     );
   }
@@ -87,7 +87,7 @@ export default function AdminMarketingPage() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm disabled:opacity-50"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           <span>{isSaving ? "Saving Pixels..." : "Save Tracking Keys"}</span>
@@ -95,7 +95,7 @@ export default function AdminMarketingPage() {
       </div>
 
       {savedSuccess && (
-        <div className="p-4 rounded-xl bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-brand-accent/10 border border-brand-accent/30 text-brand-accent text-xs flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>
             Marketing pixels updated and server-side conversion dispatchers
@@ -122,7 +122,7 @@ export default function AdminMarketingPage() {
                 </span>
               </div>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-brand-gold/10 text-brand-gold border border-brand-gold/30">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-brand-accent/10 text-brand-accent border border-brand-accent/30">
               Active
             </span>
           </div>
@@ -181,7 +181,7 @@ export default function AdminMarketingPage() {
                 </span>
               </div>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-brand-gold/10 text-brand-gold border border-brand-gold/30">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-brand-accent/10 text-brand-accent border border-brand-accent/30">
               Active
             </span>
           </div>
@@ -227,7 +227,7 @@ export default function AdminMarketingPage() {
       {/* Google Analytics 4 */}
       <div className="bg-brand-surface border border-brand-border rounded-2xl p-6 space-y-4 shadow-xl">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-text flex items-center gap-2">
-          <TrendingUp className="w-4 h-4 text-brand-gold" />
+          <TrendingUp className="w-4 h-4 text-brand-accent" />
           <span>Google Analytics 4 & Search Console</span>
         </h2>
 

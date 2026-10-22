@@ -138,7 +138,7 @@ export default function OrderDetailPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
       </div>
     );
   }
@@ -149,7 +149,7 @@ export default function OrderDetailPage() {
         <p>Order not found.</p>
         <Link
           href="/admin/orders"
-          className="text-xs text-brand-gold mt-2 inline-block"
+          className="text-xs text-brand-accent mt-2 inline-block"
         >
           Return to Fulfillment Board
         </Link>
@@ -202,7 +202,7 @@ export default function OrderDetailPage() {
             onClick={() => setInvoiceModalOpen(true)}
             className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-brand-surface border border-brand-border hover:bg-brand-surface-hover text-xs font-semibold text-brand-text transition-colors"
           >
-            <Printer className="w-4 h-4 text-brand-gold" />
+            <Printer className="w-4 h-4 text-brand-accent" />
             <span>Print Invoice / Slip</span>
           </button>
         </div>
@@ -234,7 +234,7 @@ export default function OrderDetailPage() {
                 <div
                   key={step.key}
                   className={`p-3 rounded-xl border text-center transition-all ${isCurrent
-                    ? "bg-brand-gold/15 border-brand-gold text-brand-text shadow-md"
+                    ? "bg-brand-accent/15 border-brand-accent text-brand-text shadow-md"
                     : isPast
                       ? "bg-brand-bg/60 border-brand-border/80 text-brand-muted"
                       : "bg-brand-bg/30 border-brand-border/40 text-brand-muted/50"
@@ -242,9 +242,9 @@ export default function OrderDetailPage() {
                 >
                   <div
                     className={`w-8 h-8 rounded-full mx-auto mb-2 flex items-center justify-center font-bold text-xs ${isCurrent
-                      ? "bg-brand-gold text-brand-bg"
+                      ? "bg-brand-accent text-brand-bg"
                       : isPast
-                        ? "bg-brand-gold/20 text-brand-gold"
+                        ? "bg-brand-accent/20 text-brand-accent"
                         : "bg-brand-surface text-brand-muted"
                       }`}
                   >
@@ -255,7 +255,7 @@ export default function OrderDetailPage() {
                     )}
                   </div>
                   <p
-                    className={`text-xs font-semibold truncate ${isCurrent ? "text-brand-gold" : "text-brand-text"}`}
+                    className={`text-xs font-semibold truncate ${isCurrent ? "text-brand-accent" : "text-brand-text"}`}
                   >
                     {step.label}
                   </p>
@@ -288,7 +288,7 @@ export default function OrderDetailPage() {
                   })
                 }
                 disabled={isUpdating}
-                className="px-4 py-2 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs transition-colors shadow-sm"
+                className="px-4 py-2 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs transition-colors shadow-sm"
               >
                 Confirm Order (Phone/WhatsApp Verified)
               </button>
@@ -302,7 +302,7 @@ export default function OrderDetailPage() {
                   })
                 }
                 disabled={isUpdating}
-                className="px-4 py-2 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs transition-colors shadow-sm"
+                className="px-4 py-2 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs transition-colors shadow-sm"
               >
                 Start Crafting Piece
               </button>
@@ -316,7 +316,7 @@ export default function OrderDetailPage() {
                   })
                 }
                 disabled={isUpdating}
-                className="px-4 py-2 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs transition-colors shadow-sm"
+                className="px-4 py-2 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs transition-colors shadow-sm"
               >
                 Mark Ready for Dispatch
               </button>
@@ -326,7 +326,7 @@ export default function OrderDetailPage() {
               <button
                 onClick={() => setDispatchModalOpen(true)}
                 disabled={isUpdating}
-                className="px-4 py-2 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs transition-colors shadow-sm"
+                className="px-4 py-2 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs transition-colors shadow-sm"
               >
                 Dispatch via Courier Partner →
               </button>
@@ -340,7 +340,7 @@ export default function OrderDetailPage() {
                   })
                 }
                 disabled={isUpdating}
-                className="px-4 py-2 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs transition-colors shadow-sm"
+                className="px-4 py-2 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs transition-colors shadow-sm"
               >
                 Mark Delivered to Customer
               </button>
@@ -355,14 +355,14 @@ export default function OrderDetailPage() {
                   })
                 }
                 disabled={isUpdating}
-                className="px-4 py-2 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs transition-colors shadow-sm"
+                className="px-4 py-2 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs transition-colors shadow-sm"
               >
                 Reconcile COD Cash (Mark Completed)
               </button>
             )}
 
             {order.status === "completed" && (
-              <span className="text-xs font-semibold text-brand-gold flex items-center gap-1.5">
+              <span className="text-xs font-semibold text-brand-accent flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4" /> Order Fulfilled & COD Cash
                 Reconciled
               </span>
@@ -436,7 +436,7 @@ export default function OrderDetailPage() {
                       <td>
                         <span
                           className={`text-xs px-2 py-0.5 rounded font-medium ${item.withFrame
-                            ? "bg-brand-gold/10 text-brand-gold border border-brand-gold/20"
+                            ? "bg-brand-accent/10 text-brand-accent border border-brand-accent/20"
                             : "bg-black/5 text-brand-muted"
                             }`}
                         >
@@ -448,7 +448,7 @@ export default function OrderDetailPage() {
                         {formatPrice(item.unitPrice)}
                       </td>
 
-                      <td className="text-xs text-brand-gold font-medium">
+                      <td className="text-xs text-brand-accent font-medium">
                         {item.frameCost > 0
                           ? `+${formatPrice(item.frameCost)}`
                           : "Rs. 0"}
@@ -478,7 +478,7 @@ export default function OrderDetailPage() {
                 </div>
                 <div className="flex justify-between text-brand-muted">
                   <span>Total Framing Cost:</span>
-                  <span className="text-brand-gold font-medium">
+                  <span className="text-brand-accent font-medium">
                     +{formatPrice(order.frameCost)}
                   </span>
                 </div>
@@ -491,14 +491,14 @@ export default function OrderDetailPage() {
                   </span>
                 </div>
                 {order.discountAmount > 0 && (
-                  <div className="flex justify-between text-brand-gold">
+                  <div className="flex justify-between text-brand-accent">
                     <span>Discount ({order.discountCode || "Promo"}):</span>
                     <span>-{formatPrice(order.discountAmount)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm font-bold text-brand-text border-t border-brand-border pt-2">
                   <span>Total (Cash on Delivery):</span>
-                  <span className="text-brand-gold font-mono text-base">
+                  <span className="text-brand-accent font-mono text-base">
                     {formatPrice(order.total)}
                   </span>
                 </div>
@@ -515,8 +515,8 @@ export default function OrderDetailPage() {
             <div className="space-y-3 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-brand-border">
               {order.statusHistory.map((entry, idx) => (
                 <div key={idx} className="flex items-start gap-4 relative pl-1">
-                  <div className="w-5 h-5 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center shrink-0 border border-brand-gold/40 z-10">
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-gold" />
+                  <div className="w-5 h-5 rounded-full bg-brand-accent/20 text-brand-accent flex items-center justify-center shrink-0 border border-brand-accent/40 z-10">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
                   </div>
                   <div className="flex-1 text-xs">
                     <div className="flex items-center justify-between">
@@ -532,7 +532,7 @@ export default function OrderDetailPage() {
                       <span className="text-brand-text">{entry.updatedBy}</span>
                     </p>
                     {entry.note && (
-                      <p className="text-brand-gold bg-brand-gold/5 p-2 rounded-lg border border-brand-gold/10 mt-1">
+                      <p className="text-brand-accent bg-brand-accent/5 p-2 rounded-lg border border-brand-accent/10 mt-1">
                         {entry.note}
                       </p>
                     )}
@@ -548,7 +548,7 @@ export default function OrderDetailPage() {
           {/* Customer Profile Card */}
           <div className="bg-brand-surface border border-brand-border rounded-2xl p-6 space-y-4 shadow-xl">
             <h2 className="text-xs font-semibold uppercase tracking-wider text-brand-muted flex items-center gap-2">
-              <User className="w-4 h-4 text-brand-gold" />
+              <User className="w-4 h-4 text-brand-accent" />
               <span>Customer Details</span>
             </h2>
 
@@ -557,7 +557,7 @@ export default function OrderDetailPage() {
                 {order.customer.name}
               </p>
               <div className="flex items-center gap-2 text-xs text-brand-muted">
-                <Phone className="w-3.5 h-3.5 text-brand-gold" />
+                <Phone className="w-3.5 h-3.5 text-brand-accent" />
                 <span className="font-mono text-brand-text font-medium">
                   {formatPhone(order.customer.phone)}
                 </span>
@@ -586,7 +586,7 @@ export default function OrderDetailPage() {
           {/* Delivery Address Card */}
           <div className="bg-brand-surface border border-brand-border rounded-2xl p-6 space-y-4 shadow-xl">
             <h2 className="text-xs font-semibold uppercase tracking-wider text-brand-muted flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-brand-gold" />
+              <MapPin className="w-4 h-4 text-brand-accent" />
               <span>Delivery Address</span>
             </h2>
 
@@ -610,7 +610,7 @@ export default function OrderDetailPage() {
                   <span className="text-[10px] uppercase tracking-wider text-brand-muted block font-semibold">
                     Delivery Instructions:
                   </span>
-                  <span className="text-brand-gold text-xs">
+                  <span className="text-brand-accent text-xs">
                     {order.deliveryAddress.notes}
                   </span>
                 </div>
@@ -622,7 +622,7 @@ export default function OrderDetailPage() {
           {order.trackingNumber && (
             <div className="bg-brand-surface border border-brand-border rounded-2xl p-6 space-y-3 shadow-xl">
               <h2 className="text-xs font-semibold uppercase tracking-wider text-brand-muted flex items-center gap-2">
-                <Truck className="w-4 h-4 text-brand-gold" />
+                <Truck className="w-4 h-4 text-brand-accent" />
                 <span>Courier Tracking</span>
               </h2>
 
@@ -630,7 +630,7 @@ export default function OrderDetailPage() {
                 <p className="text-brand-text font-semibold">
                   {order.courierName}
                 </p>
-                <p className="font-mono text-brand-gold bg-brand-bg p-2 rounded-lg border border-brand-border">
+                <p className="font-mono text-brand-accent bg-brand-bg p-2 rounded-lg border border-brand-border">
                   {order.trackingNumber}
                 </p>
               </div>
@@ -647,7 +647,7 @@ export default function OrderDetailPage() {
           <div className="bg-brand-surface border border-brand-border rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-4">
             <div className="flex items-center justify-between border-b border-brand-border pb-3">
               <h3 className="text-base font-bold text-brand-text flex items-center gap-2">
-                <Truck className="w-5 h-5 text-brand-gold" />
+                <Truck className="w-5 h-5 text-brand-accent" />
                 <span>Handover to Courier Partner</span>
               </h3>
               <button
@@ -709,7 +709,7 @@ export default function OrderDetailPage() {
                   })
                 }
                 disabled={isUpdating}
-                className="flex-1 py-2 px-3 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs shadow-sm"
+                className="flex-1 py-2 px-3 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs shadow-sm"
               >
                 Confirm Dispatch
               </button>

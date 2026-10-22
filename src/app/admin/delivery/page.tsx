@@ -85,7 +85,7 @@ export default function AdminDeliveryPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
       </div>
     );
   }
@@ -107,7 +107,7 @@ export default function AdminDeliveryPage() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm disabled:opacity-50"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           <span>{isSaving ? "Saving Parameters..." : "Save Settings"}</span>
@@ -115,7 +115,7 @@ export default function AdminDeliveryPage() {
       </div>
 
       {savedSuccess && (
-        <div className="p-4 rounded-xl bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-brand-accent/10 border border-brand-accent/30 text-brand-accent text-xs flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>Delivery rules and COD threshold updated successfully!</span>
         </div>
@@ -129,13 +129,13 @@ export default function AdminDeliveryPage() {
             <span className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
               Free Delivery Threshold
             </span>
-            <DollarSign className="w-4 h-4 text-brand-gold" />
+            <DollarSign className="w-4 h-4 text-brand-accent" />
           </div>
           <p className="text-xs text-brand-muted">
             Orders above this cart value receive 100% free island-wide delivery.
           </p>
           <div className="flex items-center pt-2">
-            <span className="text-xs font-bold text-brand-gold px-3 py-2 bg-brand-bg rounded-l-lg border border-brand-border">
+            <span className="text-xs font-bold text-brand-accent px-3 py-2 bg-brand-bg rounded-l-lg border border-brand-border">
               Rs.
             </span>
             <input
@@ -155,7 +155,7 @@ export default function AdminDeliveryPage() {
               <span className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
                 Cash on Delivery (COD) Checkout
               </span>
-              <ShieldCheck className="w-4 h-4 text-brand-gold" />
+              <ShieldCheck className="w-4 h-4 text-brand-accent" />
             </div>
             <p className="text-xs text-brand-muted mt-2">
               Enable customer doorstep cash payment upon delivery. Orders will
@@ -168,7 +168,7 @@ export default function AdminDeliveryPage() {
               type="checkbox"
               checked={codEnabled}
               onChange={(e) => setCodEnabled(e.target.checked)}
-              className="w-4 h-4 rounded text-brand-gold"
+              className="w-4 h-4 rounded text-brand-accent"
             />
             <span className="text-xs font-semibold text-brand-text">
               Accept Cash on Delivery in Storefront Checkout
@@ -188,7 +188,7 @@ export default function AdminDeliveryPage() {
               Configure zone shipping fee and courier transit time per district
             </p>
           </div>
-          <span className="text-xs font-mono text-brand-gold bg-brand-gold/10 px-2.5 py-1 rounded border border-brand-gold/20">
+          <span className="text-xs font-mono text-brand-accent bg-brand-accent/10 px-2.5 py-1 rounded border border-brand-accent/20">
             25 Districts Active
           </span>
         </div>
@@ -252,7 +252,7 @@ export default function AdminDeliveryPage() {
                       onClick={() => handleToggleZone(z.district)}
                       className={`text-xs px-2.5 py-1 rounded-full font-medium transition-colors ${
                         z.isActive
-                          ? "bg-brand-gold/10 text-brand-gold border border-brand-gold/30"
+                          ? "bg-brand-accent/10 text-brand-accent border border-brand-accent/30"
                           : "bg-black/5 text-brand-muted border-black/10"
                       }`}
                     >

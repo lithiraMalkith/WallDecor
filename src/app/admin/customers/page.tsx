@@ -118,7 +118,7 @@ export default function AdminCustomersPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex flex-col items-center justify-center space-y-3">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
         <p className="text-xs uppercase tracking-widest text-brand-muted">
           Loading Customer CRM...
         </p>
@@ -142,9 +142,9 @@ export default function AdminCustomersPage() {
 
         <button
           onClick={exportCSV}
-          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-brand-surface border border-brand-border hover:bg-brand-surface-hover hover:border-brand-gold/30 text-xs font-semibold text-brand-text transition-colors shadow-sm"
+          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-brand-surface border border-brand-border hover:bg-brand-surface-hover hover:border-brand-accent/30 text-xs font-semibold text-brand-text transition-colors shadow-sm"
         >
-          <Download className="w-4 h-4 text-brand-gold" />
+          <Download className="w-4 h-4 text-brand-accent" />
           <span>Export Remarketing CSV</span>
         </button>
       </div>
@@ -167,7 +167,7 @@ export default function AdminCustomersPage() {
             onClick={() => setFilterTag("all")}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
               filterTag === "all"
-                ? "bg-brand-gold text-brand-bg font-semibold"
+                ? "bg-brand-accent text-brand-bg font-semibold"
                 : "text-brand-muted hover:text-brand-text hover:bg-brand-surface"
             }`}
           >
@@ -177,7 +177,7 @@ export default function AdminCustomersPage() {
             onClick={() => setFilterTag("repeat")}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
               filterTag === "repeat"
-                ? "bg-brand-gold text-brand-bg font-semibold"
+                ? "bg-brand-accent text-brand-bg font-semibold"
                 : "text-brand-muted hover:text-brand-text hover:bg-brand-surface"
             }`}
           >
@@ -187,7 +187,7 @@ export default function AdminCustomersPage() {
             onClick={() => setFilterTag("vip")}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
               filterTag === "vip"
-                ? "bg-brand-gold text-brand-bg font-semibold"
+                ? "bg-brand-accent text-brand-bg font-semibold"
                 : "text-brand-muted hover:text-brand-text hover:bg-brand-surface"
             }`}
           >
@@ -226,7 +226,7 @@ export default function AdminCustomersPage() {
                   >
                     <td>
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-brand-gold/15 text-brand-gold border border-brand-gold/30 flex items-center justify-center font-bold text-xs shrink-0">
+                        <div className="w-10 h-10 rounded-full bg-brand-accent/15 text-brand-accent border border-brand-accent/30 flex items-center justify-center font-bold text-xs shrink-0">
                           {cust.name ? cust.name[0] : "C"}
                         </div>
                         <div>
@@ -271,7 +271,7 @@ export default function AdminCustomersPage() {
                     </td>
 
                     <td>
-                      <span className="font-mono font-bold text-brand-gold text-sm">
+                      <span className="font-mono font-bold text-brand-accent text-sm">
                         {formatPrice(cust.totalSpent || 0)}
                       </span>
                     </td>
@@ -283,7 +283,7 @@ export default function AdminCustomersPage() {
                             key={t}
                             className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
                               t.includes("Repeat")
-                                ? "bg-brand-gold/10 text-brand-gold border border-brand-gold/30"
+                                ? "bg-brand-accent/10 text-brand-accent border border-brand-accent/30"
                                 : t.includes("VIP")
                                   ? "bg-black/5 text-brand-text border-black/15 font-semibold"
                                   : "bg-black/5 text-brand-muted border-black/10"

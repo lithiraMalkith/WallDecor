@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDatabaseStatus, seedFirestoreIfEmpty } from "@/lib/firestore-service";
 import { adminDb, isFirebaseAdminConfigured } from "@/lib/firebase-admin";
 import {
-  initialProducts,
   initialOrders,
   initialCustomRequests,
   initialReviews,
@@ -57,13 +56,6 @@ export async function POST(req: NextRequest) {
       console.log("[Firebase Admin] Seeding Firestore with catalog and initial store data...");
       const batch = adminDb.batch();
       let count = 0;
-
-      // Seed products
-      for (const p of initialProducts) {
-        const ref = adminDb.collection("products").doc(p.id);
-        batch.set(ref, JSON.parse(JSON.stringify(p)), { merge: true });
-        count++;
-      }
 
       // Seed orders
       for (const o of initialOrders) {

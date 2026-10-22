@@ -10,20 +10,16 @@ import { useCart } from "./cart-context";
 import { useCustomerAuth } from "@/contexts/customer-auth-context";
 import type { Review } from "@/types";
 
-const fallbackSizes = [
-  { label: "6 × 6 in", priceWithout: 3500, priceWith: 4700 },
-  { label: "8 × 8 in", priceWithout: 4200, priceWith: 5600 },
-  { label: "10 × 12 in", priceWithout: 5200, priceWith: 6900 },
-  { label: "12 × 16 in", priceWithout: 6800, priceWith: 8800 },
-  { label: "16 × 20 in", priceWithout: 9500, priceWith: 12200 },
-  { label: "20 × 24 in", priceWithout: 13500, priceWith: 16900 },
-];
-
 export function ProductDetail({ product }: { product: Product }) {
+  if (!product.sizes?.length) return <section className="container-x py-24"><h1 className="text-3xl">{product.name}</h1><p className="mt-4">Ordering is currently unavailable for this artwork.</p><Link href="/shop" className="btn btn-accent mt-6">Browse the collection</Link></section>;
+  return <LoadedProductDetail key={product.id} product={product} />;
+}
+
+function LoadedProductDetail({ product }: { product: Product }) {
   const images = product.images && product.images.length > 0 ? product.images : [product.image];
   const [selectedImage, setSelectedImage] = useState(images[0]);
 
-  // Standard size variants from admin catalog or fallback
+  // Only offer the variants and prices saved in Firestore.
   const availableSizes = useMemo(() => {
     if (product.sizes && product.sizes.length > 0) {
       return product.sizes.map((s) => ({
@@ -32,7 +28,7 @@ export function ProductDetail({ product }: { product: Product }) {
         priceWith: s.priceWithFrame,
       }));
     }
-    return fallbackSizes;
+    return [];
   }, [product.sizes]);
 
   const [selectedSize, setSelectedSize] = useState(availableSizes[0]);
@@ -245,7 +241,7 @@ export function ProductDetail({ product }: { product: Product }) {
                   unitPrice: price,
                 })
               }
-              className="btn btn-yellow w-full justify-center text-xs font-medium"
+              className="btn btn-accent w-full justify-center text-xs font-medium"
             >
               Add to Cart · {formatPrice(price)}
             </button>
@@ -323,8 +319,8 @@ export function ProductDetail({ product }: { product: Product }) {
             </h3>
 
             {reviewSuccess && (
-              <div className="p-3 rounded-xl border border-[#BA8E23] bg-[#F5F3F1] text-xs text-[#000000] flex items-center gap-2">
-                <Check size={14} className="text-[#BA8E23]" />
+              <div className="p-3 rounded-xl border border-[var(--store-accent-border)] bg-[#F5F3F1] text-xs text-[#000000] flex items-center gap-2">
+                <Check size={14} className="text-[var(--store-accent-ink)]" />
                 Thank you! Your review has been submitted.
               </div>
             )}
@@ -355,7 +351,7 @@ export function ProductDetail({ product }: { product: Product }) {
                         size={18}
                         className={
                           star <= reviewRating
-                            ? "fill-[#BA8E23] text-[#BA8E23]"
+                            ? "fill-[var(--store-accent-ink)] text-[var(--store-accent-ink)]"
                             : "text-[#EBE8E4]"
                         }
                       />
@@ -382,7 +378,7 @@ export function ProductDetail({ product }: { product: Product }) {
             <button
               type="submit"
               disabled={reviewSubmitting}
-              className="btn btn-yellow text-xs"
+              className="btn btn-accent text-xs"
             >
               {reviewSubmitting ? "Publishing..." : "Submit Review"}
             </button>
@@ -409,7 +405,7 @@ export function ProductDetail({ product }: { product: Product }) {
                         size={13}
                         className={
                           s <= r.rating
-                            ? "fill-[#BA8E23] text-[#BA8E23]"
+                            ? "fill-[var(--store-accent-ink)] text-[var(--store-accent-ink)]"
                             : "text-[#EBE8E4]"
                         }
                       />
@@ -428,7 +424,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 <p className="text-xs text-[#59544F] font-normal pt-2 border-t border-[#EBE8E4]">
                   — {r.customerName}{" "}
                   {r.isVerifiedPurchase && (
-                    <span className="text-[10px] text-[#BA8E23]">✓ Verified Buyer</span>
+                    <span className="text-[10px] text-[var(--store-accent-ink)]">✓ Verified Buyer</span>
                   )}
                 </p>
               </div>

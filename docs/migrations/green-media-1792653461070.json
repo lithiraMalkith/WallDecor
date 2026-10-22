@@ -1,0 +1,243 @@
+{
+  "changes": [
+    {
+      "id": "prod_01",
+      "before": {
+        "images": [
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451905/ceylon-wall-decor/products/sunrise.jpg",
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/contour.jpg"
+        ],
+        "updatedAt": "2026-03-01T12:00:00Z",
+        "shortDescription": "Hand-sculpted sunrise relief in warm ivory and Ceylon yellow.",
+        "colourTags": [
+          "Warm Ivory",
+          "Ceylon Yellow",
+          "Earth Tone"
+        ]
+      },
+      "after": {
+        "images": [
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653459/ceylon-wall-decor/green-collection/sage-arches.webp",
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653463/ceylon-wall-decor/green-collection/contour.webp"
+        ],
+        "updatedAt": "2026-10-22T07:17:41.067Z",
+        "shortDescription": "Hand-sculpted sunrise relief in soft ivory and sage green.",
+        "colourTags": [
+          "Warm Ivory",
+          "Sage Green",
+          "Earth Tone"
+        ]
+      }
+    },
+    {
+      "id": "prod_02",
+      "before": {
+        "images": [
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/contour.jpg",
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/botanica.jpg"
+        ],
+        "updatedAt": "2026-03-05T09:15:00Z",
+        "shortDescription": "Graphic curves shaped by hand in plaster and charcoal pigment.",
+        "material": "Architectural plaster and charcoal pigment",
+        "colourTags": [
+          "Charcoal",
+          "Bone White",
+          "Graphite"
+        ]
+      },
+      "after": {
+        "images": [
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653463/ceylon-wall-decor/green-collection/contour.webp",
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653459/ceylon-wall-decor/green-collection/botanical.webp"
+        ],
+        "updatedAt": "2026-10-22T07:17:41.069Z",
+        "shortDescription": "Organic curves shaped by hand in soft ivory plaster.",
+        "material": "Architectural plaster and natural pigments",
+        "colourTags": [
+          "Charcoal",
+          "Bone White",
+          "Graphite"
+        ]
+      }
+    },
+    {
+      "id": "prod_03",
+      "before": {
+        "images": [
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451907/ceylon-wall-decor/products/botanica.jpg",
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451908/ceylon-wall-decor/products/hero.jpg"
+        ],
+        "updatedAt": "2026-02-28T16:40:00Z",
+        "colourTags": [
+          "Sage Olive",
+          "Neutral Sand"
+        ]
+      },
+      "after": {
+        "images": [
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653459/ceylon-wall-decor/green-collection/botanical.webp",
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653461/ceylon-wall-decor/green-collection/coastal.webp"
+        ],
+        "updatedAt": "2026-10-22T07:17:41.069Z",
+        "colourTags": [
+          "Sage Olive",
+          "Neutral Sand"
+        ]
+      }
+    },
+    {
+      "id": "prod_04",
+      "before": {
+        "images": [
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451908/ceylon-wall-decor/products/hero.jpg",
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1791451905/ceylon-wall-decor/products/sunrise.jpg"
+        ],
+        "updatedAt": "2026-03-02T18:00:00Z",
+        "shortDescription": "Large-format flowing relief with a burnished golden disc.",
+        "longDescription": "A focal statement piece designed for dining spaces and high-ceiling foyers. Features a burnished gold Leaf focal disc surrounded by sweeping circular textural waves.",
+        "material": "Plaster, gold leaf foil, heavy texture paste",
+        "technique": "Rotational knife carving and foil leaf gilding",
+        "colourTags": [
+          "Gold Leaf",
+          "Warm Cream",
+          "Terracotta"
+        ]
+      },
+      "after": {
+        "images": [
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653461/ceylon-wall-decor/green-collection/coastal.webp",
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653459/ceylon-wall-decor/green-collection/sage-arches.webp"
+        ],
+        "updatedAt": "2026-10-22T07:17:41.069Z",
+        "shortDescription": "Large-format flowing relief in soft ivory and sage tones.",
+        "longDescription": "A focal statement piece designed for dining spaces and high-ceiling foyers. Features sweeping ivory waves that catch natural light against a quiet sage backdrop.",
+        "material": "Mineral plaster and natural pigments",
+        "technique": "Hand-sculpted flowing plaster relief",
+        "colourTags": [
+          "Gold Leaf",
+          "Warm Cream",
+          "Terracotta"
+        ]
+      }
+    },
+    {
+      "id": "prod_1791537688752",
+      "before": {
+        "images": [
+          "/images/gallery/sage-arches.webp"
+        ],
+        "updatedAt": "2026-10-22T07:06:17.806Z",
+        "colourTags": [
+          "Neutral",
+          "Earth Tone"
+        ]
+      },
+      "after": {
+        "images": [
+          "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653459/ceylon-wall-decor/green-collection/sage-arches.webp"
+        ],
+        "updatedAt": "2026-10-22T07:17:41.069Z",
+        "colourTags": [
+          "Neutral",
+          "Earth Tone"
+        ]
+      }
+    }
+  ],
+  "media": [
+    {
+      "id": "living-room",
+      "title": "Room to breathe",
+      "detail": "Living spaces",
+      "alt": "Ivory botanical relief above a sage linen sofa in a tropical living room",
+      "wide": true,
+      "galleryOrder": 0,
+      "image": "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653457/ceylon-wall-decor/green-collection/living-room.webp",
+      "href": "/gallery",
+      "published": true,
+      "generated": true
+    },
+    {
+      "id": "sage-arches",
+      "title": "Sage horizons",
+      "detail": "Form & colour",
+      "alt": "Ivory sculpted arches and a sage-green sun on an olive wall",
+      "galleryOrder": 1,
+      "carouselOrder": 1,
+      "image": "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653459/ceylon-wall-decor/green-collection/sage-arches.webp",
+      "href": "/gallery",
+      "published": true,
+      "generated": true
+    },
+    {
+      "id": "botanical",
+      "title": "A little botanical",
+      "detail": "Nature, in relief",
+      "alt": "Hand-sculpted tropical leaves in an oak frame against a soft green wall",
+      "galleryOrder": 2,
+      "carouselOrder": 0,
+      "image": "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653459/ceylon-wall-decor/green-collection/botanical.webp",
+      "href": "/gallery",
+      "published": true,
+      "generated": true
+    },
+    {
+      "id": "dining",
+      "title": "Gather slowly",
+      "detail": "Dining corners",
+      "alt": "Abstract ivory plaster artwork in an olive-toned dining nook",
+      "galleryOrder": 3,
+      "image": "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653460/ceylon-wall-decor/green-collection/dining.webp",
+      "href": "/gallery",
+      "published": true,
+      "generated": true
+    },
+    {
+      "id": "coastal",
+      "title": "A quieter current",
+      "detail": "Flowing textures",
+      "alt": "Dimensional ivory wave relief in a natural oak frame on a seafoam wall",
+      "galleryOrder": 4,
+      "carouselOrder": 3,
+      "image": "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653461/ceylon-wall-decor/green-collection/coastal.webp",
+      "href": "/gallery",
+      "published": true,
+      "generated": true
+    },
+    {
+      "id": "bedroom",
+      "title": "Soft landings",
+      "detail": "Restful rooms",
+      "alt": "Cream linen and a sculpted wave relief in a sage-green bedroom",
+      "wide": true,
+      "galleryOrder": 5,
+      "image": "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653462/ceylon-wall-decor/green-collection/bedroom.webp",
+      "href": "/gallery",
+      "published": true,
+      "generated": true
+    },
+    {
+      "id": "contour",
+      "title": "Follow the light",
+      "detail": "Sculptural details",
+      "alt": "Organic contour lines carved in ivory plaster with gentle daylight",
+      "galleryOrder": 6,
+      "carouselOrder": 4,
+      "image": "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653463/ceylon-wall-decor/green-collection/contour.webp",
+      "href": "/gallery",
+      "published": true,
+      "generated": true
+    },
+    {
+      "id": "craft",
+      "title": "Made by hand",
+      "detail": "The atelier",
+      "alt": "An artisan shaping organic plaster ridges with a palette knife",
+      "carouselOrder": 2,
+      "image": "https://res.cloudinary.com/dtxw88le2/image/upload/e_noise:20,q_auto,f_auto/v1792653464/ceylon-wall-decor/green-collection/craft.webp",
+      "href": "/custom-order",
+      "published": true,
+      "generated": true
+    }
+  ]
+}

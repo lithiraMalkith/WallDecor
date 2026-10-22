@@ -1,3 +1,4 @@
+import { readProducts } from "@/lib/catalog-server";
 import { NextResponse } from "next/server";
 import { adminStore } from "@/lib/admin-data";
 import { adminDb } from "@/lib/firebase-admin";
@@ -16,13 +17,10 @@ export async function GET() {
       }
     }
 
-    const stats = adminStore.getDashboardStats();
+    const stats = adminStore.getDashboardStats(await readProducts());
     return NextResponse.json({ success: true, data: stats });
   } catch (error) {
     console.error("GET /api/dashboard error:", error);
-    return NextResponse.json({
-      success: true,
-      data: adminStore.getDashboardStats(),
-    });
+    return NextResponse.json({ success: false, error: "Dashboard data unavailable" }, { status: 503 });
   }
 }

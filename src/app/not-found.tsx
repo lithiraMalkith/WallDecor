@@ -5,7 +5,7 @@ export default function NotFound() {
       <div>
         <p className="eyebrow">404</p>
         <h1 className="mt-4 text-5xl font-light">This wall is empty.</h1>
-        <Link href="/" className="btn btn-yellow mt-7">
+        <Link href="/" className="btn btn-accent mt-7">
           Back home
         </Link>
       </div>

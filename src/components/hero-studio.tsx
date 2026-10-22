@@ -4,8 +4,7 @@ import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Check } from "lucide-react";
-import { products, formatPrice, type Product } from "@/lib/products";
-import { CLOUDINARY_SEED_IMAGES } from "@/lib/cloudinary";
+import { formatPrice, type Product } from "@/lib/products";
 import { useCart } from "./cart-context";
 
 // Curated architectural wall palettes
@@ -19,27 +18,23 @@ const WALL_SURFACES = [
 
 // Frame finishes
 const FRAME_OPTIONS = [
-  { id: "none", name: "Unframed Edge", surcharge: 0 },
-  { id: "teak", name: "Natural Teak Float", surcharge: 1600 },
-  { id: "black", name: "Matte Black Float", surcharge: 1400 },
+  { id: "none", name: "Unframed Edge" },
+  { id: "teak", name: "Natural Teak Float" },
+  { id: "black", name: "Matte Black Float" },
 ];
 
-export function HeroStudio({ products: propProducts }: { products?: Product[] } = {}) {
-  const activeProducts = propProducts && propProducts.length > 0 ? propProducts : products;
+export function HeroStudio({ products = [] }: { products?: Product[] } = {}) {
+  const available = products.filter(p => p.sizes?.length && p.image);
+  return available.length ? <LoadedHeroStudio products={available} /> : null;
+}
+
+function LoadedHeroStudio({ products: propProducts }: { products: Product[] }) {
+  const activeProducts = propProducts;
   const { add } = useCart();
 
   // Selected artwork (defaults to first bestseller)
   const [selectedProduct, setSelectedProduct] = useState<Product>(
-    activeProducts[0] || {
-      id: "prod_01",
-      slug: "golden-rise",
-      name: "Golden Rise",
-      image: CLOUDINARY_SEED_IMAGES.sunrise,
-      price: 3900,
-      room: "Living Room",
-      style: "Minimalist",
-      description: "Hand-sculpted sunrise relief in warm ivory and Ceylon yellow.",
-    }
+    activeProducts[0]
   );
 
   React.useEffect(() => {
@@ -79,13 +74,6 @@ export function HeroStudio({ products: propProducts }: { products?: Product[] } 
           ];
         }
       }
-    } else {
-      chosen = [
-        { width: 8, height: 10, label: "8×10", priceWithoutFrame: 2650 },
-        { width: 12, height: 16, label: "12×16", priceWithoutFrame: 4400 },
-        { width: 16, height: 20, label: "16×20", priceWithoutFrame: 6300 },
-        { width: 20, height: 24, label: "20×24", priceWithoutFrame: 8750 },
-      ];
     }
 
     return chosen.map((s) => {
@@ -108,6 +96,7 @@ export function HeroStudio({ products: propProducts }: { products?: Product[] } 
         height: h,
         aspectRatio: `${w} / ${h}`,
         basePrice: s.priceWithoutFrame,
+        framedPrice: s.priceWithFrame,
         scale,
       };
     });
@@ -129,7 +118,7 @@ export function HeroStudio({ products: propProducts }: { products?: Product[] } 
 
   // Calculated live price
   const calculatedPrice = useMemo(() => {
-    return activeSize.basePrice + activeFrame.surcharge;
+    return activeFrame.id === "none" ? activeSize.basePrice : activeSize.framedPrice;
   }, [activeSize, activeFrame]);
 
   const [addedToast, setAddedToast] = useState(false);
@@ -151,9 +140,9 @@ export function HeroStudio({ products: propProducts }: { products?: Product[] } 
       <div className="container-x">
         {/* ElevenLabs-style Hero Title & Subheader */}
         <div className="max-w-4xl mx-auto text-center mb-10 md:mb-14">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.035em] text-[#000000] leading-[0.98]">
+          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.035em] text-[#000000] leading-[0.98]">
             Walls worth feeling.
-          </h1>
+          </h2>
 
           <p className="mt-5 text-base sm:text-lg text-[#59544F] max-w-2xl mx-auto leading-relaxed font-normal">
             Dimensional plaster reliefs hand-sculpted in Sri Lanka.
@@ -354,13 +343,13 @@ export function HeroStudio({ products: propProducts }: { products?: Product[] } 
               {/* Price & Checkout CTA */}
               <div className="mt-8 pt-6 border-t border-[#EBE8E4]">
                 {addedToast && (
-                  <div className="mb-3 p-2.5 rounded-xl border border-[#BA8E23] bg-[#F5F3F1] text-xs text-[#000000] flex items-center justify-between">
+                  <div className="mb-3 p-2.5 rounded-xl border border-[var(--store-accent-border)] bg-[#F5F3F1] text-xs text-[#000000] flex items-center justify-between">
                     <span className="flex items-center gap-1.5 font-normal">
-                      <Check size={14} className="text-[#BA8E23]" /> Added to cart!
+                      <Check size={14} className="text-[var(--store-accent-ink)]" /> Added to cart!
                     </span>
                     <Link
                       href="/checkout"
-                      className="font-medium underline hover:text-[#BA8E23]"
+                      className="font-medium underline hover:text-[var(--store-accent-ink)]"
                     >
                       Checkout now →
                     </Link>
@@ -385,7 +374,7 @@ export function HeroStudio({ products: propProducts }: { products?: Product[] } 
                   <button
                     type="button"
                     onClick={handleAddToCart}
-                    className="h-11 px-5 rounded-full bg-[#BA8E23] text-black hover:bg-[#A87F1E] font-medium text-xs flex items-center justify-center transition-all"
+                    className="h-11 px-5 rounded-full bg-[var(--store-action)] text-white hover:bg-[var(--store-action-hover)] font-medium text-xs flex items-center justify-center transition-all"
                   >
                     Add to Cart · {formatPrice(calculatedPrice)}
                   </button>

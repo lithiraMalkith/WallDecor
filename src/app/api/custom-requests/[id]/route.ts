@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminStore } from "@/lib/admin-data";
 import { adminDb } from "@/lib/firebase-admin";
+import type { CustomRequest } from "@/types";
+
+export const dynamic = "force-dynamic";
 
 export async function GET(
   req: NextRequest,
@@ -8,7 +11,9 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const item = adminStore.customRequests.find((r) => r.id === id);
+    if (!adminDb) return NextResponse.json({ success: false, error: "Firestore unavailable" }, { status: 503 });
+    const snapshot = await adminDb.collection("custom_requests").doc(id).get();
+    const item = snapshot.exists ? { ...snapshot.data(), id: snapshot.id } : null;
 
     if (!item) {
       return NextResponse.json(
@@ -34,33 +39,24 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await req.json();
-    const index = adminStore.customRequests.findIndex((r) => r.id === id);
+    if (!adminDb) return NextResponse.json({ success: false, error: "Firestore unavailable" }, { status: 503 });
+    const snapshot = await adminDb.collection("custom_requests").doc(id).get();
 
-    if (index === -1) {
+    if (!snapshot.exists) {
       return NextResponse.json(
         { success: false, error: "Custom request not found" },
         { status: 404 },
       );
     }
 
-    const updated = {
-      ...adminStore.customRequests[index],
+    const updated: CustomRequest = {
+      ...snapshot.data() as CustomRequest,
       ...body,
+      id: snapshot.id,
       updatedAt: new Date().toISOString(),
     };
 
-    adminStore.customRequests[index] = updated;
-
-    if (adminDb) {
-      try {
-        await adminDb
-          .collection("custom_requests")
-          .doc(id)
-          .set(JSON.parse(JSON.stringify(updated)), { merge: true });
-      } catch (err) {
-        console.warn("adminDb custom_request update error:", err);
-      }
-    }
+    await snapshot.ref.update(JSON.parse(JSON.stringify(updated)), { lastUpdateTime: snapshot.updateTime! });
 
     adminStore.auditLogs.unshift({
       id: `aud_${Date.now()}`,

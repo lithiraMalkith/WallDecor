@@ -7,6 +7,7 @@ import {
   collection,
   doc,
   getDocs,
+  getDocsFromServer,
   getDoc,
   setDoc,
   deleteDoc,
@@ -17,7 +18,6 @@ import {
 } from "firebase/firestore";
 import { db, isFirebaseConfigured } from "./firebase";
 import {
-  initialProducts,
   initialOrders,
   initialCustomRequests,
   initialReviews,
@@ -86,13 +86,6 @@ export async function seedFirestoreIfEmpty(force = false): Promise<{
     console.log("Seeding Firestore with catalog and initial store data...");
     const batch = writeBatch(db);
     let count = 0;
-
-    // Seed products
-    for (const p of initialProducts) {
-      const ref = doc(db, COLLECTIONS.PRODUCTS, p.id);
-      batch.set(ref, p, { merge: true });
-      count++;
-    }
 
     // Seed orders
     for (const o of initialOrders) {
@@ -297,84 +290,21 @@ export async function getAllCustomersFromFirestore(): Promise<Customer[]> {
  * PRODUCT OPERATIONS
  * ----------------------------------------------------------------------------
  */
-export async function getProductsFromFirestore(): Promise<Product[] | null> {
-  if (typeof window === "undefined") {
-    try {
-      const { adminDb } = await import("./firebase-admin");
-      if (adminDb) {
-        const snap = await adminDb.collection(COLLECTIONS.PRODUCTS).get();
-        if (!snap.empty) {
-          const prods: Product[] = [];
-          snap.forEach((d) => prods.push(d.data() as Product));
-          return prods;
-        }
-      }
-    } catch (err) {
-      console.warn("adminDb fetch in getProductsFromFirestore error:", err);
-    }
-  }
-
-  if (!db || !isFirebaseConfigured) return null;
-
-  try {
-    const snap = await getDocs(collection(db, COLLECTIONS.PRODUCTS));
-    if (snap.empty) return null;
-
-    const products: Product[] = [];
-    snap.forEach((d) => products.push(d.data() as Product));
-    return products;
-  } catch (err) {
-    console.error("Failed to fetch products from Firestore:", err);
-    return null;
-  }
+export async function getProductsFromFirestore(): Promise<Product[]> {
+  if (!db || !isFirebaseConfigured) throw new Error("Firestore is not configured");
+  const snapshot = await getDocsFromServer(collection(db, COLLECTIONS.PRODUCTS));
+  return snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }) as Product);
 }
 
 export async function saveProductToFirestore(product: Product): Promise<void> {
-  const cleanProduct = JSON.parse(JSON.stringify(product));
-
-  if (typeof window === "undefined") {
-    try {
-      const { adminDb } = await import("./firebase-admin");
-      if (adminDb) {
-        await adminDb.collection(COLLECTIONS.PRODUCTS).doc(product.id).set(cleanProduct, { merge: true });
-        return;
-      }
-    } catch (err) {
-      console.warn("adminDb save in saveProductToFirestore error:", err);
-    }
-  }
-
-  if (!db || !isFirebaseConfigured) return;
-
-  try {
-    const ref = doc(db, COLLECTIONS.PRODUCTS, product.id);
-    await setDoc(ref, cleanProduct, { merge: true });
-  } catch (err) {
-    console.error("Failed to save product to Firestore:", err);
-  }
+  const clean = JSON.parse(JSON.stringify(product));
+  if (!db || !isFirebaseConfigured) throw new Error("Firestore is not configured");
+  await setDoc(doc(db, COLLECTIONS.PRODUCTS, product.id), clean, { merge: true });
 }
 
 export async function deleteProductFromFirestore(id: string): Promise<void> {
-  if (typeof window === "undefined") {
-    try {
-      const { adminDb } = await import("./firebase-admin");
-      if (adminDb) {
-        await adminDb.collection(COLLECTIONS.PRODUCTS).doc(id).delete();
-        return;
-      }
-    } catch (err) {
-      console.warn("adminDb delete in deleteProductFromFirestore error:", err);
-    }
-  }
-
-  if (!db || !isFirebaseConfigured) return;
-
-  try {
-    const ref = doc(db, COLLECTIONS.PRODUCTS, id);
-    await deleteDoc(ref);
-  } catch (err) {
-    console.error("Failed to delete product from Firestore:", err);
-  }
+  if (!db || !isFirebaseConfigured) throw new Error("Firestore is not configured");
+  await deleteDoc(doc(db, COLLECTIONS.PRODUCTS, id));
 }
 
 /**

@@ -77,7 +77,7 @@ export default function AdminSettingsPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
       </div>
     );
   }
@@ -99,7 +99,7 @@ export default function AdminSettingsPage() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm disabled:opacity-50"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           <span>{isSaving ? "Updating..." : "Save Settings"}</span>
@@ -107,7 +107,7 @@ export default function AdminSettingsPage() {
       </div>
 
       {savedSuccess && (
-        <div className="p-4 rounded-xl bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-brand-accent/10 border border-brand-accent/30 text-brand-accent text-xs flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>Global store settings and framing parameters updated!</span>
         </div>
@@ -117,10 +117,10 @@ export default function AdminSettingsPage() {
       <div className="bg-brand-surface border border-brand-border rounded-2xl p-6 space-y-4 shadow-xl">
         <div className="flex items-center justify-between border-b border-brand-border pb-3">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-text flex items-center gap-2">
-            <DollarSign className="w-4 h-4 text-brand-gold" />
+            <DollarSign className="w-4 h-4 text-brand-accent" />
             <span>Global Frame Pricing Formula</span>
           </h2>
-          <span className="text-xs font-mono text-brand-gold bg-brand-bg px-2.5 py-1 rounded border border-brand-border">
+          <span className="text-xs font-mono text-brand-accent bg-brand-bg px-2.5 py-1 rounded border border-brand-border">
             Area × Rate Formula
           </span>
         </div>
@@ -136,7 +136,7 @@ export default function AdminSettingsPage() {
             Default Frame Rate per Square Inch (LKR)
           </label>
           <div className="flex items-center">
-            <span className="text-xs font-bold text-brand-gold px-3 py-2 bg-brand-bg rounded-l-lg border border-brand-border">
+            <span className="text-xs font-bold text-brand-accent px-3 py-2 bg-brand-bg rounded-l-lg border border-brand-border">
               Rs.
             </span>
             <input
@@ -158,7 +158,7 @@ export default function AdminSettingsPage() {
       {/* Business Contacts */}
       <div className="bg-brand-surface border border-brand-border rounded-2xl p-6 space-y-4 shadow-xl">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-text flex items-center gap-2">
-          <Phone className="w-4 h-4 text-brand-gold" />
+          <Phone className="w-4 h-4 text-brand-accent" />
           <span>Customer Contact & Direct WhatsApp</span>
         </h2>
 
@@ -221,7 +221,7 @@ export default function AdminSettingsPage() {
       {/* Social Profiles */}
       <div className="bg-brand-surface border border-brand-border rounded-2xl p-6 space-y-4 shadow-xl">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-text flex items-center gap-2">
-          <Share2 className="w-4 h-4 text-brand-gold" />
+          <Share2 className="w-4 h-4 text-brand-accent" />
           <span>Official Social Media Channels</span>
         </h2>
 

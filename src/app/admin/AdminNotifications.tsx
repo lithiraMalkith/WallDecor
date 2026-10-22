@@ -96,7 +96,7 @@ export function AdminNotifications() {
       >
         <Bell className="w-5 h-5" />
         {totalCount > 0 && (
-          <span className="absolute top-1.5 right-1.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-brand-gold px-1 text-[10px] font-bold text-white animate-pulse">
+          <span className="absolute top-1.5 right-1.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-brand-accent px-1 text-[10px] font-bold text-white animate-pulse">
             {totalCount}
           </span>
         )}
@@ -110,7 +110,7 @@ export function AdminNotifications() {
               <span className="font-semibold text-brand-text text-sm">
                 Action Items
               </span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-brand-gold/10 text-brand-gold border border-brand-gold/20 font-medium">
+              <span className="text-xs px-2 py-0.5 rounded-full bg-brand-accent/10 text-brand-accent border border-brand-accent/20 font-medium">
                 {totalCount} urgent
               </span>
             </div>
@@ -145,12 +145,12 @@ export function AdminNotifications() {
                     }}
                     className="p-3.5 hover:bg-brand-surface-hover/70 cursor-pointer transition-colors flex items-start gap-3"
                   >
-                    <div className="w-8 h-8 rounded-lg bg-brand-gold/10 text-brand-gold flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-8 h-8 rounded-lg bg-brand-accent/10 text-brand-accent flex items-center justify-center shrink-0 mt-0.5">
                       <ShoppingBag className="w-4 h-4" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-mono font-semibold text-brand-gold">
+                        <span className="text-xs font-mono font-semibold text-brand-accent">
                           {order.orderRef}
                         </span>
                         <span className="text-[11px] text-brand-muted">
@@ -213,7 +213,7 @@ export function AdminNotifications() {
                 setIsOpen(false);
                 router.push("/admin/orders");
               }}
-              className="text-xs text-brand-gold hover:text-brand-gold-hover font-medium py-1 px-3"
+              className="text-xs text-brand-accent hover:text-brand-accent-hover font-medium py-1 px-3"
             >
               View All Orders →
             </button>

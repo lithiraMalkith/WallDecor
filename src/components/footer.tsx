@@ -1,33 +1,33 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Leaf } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-[#000000] text-[#FFFFFF] border-t border-white/10">
+    <footer className="storefront-dark bg-[#10271B] text-[#FFFFFF] border-t border-white/10">
       <div className="container-x py-16 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-12">
           {/* Brand Info & Mission */}
           <div className="lg:col-span-5 space-y-4">
             <Link
               href="/"
-              className="text-xl font-normal tracking-tight uppercase text-white hover:text-[#BA8E23] transition-colors"
+              className="reference-brand hover:opacity-80 transition-opacity"
             >
-              Wall <span className="text-[#BA8E23]">/</span> Decor
+              <Leaf size={25} strokeWidth={1.8} /><span>Ceylon<span className="reference-brand-sub">Wall Decor</span></span>
             </Link>
             <p className="max-w-sm text-xs sm:text-sm text-white/60 leading-relaxed font-normal">
               Small-batch textured relief art, hand-sculpted in Sri Lanka with mineral plaster
               and earth pigments for modern residences and boutique hospitality.
             </p>
 
-            <div className="pt-2 flex items-center gap-2 text-xs text-[#BA8E23]">
-              {/* <span className="size-2 rounded-full bg-[#BA8E23]" /> */}
+            <div className="pt-2 flex items-center gap-2 text-xs text-[var(--store-accent-ink)]">
+              {/* <span className="size-2 rounded-full bg-[var(--store-accent)]" /> */}
               <span>Studio Workshop in Colombo, Sri Lanka</span>
             </div>
           </div>
 
           {/* Collection Column */}
           <div className="lg:col-span-2 space-y-3">
-            <p className="font-mono text-[11px] uppercase tracking-wider text-[#BA8E23]">
+            <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--store-accent-ink)]">
               Collection
             </p>
             <ul className="space-y-2.5 text-xs text-white/70 font-normal">
@@ -61,7 +61,7 @@ export function Footer() {
 
           {/* Bespoke Atelier Column */}
           <div className="lg:col-span-2 space-y-3">
-            <p className="font-mono text-[11px] uppercase tracking-wider text-[#BA8E23]">
+            <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--store-accent-ink)]">
               Bespoke Atelier
             </p>
             <ul className="space-y-2.5 text-xs text-white/70 font-normal">
@@ -90,7 +90,7 @@ export function Footer() {
 
           {/* Client Support Column */}
           <div className="lg:col-span-3 space-y-3">
-            <p className="font-mono text-[11px] uppercase tracking-wider text-[#BA8E23]">
+            <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--store-accent-ink)]">
               Concierge
             </p>
             <ul className="space-y-2.5 text-xs text-white/70 font-normal">
@@ -99,7 +99,7 @@ export function Footer() {
                   href="https://wa.me/94782518184"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#BA8E23] transition-colors flex items-center gap-1"
+                  className="hover:text-[var(--store-accent-ink)] transition-colors flex items-center gap-1"
                 >
                   WhatsApp · 078 251 8184
                   <ArrowUpRight size={12} />
@@ -126,7 +126,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono uppercase text-white/40 gap-4">
-          <span>© 2026 Wall / Decor · Sri Lanka</span>
+          <span>© 2026 Ceylon Wall Decor · Sri Lanka</span>
           <div className="flex gap-6">
             <Link href="/policies/terms" className="hover:text-white">
               Terms &amp; Craft Guarantee

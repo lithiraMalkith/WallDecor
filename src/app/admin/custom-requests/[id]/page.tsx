@@ -115,7 +115,7 @@ export default function CustomRequestDetailPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
       </div>
     );
   }
@@ -126,7 +126,7 @@ export default function CustomRequestDetailPage() {
         <p>Custom request not found.</p>
         <Link
           href="/admin/custom-requests"
-          className="text-xs text-brand-gold mt-2 inline-block"
+          className="text-xs text-brand-accent mt-2 inline-block"
         >
           Return to Inbox
         </Link>
@@ -167,7 +167,7 @@ export default function CustomRequestDetailPage() {
           <button
             onClick={handleConvertToOrder}
             disabled={isConverting || isSaving}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm disabled:opacity-50"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs sm:text-sm transition-colors shadow-sm disabled:opacity-50"
           >
             <ShoppingBag className="w-4 h-4" />
             <span>
@@ -177,7 +177,7 @@ export default function CustomRequestDetailPage() {
             </span>
           </button>
         ) : (
-          <div className="flex items-center gap-2 text-xs font-semibold text-brand-gold bg-brand-gold/10 border border-brand-gold/20 px-3 py-1.5 rounded-lg">
+          <div className="flex items-center gap-2 text-xs font-semibold text-brand-accent bg-brand-accent/10 border border-brand-accent/20 px-3 py-1.5 rounded-lg">
             <CheckCircle2 className="w-4 h-4" />
             <span>Converted to Formal Order</span>
           </div>
@@ -188,7 +188,7 @@ export default function CustomRequestDetailPage() {
         <div
           className={`p-4 rounded-xl text-xs flex items-center gap-2 ${
             msg.type === "success"
-              ? "bg-brand-gold/10 border border-brand-gold/30 text-brand-gold"
+              ? "bg-brand-accent/10 border border-brand-accent/30 text-brand-accent"
               : "bg-black/5 border border-black/15 text-brand-text"
           }`}
         >
@@ -236,7 +236,7 @@ export default function CustomRequestDetailPage() {
                 <span className="text-brand-muted block">
                   Requested Dimensions:
                 </span>
-                <span className="text-sm font-bold text-brand-gold mt-1 block">
+                <span className="text-sm font-bold text-brand-accent mt-1 block">
                   {request.sizeLabel ||
                     `${request.sizeWidth || 16}×${request.sizeHeight || 20}`}
                 </span>
@@ -275,7 +275,7 @@ export default function CustomRequestDetailPage() {
           {/* Quote Entry Card */}
           <div className="bg-brand-surface border border-brand-border rounded-2xl p-6 space-y-4 shadow-xl">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-text flex items-center gap-2">
-              <DollarSign className="w-4 h-4 text-brand-gold" />
+              <DollarSign className="w-4 h-4 text-brand-accent" />
               <span>Quote Entry</span>
             </h2>
 
@@ -284,7 +284,7 @@ export default function CustomRequestDetailPage() {
                 Quoted Price (LKR) *
               </label>
               <div className="flex items-center">
-                <span className="text-xs text-brand-gold font-bold px-3 py-2 bg-brand-bg rounded-l-lg border border-brand-border">
+                <span className="text-xs text-brand-accent font-bold px-3 py-2 bg-brand-bg rounded-l-lg border border-brand-border">
                   Rs.
                 </span>
                 <input
@@ -336,7 +336,7 @@ export default function CustomRequestDetailPage() {
             <button
               onClick={handleSaveQuote}
               disabled={isSaving}
-              className="w-full py-2.5 px-4 rounded-lg bg-brand-gold hover:bg-brand-gold-hover text-brand-bg font-semibold text-xs transition-colors shadow-sm disabled:opacity-50"
+              className="w-full py-2.5 px-4 rounded-lg bg-brand-accent hover:bg-brand-accent-hover text-brand-bg font-semibold text-xs transition-colors shadow-sm disabled:opacity-50"
             >
               {isSaving ? "Saving Quote..." : "Update & Save Quote"}
             </button>

@@ -186,7 +186,7 @@ export default function AdminMessagesPage() {
   if (loading) {
     return (
       <div className="min-h-[450px] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-brand-gold animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
       </div>
     );
   }
@@ -197,7 +197,7 @@ export default function AdminMessagesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-border/60 pb-5">
         <div>
           <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-brand-text font-serif flex items-center gap-2.5">
-            <MessageSquare className="w-7 h-7 text-brand-gold" />
+            <MessageSquare className="w-7 h-7 text-brand-accent" />
             <span>Messages & Customer Inquiries</span>
           </h1>
           <p className="text-xs sm:text-sm text-brand-muted mt-1">
@@ -208,7 +208,7 @@ export default function AdminMessagesPage() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-[#BA8E23] text-black hover:opacity-90 transition-opacity shadow-sm"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-brand-accent text-white hover:opacity-90 transition-opacity shadow-sm"
           >
             <Plus className="w-4 h-4" />
             <span>Log Direct Inquiry</span>
@@ -228,7 +228,7 @@ export default function AdminMessagesPage() {
           <p className="text-[11px] uppercase tracking-wider font-mono text-brand-muted">
             Unread
           </p>
-          <p className="text-2xl font-bold text-[#BA8E23] mt-1">{unreadCount}</p>
+          <p className="text-2xl font-bold text-brand-accent mt-1">{unreadCount}</p>
         </div>
         <div className="bg-brand-surface border border-brand-border rounded-xl p-4">
           <p className="text-[11px] uppercase tracking-wider font-mono text-brand-muted">
@@ -253,7 +253,7 @@ export default function AdminMessagesPage() {
             placeholder="Search by customer name, phone, email, or message..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-brand-border rounded-lg bg-brand-surface text-brand-text text-xs focus:outline-none focus:ring-1 focus:ring-brand-gold"
+            className="w-full pl-10 pr-4 py-2 border border-brand-border rounded-lg bg-brand-surface text-brand-text text-xs focus:outline-none focus:ring-1 focus:ring-brand-accent"
           />
         </div>
 
@@ -264,7 +264,7 @@ export default function AdminMessagesPage() {
               onClick={() => setStatusFilter(st)}
               className={`px-3 py-1.5 rounded-md text-xs font-semibold capitalize whitespace-nowrap transition-colors ${
                 statusFilter === st
-                  ? "bg-brand-gold text-brand-bg shadow-sm"
+                  ? "bg-brand-accent text-brand-bg shadow-sm"
                   : "text-brand-muted hover:text-brand-text"
               }`}
             >
@@ -304,13 +304,13 @@ export default function AdminMessagesPage() {
                   }}
                   className={`message-item p-4 rounded-xl border transition-all cursor-pointer ${
                     isSelected
-                      ? "bg-brand-surface border-brand-gold shadow-md"
-                      : "bg-brand-surface border-brand-border hover:border-brand-gold/40 hover:bg-brand-surface-hover/70"
+                      ? "bg-brand-surface border-brand-accent shadow-md"
+                      : "bg-brand-surface border-brand-border hover:border-brand-accent/40 hover:bg-brand-surface-hover/70"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-brand-gold/15 text-brand-gold border border-brand-gold/30 flex items-center justify-center font-bold text-xs shrink-0">
+                      <div className="w-9 h-9 rounded-full bg-brand-accent/15 text-brand-accent border border-brand-accent/30 flex items-center justify-center font-bold text-xs shrink-0">
                         {msg.name ? msg.name[0].toUpperCase() : "M"}
                       </div>
                       <div>
@@ -321,7 +321,7 @@ export default function AdminMessagesPage() {
                           <span
                             className={`text-[9px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider ${
                               msg.status === "unread"
-                                ? "bg-[#BA8E23] text-black"
+                                ? "bg-brand-accent text-white"
                                 : msg.status === "replied"
                                 ? "bg-green-100 text-green-800 border border-green-300"
                                 : msg.status === "read"
@@ -429,7 +429,7 @@ export default function AdminMessagesPage() {
                   <span
                     className={`text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider ${
                       selectedMessage.status === "unread"
-                        ? "bg-[#BA8E23] text-black"
+                        ? "bg-brand-accent text-white"
                         : selectedMessage.status === "replied"
                         ? "bg-green-100 text-green-800"
                         : "bg-black/10 text-brand-muted"
@@ -481,7 +481,7 @@ export default function AdminMessagesPage() {
                     href={`tel:${selectedMessage.phone || selectedMessage.contact}`}
                     className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg bg-black/5 hover:bg-black/10 text-brand-text border border-brand-border font-medium text-xs transition-colors"
                   >
-                    <Phone className="w-4 h-4 text-brand-gold" />
+                    <Phone className="w-4 h-4 text-brand-accent" />
                     <span>Call Customer</span>
                   </a>
                 </div>
@@ -532,7 +532,7 @@ export default function AdminMessagesPage() {
                   value={adminNotesInput}
                   onChange={(e) => setAdminNotesInput(e.target.value)}
                   placeholder="Record customer preferences, quote details, or follow-up note..."
-                  className="w-full px-3 py-2 border border-brand-border rounded-lg bg-brand-bg text-brand-text text-xs focus:outline-none focus:ring-1 focus:ring-brand-gold resize-none"
+                  className="w-full px-3 py-2 border border-brand-border rounded-lg bg-brand-bg text-brand-text text-xs focus:outline-none focus:ring-1 focus:ring-brand-accent resize-none"
                 />
                 <button
                   onClick={() => handleSaveNotes(selectedMessage.id)}
@@ -544,7 +544,7 @@ export default function AdminMessagesPage() {
             </div>
           ) : (
             <div className="bg-brand-surface border border-brand-border rounded-2xl p-8 text-center space-y-2 text-brand-muted">
-              <FileEdit className="w-8 h-8 mx-auto opacity-30 text-brand-gold" />
+              <FileEdit className="w-8 h-8 mx-auto opacity-30 text-brand-accent" />
               <p className="text-xs">Select any inquiry to view details and reply directly.</p>
             </div>
           )}
@@ -583,7 +583,7 @@ export default function AdminMessagesPage() {
                   placeholder="e.g. Ruwan Silva"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-3 py-2 border border-brand-border rounded-lg text-brand-text bg-white focus:outline-none focus:ring-1 focus:ring-brand-gold"
+                  className="w-full px-3 py-2 border border-brand-border rounded-lg text-brand-text bg-white focus:outline-none focus:ring-1 focus:ring-brand-accent"
                 />
               </div>
 
@@ -597,7 +597,7 @@ export default function AdminMessagesPage() {
                   placeholder="e.g. 0771234567 or customer@email.com"
                   value={formData.contact}
                   onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
-                  className="w-full px-3 py-2 border border-brand-border rounded-lg text-brand-text bg-white focus:outline-none focus:ring-1 focus:ring-brand-gold"
+                  className="w-full px-3 py-2 border border-brand-border rounded-lg text-brand-text bg-white focus:outline-none focus:ring-1 focus:ring-brand-accent"
                 />
               </div>
 
@@ -610,7 +610,7 @@ export default function AdminMessagesPage() {
                   placeholder="e.g. Sun Room Horizon custom 24x36 pricing"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="w-full px-3 py-2 border border-brand-border rounded-lg text-brand-text bg-white focus:outline-none focus:ring-1 focus:ring-brand-gold"
+                  className="w-full px-3 py-2 border border-brand-border rounded-lg text-brand-text bg-white focus:outline-none focus:ring-1 focus:ring-brand-accent"
                 />
               </div>
 
@@ -624,7 +624,7 @@ export default function AdminMessagesPage() {
                   placeholder="Customer inquired about delivery to Negombo and customized frame..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full px-3 py-2 border border-brand-border rounded-lg text-brand-text bg-white focus:outline-none focus:ring-1 focus:ring-brand-gold resize-none"
+                  className="w-full px-3 py-2 border border-brand-border rounded-lg text-brand-text bg-white focus:outline-none focus:ring-1 focus:ring-brand-accent resize-none"
                 />
               </div>
 
@@ -639,7 +639,7 @@ export default function AdminMessagesPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 bg-[#BA8E23] text-black font-semibold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-1.5"
+                  className="px-4 py-2 bg-brand-accent text-white font-semibold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-1.5"
                 >
                   {submitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   <span>Save Inquiry</span>

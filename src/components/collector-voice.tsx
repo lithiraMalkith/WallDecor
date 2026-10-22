@@ -145,7 +145,7 @@ export function CollectorVoice({ initialReviews }: CollectorVoiceProps) {
     : `${current.customerName} · Verified Collector${current.productName ? `, ${current.productName}` : ""}`;
 
   return (
-    <section className="bg-[#BA8E23] py-20 text-[#000000]">
+    <section className="bg-[var(--store-accent)] py-20 text-[#000000]">
       <Reveal className="container-x text-center">
         <p
           className="text-[11px] font-mono uppercase tracking-[0.15em] text-[#000000] font-semibold"
