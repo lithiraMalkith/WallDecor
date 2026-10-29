@@ -47,7 +47,16 @@ export async function uploadToCloudinary(
 ): Promise<UploadResult> {
   const folder = options.folder || CLOUDINARY_CONFIG.defaultFolder;
   const applyNoise = options.applyNoise !== false;
-  const noiseLevel = options.noiseLevel || CLOUDINARY_CONFIG.defaultNoiseLevel;
+  const noiseLevel = options.noiseLevel ?? CLOUDINARY_CONFIG.defaultNoiseLevel;
+
+  if (typeof fileBufferOrBase64 === "string") {
+    const result = await cloudinary.uploader.upload(fileBufferOrBase64, {
+      folder, public_id: options.publicId, tags: ["ceylon-wall-decor", ...(options.tags || [])], resource_type: "image", timeout: 60_000,
+    });
+    const originalUrl = result.secure_url;
+    const noisyUrl = getElevenLabsNoiseUrl(originalUrl, noiseLevel);
+    return { url: applyNoise ? noisyUrl : originalUrl, noisyUrl, originalUrl, publicId: result.public_id, format: result.format, width: result.width, height: result.height, bytes: result.bytes };
+  }
 
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
@@ -56,6 +65,7 @@ export async function uploadToCloudinary(
         public_id: options.publicId,
         tags: ["ceylon-wall-decor", ...(options.tags || [])],
         resource_type: "image",
+        timeout: 60_000,
       },
       (error, result) => {
         if (error || !result) {
@@ -80,28 +90,6 @@ export async function uploadToCloudinary(
 
     if (Buffer.isBuffer(fileBufferOrBase64)) {
       uploadStream.end(fileBufferOrBase64);
-    } else if (typeof fileBufferOrBase64 === "string") {
-      cloudinary.uploader
-        .upload(fileBufferOrBase64, {
-          folder,
-          public_id: options.publicId,
-          tags: ["ceylon-wall-decor", ...(options.tags || [])],
-        })
-        .then((result) => {
-          const originalUrl = result.secure_url;
-          const noisyUrl = getElevenLabsNoiseUrl(originalUrl, noiseLevel);
-          resolve({
-            url: applyNoise ? noisyUrl : originalUrl,
-            noisyUrl,
-            originalUrl,
-            publicId: result.public_id,
-            format: result.format,
-            width: result.width,
-            height: result.height,
-            bytes: result.bytes,
-          });
-        })
-        .catch(reject);
     } else {
       reject(new Error("Unsupported input format for Cloudinary upload"));
     }

@@ -18,7 +18,8 @@ export function useCatalog(initialProducts: Product[] = EMPTY_CATALOG) {
         const json = await response.json();
         if (!json.success || !Array.isArray(json.data)) throw new Error("Invalid catalog response");
         if (!active.signal.aborted) {
-          setState({ catalog: json.data.filter((p: StoredProduct) => p.visibility === "published").map(mapAdminProductToStorefront), catalogError: false });
+          const catalog = json.data.filter((p: StoredProduct) => p.visibility === "published").map(mapAdminProductToStorefront);
+          setState(current => !current.catalogError && JSON.stringify(current.catalog) === JSON.stringify(catalog) ? current : { catalog, catalogError: false });
         }
       } catch {
         if (!active.signal.aborted) setState({ catalog: [], catalogError: true });

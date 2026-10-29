@@ -1,9 +1,10 @@
+import { catalogDb } from "@/lib/catalog-server";
 import { NextRequest, NextResponse } from "next/server";
 import { adminStore } from "@/lib/admin-data";
 import { orderCreateSchema } from "@/lib/validations";
 import { generateOrderRef } from "@/lib/utils";
 import { adminDb } from "@/lib/firebase-admin";
-import { saveOrderToFirestore, getOrdersFromFirestore } from "@/lib/firestore-service";
+import { saveOrderToFirestore } from "@/lib/firestore-service";
 import type { Order } from "@/types";
 
 export async function GET(req: NextRequest) {
@@ -12,31 +13,9 @@ export async function GET(req: NextRequest) {
     const search = searchParams.get("search")?.toLowerCase() || "";
     const status = searchParams.get("status");
 
-    let orders: Order[] = [];
-
-    // Query live Firestore using Server Admin SDK
-    if (adminDb) {
-      try {
-        const snap = await adminDb.collection("orders").orderBy("createdAt", "desc").get();
-        orders = snap.docs.map((doc) => doc.data() as Order);
-      } catch (err) {
-        console.warn("adminDb.collection(orders) fetch fallback:", err);
-      }
-    }
-
-    if (orders.length === 0 && !adminDb) {
-      const firestoreOrders = await getOrdersFromFirestore();
-      if (firestoreOrders && firestoreOrders.length > 0) {
-        orders = firestoreOrders;
-      }
-    }
-
-    // Mirror to in-memory store
-    if (orders.length > 0) {
-      adminStore.orders = orders;
-    } else {
-      orders = adminStore.orders;
-    }
+    const snapshot = await catalogDb().collection("orders").get();
+    const orders = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }) as Order).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    adminStore.orders = orders;
 
     let filtered = [...orders];
 
@@ -56,13 +35,10 @@ export async function GET(req: NextRequest) {
       filtered = filtered.filter((o) => o.status === status);
     }
 
-    return NextResponse.json({ success: true, data: filtered });
+    return NextResponse.json({ success: true, data: filtered }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     console.error("GET /api/orders error:", error);
-    return NextResponse.json({
-      success: true,
-      data: adminStore.orders,
-    });
+    return NextResponse.json({ success: false, error: "Orders are temporarily unavailable" }, { status: 503, headers: { "Cache-Control": "no-store" } });
   }
 }
 

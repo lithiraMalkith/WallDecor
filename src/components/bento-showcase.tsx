@@ -46,6 +46,7 @@ export function BentoShowcase({ products: propProducts }: { products?: Product[]
                   src={featured.image}
                   alt={featured.name}
                   fill
+                  sizes="(max-width: 767px) calc(100vw - 92px), 58vw"
                   className="object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
                 />
               )}

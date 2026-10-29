@@ -1,8 +1,7 @@
+import { catalogDb } from "@/lib/catalog-server";
 import { NextRequest, NextResponse } from "next/server";
 import { adminStore } from "@/lib/admin-data";
 import { customRequestSchema } from "@/lib/validations";
-import { adminDb } from "@/lib/firebase-admin";
-import { saveCustomRequestToFirestore, getCustomRequestsFromFirestore } from "@/lib/firestore-service";
 import type { CustomRequest } from "@/types";
 
 export async function GET(req: NextRequest) {
@@ -10,37 +9,18 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const status = searchParams.get("status");
 
-    let list: CustomRequest[] = [];
-
-    if (adminDb) {
-      try {
-        const snap = await adminDb.collection("custom_requests").orderBy("createdAt", "desc").get();
-        list = snap.docs.map((d) => ({ ...d.data(), id: d.id }) as CustomRequest);
-      } catch (err) {
-        console.warn("adminDb error in GET /api/custom-requests:", err);
-      }
-    }
-
-    if (list.length === 0) {
-      const firestoreRequests = await getCustomRequestsFromFirestore();
-      if (firestoreRequests && firestoreRequests.length > 0) {
-        list = firestoreRequests;
-      } else {
-        list = adminStore.customRequests;
-      }
-    }
+    const snapshot = await catalogDb().collection("custom_requests").get();
+    let list = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }) as CustomRequest).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    adminStore.customRequests = list;
 
     if (status && status !== "all") {
       list = list.filter((r) => r.status === status);
     }
 
-    return NextResponse.json({ success: true, data: list });
+    return NextResponse.json({ success: true, data: list }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     console.error("GET /api/custom-requests error:", error);
-    return NextResponse.json({
-      success: true,
-      data: adminStore.customRequests,
-    });
+    return NextResponse.json({ success: false, error: "Custom requests are temporarily unavailable" }, { status: 503, headers: { "Cache-Control": "no-store" } });
   }
 }
 
@@ -82,11 +62,7 @@ export async function POST(req: NextRequest) {
     };
 
     const cleanRequest = JSON.parse(JSON.stringify(newRequest));
-    if (adminDb) {
-      await adminDb.collection("custom_requests").doc(newRequest.id).set(cleanRequest);
-    } else {
-      await saveCustomRequestToFirestore(cleanRequest);
-    }
+    await catalogDb().collection("custom_requests").doc(newRequest.id).set(cleanRequest);
 
     adminStore.customRequests.unshift(newRequest);
 

@@ -217,7 +217,7 @@ function LoadedHeroStudio({ products: propProducts }: { products: Product[] }) {
                       src={selectedProduct.image}
                       alt={selectedProduct.name}
                       fill
-                      priority
+                      sizes="(max-width: 1023px) 55vw, 28vw"
                       className="object-cover transition-opacity duration-300"
                     />
                     {/* Natural directional light glaze */}
@@ -253,6 +253,7 @@ function LoadedHeroStudio({ products: propProducts }: { products: Product[] }) {
                             src={p.image}
                             alt={p.name}
                             fill
+                            sizes="40px"
                             className="object-cover"
                           />
                         </div>

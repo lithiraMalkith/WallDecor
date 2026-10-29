@@ -1,11 +1,17 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "Aeonik Display";
-  src: url("/fonts/Aeonik-Bold.otf") format("opentype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+.reveal { transition: opacity 650ms ease, transform 650ms ease; }
+.reveal[data-reveal-pending] { opacity: 0; transform: translateY(20px); }
+.ticker-item { opacity: 0; animation: craft-ticker 10.8s infinite; }
+@keyframes craft-ticker {
+  0% { opacity: 0; transform: translateY(8px); }
+  6%, 27% { opacity: 1; transform: translateY(0); }
+  33%, 100% { opacity: 0; transform: translateY(-8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition: none; }
+  .ticker-item { animation: none; }
+  .ticker-item:first-child { opacity: 1; }
 }
 
 /* Shared storefront palette: ivory, sage, and forest green. */
@@ -126,7 +132,7 @@
   align-items: center;
   gap: 9px;
   color: #104f37;
-  font-family: "Aeonik Display", sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-weight: 700;
   font-size: 23px;
   line-height: 1;
@@ -203,7 +209,7 @@
 }
 
 .art-hero h1 {
-  font-family: "Aeonik Display", var(--font-inter), sans-serif;
+  font-family: var(--font-display), var(--font-inter), sans-serif;
   font-size: clamp(54px, 6.4vw, 88px);
   font-weight: 700;
   line-height: 1.01;
@@ -278,16 +284,18 @@
 
 .art-carousel-card {
   position: absolute;
-  visibility: hidden;
+  --carousel-card-width: clamp(150px, 12vw, 174px);
+  --carousel-card-gap: 24px;
+  visibility: visible;
   top: 50%;
   left: 50%;
-  width: 160px;
+  width: var(--carousel-card-width);
   height: 250px;
   border-radius: 13px;
   overflow: hidden;
   background: #dce5d3;
   isolation: isolate;
-  will-change: transform;
+  transform: translate3d(calc(var(--initial-index) * (var(--carousel-card-width) + var(--carousel-card-gap)) - var(--carousel-card-width) / 2), -50%, 0);
   -webkit-user-drag: none;
 }
 
@@ -303,7 +311,7 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background-image: url("/images/carousel/grain.svg");
+  background-image: url("/images/carousel/grain.png");
   background-size: 128px 128px;
   mix-blend-mode: soft-light;
   opacity: 0.32;
@@ -440,6 +448,7 @@
   .art-hero-badge { font-size: 10px; padding: 8px 11px; }
   .hero-side-note, .hero-sketch-marks { display: none; }
   .art-carousel { margin-top: 23px; height: 320px; }
+  .art-carousel-card { --carousel-card-width: 150px; --carousel-card-gap: 16px; height: 242px; }
   .art-hero-action { margin-top: 29px; }
   .art-hero-cta { font-size: 14px; padding: 15px 21px; }
 }
@@ -653,8 +662,8 @@ button {
 }
 
 .reveal {
-  opacity: 0;
-  transform: translateY(20px);
+  opacity: 1;
+  transform: none;
 }
 
 /* ==========================================================================

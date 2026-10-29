@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   Bell,
   Clock,
@@ -16,59 +17,34 @@ import { formatPrice } from "@/lib/utils";
 
 export function AdminNotifications() {
   const [isOpen, setIsOpen] = useState(false);
-  const [pendingOrders, setPendingOrders] = useState<Order[]>([]);
-  const [newRequests, setNewRequests] = useState<CustomRequest[]>([]);
-  const [audioEnabled, setAudioEnabled] = useState(true);
-  const prevCountRef = useRef<number>(0);
+  const [state, setState] = useState<{ orders: Order[]; requests: CustomRequest[]; loading: boolean; error: boolean }>({ orders: [], requests: [], loading: true, error: false });
+  const pendingOrders = state.orders;
+  const newRequests = state.requests;
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const refresh = useRef<() => void>(() => {});
   const router = useRouter();
 
-  const loadNotifications = async () => {
-    try {
-      const orders = await fetchOrders({ status: "pending" });
-      const requests = await fetchCustomRequests();
-      const urgentRequests = requests.filter((r) => r.status === "new");
-
-      setPendingOrders(orders);
-      setNewRequests(urgentRequests);
-
-      const totalUrgent = orders.length + urgentRequests.length;
-      // Audio beep if new orders arrive
-      if (
-        totalUrgent > prevCountRef.current &&
-        prevCountRef.current !== 0 &&
-        audioEnabled
-      ) {
-        try {
-          const ctx = new (
-            window.AudioContext ||
-            (window as unknown as { webkitAudioContext: typeof AudioContext })
-              .webkitAudioContext
-          )();
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = "sine";
-          osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5 note
-          gain.gain.setValueAtTime(0.15, ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start();
-          osc.stop(ctx.currentTime + 0.35);
-        } catch {
-          // Audio not allowed yet
-        }
-      }
-      prevCountRef.current = totalUrgent;
-    } catch {
-      // Fallback silently if offline
-    }
-  };
-
   useEffect(() => {
-    loadNotifications();
-    const interval = setInterval(loadNotifications, 20000);
-    return () => clearInterval(interval);
+    let disposed = false;
+    let revision = 0;
+    const load = async () => {
+      const current = ++revision;
+      try {
+        const [orders, requests] = await Promise.all([fetchOrders({ status: "pending" }), fetchCustomRequests({ status: "new" })]);
+        if (!disposed && revision === current) setState({ orders: orders.filter(order => order.status === "pending"), requests: requests.filter(request => request.status === "new"), loading: false, error: false });
+      } catch {
+        if (!disposed && revision === current) setState({ orders: [], requests: [], loading: false, error: true });
+      }
+    };
+    const update = () => { void load(); };
+    const visible = () => { if (!document.hidden) update(); };
+    refresh.current = update;
+    update();
+    const interval = setInterval(visible, 20000);
+    window.addEventListener("focus", update);
+    window.addEventListener("admin-records-changed", update);
+    document.addEventListener("visibilitychange", visible);
+    return () => { disposed = true; clearInterval(interval); window.removeEventListener("focus", update); window.removeEventListener("admin-records-changed", update); document.removeEventListener("visibilitychange", visible); };
   }, []);
 
   // Close dropdown on outside click
@@ -90,20 +66,22 @@ export function AdminNotifications() {
   return (
     <div className="relative" ref={dropdownRef}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => { if (!isOpen) refresh.current(); setIsOpen(!isOpen); }}
         className="relative p-2 rounded-lg text-brand-muted hover:text-brand-text hover:bg-brand-surface transition-colors"
         aria-label="Notifications"
+        aria-expanded={isOpen}
+        aria-controls="admin-notifications"
       >
         <Bell className="w-5 h-5" />
-        {totalCount > 0 && (
-          <span className="absolute top-1.5 right-1.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-brand-accent px-1 text-[10px] font-bold text-white animate-pulse">
-            {totalCount}
+        {pendingOrders.length > 0 && (
+          <span data-testid="order-notification-count" aria-label={`${pendingOrders.length} pending orders`} className="absolute top-1.5 right-1.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-brand-accent px-1 text-[10px] font-bold text-white">
+            {pendingOrders.length}
           </span>
         )}
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-xl border border-brand-border bg-brand-surface shadow-2xl z-50 overflow-hidden">
+        <div id="admin-notifications" role="region" aria-label="Order and custom request notifications" className="absolute right-0 mt-2 w-[min(24rem,calc(100vw-2rem))] rounded-xl border border-brand-border bg-brand-surface shadow-2xl z-50 overflow-hidden">
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-brand-border bg-brand-bg/50">
             <div className="flex items-center gap-2">
@@ -111,10 +89,11 @@ export function AdminNotifications() {
                 Action Items
               </span>
               <span className="text-xs px-2 py-0.5 rounded-full bg-brand-accent/10 text-brand-accent border border-brand-accent/20 font-medium">
-                {totalCount} urgent
+                {pendingOrders.length} orders · {newRequests.length} requests
               </span>
             </div>
             <button
+              aria-label="Close notifications"
               onClick={() => setIsOpen(false)}
               className="text-brand-muted hover:text-brand-text p-1"
             >
@@ -123,8 +102,8 @@ export function AdminNotifications() {
           </div>
 
           {/* List */}
-          <div className="max-h-[380px] overflow-y-auto divide-y divide-brand-border/50">
-            {totalCount === 0 ? (
+          <div className="max-h-[min(380px,calc(100dvh-200px))] overflow-y-auto divide-y divide-brand-border/50">
+            {state.loading ? <p role="status" className="p-8 text-center text-sm">Checking notifications…</p> : state.error ? <div role="alert" className="p-6 text-sm"><p>Notifications are temporarily unavailable.</p><button type="button" onClick={() => refresh.current()} className="mt-3 underline">Retry notifications</button></div> : totalCount === 0 ? (
               <div className="p-8 text-center">
                 <Clock className="w-8 h-8 text-brand-muted/40 mx-auto mb-2" />
                 <p className="text-sm font-medium text-brand-text">
@@ -137,11 +116,12 @@ export function AdminNotifications() {
             ) : (
               <>
                 {pendingOrders.map((order) => (
-                  <div
+                  <Link
+                    href={`/admin/orders/${order.id}`}
                     key={order.id}
                     onClick={() => {
                       setIsOpen(false);
-                      router.push(`/admin/orders/${order.id}`);
+
                     }}
                     className="p-3.5 hover:bg-brand-surface-hover/70 cursor-pointer transition-colors flex items-start gap-3"
                   >
@@ -168,15 +148,16 @@ export function AdminNotifications() {
                       </p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-brand-muted shrink-0 self-center" />
-                  </div>
+                  </Link>
                 ))}
 
                 {newRequests.map((req) => (
-                  <div
+                  <Link
+                    href={`/admin/custom-requests/${req.id}`}
                     key={req.id}
                     onClick={() => {
                       setIsOpen(false);
-                      router.push(`/admin/custom-requests/${req.id}`);
+
                     }}
                     className="p-3.5 hover:bg-brand-surface-hover/70 cursor-pointer transition-colors flex items-start gap-3"
                   >
@@ -200,7 +181,7 @@ export function AdminNotifications() {
                       </p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-brand-muted shrink-0 self-center" />
-                  </div>
+                  </Link>
                 ))}
               </>
             )}

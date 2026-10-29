@@ -19,7 +19,7 @@ export function ProductCard({ product }: { product: Product }) {
         />}
       </div>
 
-      <div className="p-4 flex items-baseline justify-between gap-2 border-t border-[#EBE8E4]">
+      <div className="p-3 sm:p-4 flex flex-col items-start sm:flex-row sm:items-baseline justify-between gap-2 border-t border-[#EBE8E4]">
         <div className="min-w-0">
           <h3 className="font-normal text-sm text-[#000000] truncate group-hover:text-[var(--store-accent-ink)] transition-colors tracking-[-0.01em]">
             {product.name}

@@ -6,27 +6,17 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import type { CustomerUser } from "@/types";
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
-  signOut as firebaseSignOut,
-  onAuthStateChanged,
-  updateProfile as updateFirebaseProfile,
-  type User as FirebaseUser,
-} from "firebase/auth";
-import {
-  auth,
-  googleProvider,
-  signInWithPopup,
-  signInWithRedirect,
-  getRedirectResult,
-  isFirebaseConfigured,
-} from "@/lib/firebase";
-import {
-  saveCustomerToFirestore,
-  getCustomerFromFirestore,
-} from "@/lib/firestore-service";
+import type { User as FirebaseUser } from 'firebase/auth';
+import { usePathname } from 'next/navigation';
+
+function createCustomerServices() {
+  return Promise.all([import('@/lib/firebase'), import('firebase/auth'), import('@/lib/firestore-service')]).then(([firebase, sdk, store]) => ({ ...firebase, ...sdk, ...store, firebaseSignOut: sdk.signOut, updateFirebaseProfile: sdk.updateProfile }));
+}
+let services: ReturnType<typeof createCustomerServices> | undefined;
+function loadCustomerServices() {
+  services ??= createCustomerServices().catch(error => { services = undefined; throw error; });
+  return services;
+}
 import { formatAuthError } from "@/lib/auth-errors";
 
 interface CustomerAuthContextType {
@@ -99,6 +89,7 @@ const CustomerAuthContext = createContext<CustomerAuthContextType | undefined>(u
 export function CustomerAuthProvider({ children }: { children: React.ReactNode }) {
   const [customer, setCustomer] = useState<CustomerUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const pathname = usePathname();
 
   const saveCustomer = (user: CustomerUser | null) => {
     setCustomer(user);
@@ -122,66 +113,83 @@ export function CustomerAuthProvider({ children }: { children: React.ReactNode }
       setIsLoading(false);
     }
 
-    if (isFirebaseConfigured && auth) {
-      // Check Google OAuth redirect result if returning from redirect
-      getRedirectResult(auth)
-        .then(async (result) => {
-          if (result?.user) {
-            const fbUser = result.user;
-            const email = (fbUser.email || "").trim().toLowerCase();
-            const name = fbUser.displayName || email.split("@")[0] || "Collector";
-            const avatarUrl =
-              fbUser.photoURL ||
-              `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=000000&textColor=ffffff`;
+    let cancelled = false;
+    let unsubscribe: (() => void) | undefined;
+    const connect = async () => {
+      try {
+        const { isFirebaseConfigured, auth, getRedirectResult, getCustomerFromFirestore, saveCustomerToFirestore, onAuthStateChanged } = await loadCustomerServices();
+        if (cancelled) return;
+        if (isFirebaseConfigured && auth) {
+          // Check Google OAuth redirect result if returning from redirect
+          getRedirectResult(auth)
+            .then(async (result) => {
+              if (result?.user) {
+                const fbUser = result.user;
+                const email = (fbUser.email || "").trim().toLowerCase();
+                const name = fbUser.displayName || email.split("@")[0] || "Collector";
+                const avatarUrl =
+                  fbUser.photoURL ||
+                  `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=000000&textColor=ffffff`;
 
-            let user = await getCustomerFromFirestore(fbUser.uid);
-            if (!user && email) {
-              user = await getCustomerFromFirestore(email);
-            }
+                let user = await getCustomerFromFirestore(fbUser.uid);
+                if (!user && email) {
+                  user = await getCustomerFromFirestore(email);
+                }
 
-            if (!user) {
-              user = {
-                id: `cust_${fbUser.uid}`,
-                name,
-                email,
-                phone: fbUser.phoneNumber || "0770000000",
-                district: "Colombo",
-                city: "Colombo 07",
-                address: "Verified Google Account",
-                avatarUrl,
-                provider: "google",
-                createdAt: new Date().toISOString(),
-              };
-            }
+                if (!user) {
+                  user = {
+                    id: `cust_${fbUser.uid}`,
+                    name,
+                    email,
+                    phone: fbUser.phoneNumber || "0770000000",
+                    district: "Colombo",
+                    city: "Colombo 07",
+                    address: "Verified Google Account",
+                    avatarUrl,
+                    provider: "google",
+                    createdAt: new Date().toISOString(),
+                  };
+                }
 
-            await saveCustomerToFirestore(user);
-            saveCustomer(user);
-          }
-        })
-        .catch((err) => {
-          console.warn("Google OAuth redirect error:", err);
-        });
+                await saveCustomerToFirestore(user);
+                saveCustomer(user);
+              }
+            })
+            .catch((err) => {
+              console.warn("Google OAuth redirect error:", err);
+            });
 
-      // Synchronize session on Auth State Changes
-      const unsubscribe = onAuthStateChanged(auth, async (fbUser: FirebaseUser | null) => {
-        if (fbUser) {
-          try {
-            let profile = await getCustomerFromFirestore(fbUser.uid);
-            if (!profile && fbUser.email) {
-              profile = await getCustomerFromFirestore(fbUser.email);
+          // Synchronize session on Auth State Changes
+          unsubscribe = onAuthStateChanged(auth, async (fbUser: FirebaseUser | null) => {
+            if (fbUser) {
+              try {
+                let profile = await getCustomerFromFirestore(fbUser.uid);
+                if (!profile && fbUser.email) {
+                  profile = await getCustomerFromFirestore(fbUser.email);
+                }
+                if (profile) {
+                  saveCustomer(profile);
+                }
+              } catch (err) {
+                console.warn("Error hydrating customer from Firestore:", err);
+              }
             }
-            if (profile) {
-              saveCustomer(profile);
-            }
-          } catch (err) {
-            console.warn("Error hydrating customer from Firestore:", err);
-          }
+          });
+
+
         }
-      });
-
-      return () => unsubscribe();
-    }
-  }, []);
+      } catch (error) { console.warn('Customer session could not be loaded', error); }
+    };
+    let started = false;
+    const startSession = () => { if (!started) { started = true; void connect(); } };
+    let hasSession = false;
+    try { hasSession = Boolean(localStorage.getItem(STORAGE_KEY)); } catch {}
+    // Returning collectors and account pages hydrate immediately. New visitors
+    // can see and explore the storefront before the authentication SDK loads.
+    if (hasSession || pathname.startsWith('/account')) startSession();
+    else { window.addEventListener('pointerdown', startSession, { once: true }); window.addEventListener('keydown', startSession, { once: true }); }
+    return () => { cancelled = true; unsubscribe?.(); window.removeEventListener('pointerdown', startSession); window.removeEventListener('keydown', startSession); };
+  }, [pathname]);
 
   const login = async (
     phoneOrEmail: string,
@@ -189,6 +197,7 @@ export function CustomerAuthProvider({ children }: { children: React.ReactNode }
   ): Promise<{ success: boolean; error?: string }> => {
     setIsLoading(true);
     try {
+      const { isFirebaseConfigured, auth, signInWithEmailAndPassword, getCustomerFromFirestore, saveCustomerToFirestore } = await loadCustomerServices();
       const trimmed = phoneOrEmail.trim().toLowerCase();
       const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed);
 
@@ -274,6 +283,7 @@ export function CustomerAuthProvider({ children }: { children: React.ReactNode }
   const loginWithGoogle = async (): Promise<{ success: boolean; error?: string }> => {
     setIsLoading(true);
     try {
+      const { isFirebaseConfigured, auth, googleProvider, signInWithPopup, getCustomerFromFirestore, saveCustomerToFirestore } = await loadCustomerServices();
       if (!isFirebaseConfigured || !auth || !googleProvider) {
         return {
           success: false,
@@ -350,6 +360,7 @@ export function CustomerAuthProvider({ children }: { children: React.ReactNode }
         return { success: false, error: "A valid Sri Lankan mobile phone (07XXXXXXXX) is required." };
       }
 
+      const { isFirebaseConfigured, auth, createUserWithEmailAndPassword, updateFirebaseProfile, saveCustomerToFirestore } = await loadCustomerServices();
       // Register with Firebase Auth if Email + Password provided
       if (isFirebaseConfigured && auth && data.email && data.password) {
         try {
@@ -413,10 +424,9 @@ export function CustomerAuthProvider({ children }: { children: React.ReactNode }
   const resetPassword = async (
     email: string
   ): Promise<{ success: boolean; error?: string }> => {
-    if (!isFirebaseConfigured || !auth) {
-      return { success: false, error: "Firebase Authentication is not configured." };
-    }
     try {
+      const { isFirebaseConfigured, auth, sendPasswordResetEmail } = await loadCustomerServices();
+      if (!isFirebaseConfigured || !auth) return { success: false, error: "Firebase Authentication is not configured." };
       await sendPasswordResetEmail(auth, email.trim());
       return { success: true };
     } catch (err: any) {
@@ -433,18 +443,17 @@ export function CustomerAuthProvider({ children }: { children: React.ReactNode }
       ...customer,
       ...data,
     };
+    const { saveCustomerToFirestore } = await loadCustomerServices();
     await saveCustomerToFirestore(updated);
     saveCustomer(updated);
     return { success: true };
   };
 
   const logout = () => {
-    if (auth && isFirebaseConfigured) {
-      firebaseSignOut(auth).catch((err) => {
-        console.warn("Customer Firebase signout notice:", err);
-      });
-    }
     saveCustomer(null);
+    void loadCustomerServices().then(({ auth, isFirebaseConfigured, firebaseSignOut }) => {
+      if (auth && isFirebaseConfigured) return firebaseSignOut(auth);
+    }).catch(error => console.warn('Customer signout could not complete', error));
   };
 
   const quickDemoLogin = (presetIndex = 0) => {

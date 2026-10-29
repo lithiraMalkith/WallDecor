@@ -7,6 +7,7 @@ import type { Product } from "@/lib/products";
 import { useCatalog } from "@/lib/use-catalog";
 import { ProductCard } from "./product-card";
 import type { CategoryNode } from "@/types";
+import { filterCatalog } from '@/lib/filter-catalog';
 
 function ShopBrowserContent({
   initial = "All",
@@ -28,6 +29,8 @@ function ShopBrowserContent({
   const [q, setQ] = useState(searchParamQuery);
   const [filter, setFilter] = useState(searchParamRoom);
   const [sort, setSort] = useState("featured");
+  const [style, setStyle] = useState('All');
+  const styles = useMemo(() => [...new Set(catalog.flatMap(product => product.styles || [product.style]))].filter(Boolean), [catalog]);
   const [dbCategories, setDbCategories] = useState<CategoryNode[]>([]);
 
   // Synchronize with initialQuery / initialRoom prop updates from Server Component
@@ -111,83 +114,19 @@ function ShopBrowserContent({
   }, [dbCategories]);
 
   const visible = useMemo(() => {
-    const rawQuery = q.toLowerCase().trim();
-
-    // Store keywords that characterize all products in Ceylon Wall Decor
-    const genericStoreKeywords = new Set([
-      "art",
-      "artwork",
-      "artworks",
-      "wall",
-      "decor",
-      "design",
-      "designs",
-      "piece",
-      "pieces",
-      "sculpture",
-      "relief",
-      "reliefs",
-    ]);
-
-    const tokens = rawQuery.split(/\s+/).filter(Boolean);
-    // Specific search tokens excluding store-wide generic keywords
-    const specificTokens = tokens.filter((t) => !genericStoreKeywords.has(t));
-    const activeTokens = specificTokens.length > 0 ? specificTokens : tokens;
-
-    let v = catalog.filter((p) => {
-      const matchRoom =
-        filter === "All" ||
-        p.room === filter ||
-        (p.rooms && p.rooms.includes(filter)) ||
-        (p.room && filter.toLowerCase().includes(p.room.toLowerCase())) ||
-        (p.rooms && p.rooms.some((r) => filter.toLowerCase().includes(r.toLowerCase())));
-
-      if (!activeTokens.length) {
-        return matchRoom;
-      }
-
-      // If user typed only store-wide keywords (e.g. "wall art", "decor", "sculptures"), match all
-      if (specificTokens.length === 0 && tokens.length > 0) {
-        return matchRoom;
-      }
-
-      // Build complete searchable text string for this product
-      const searchable = [
-        p.name,
-        p.slug,
-        p.sku,
-        p.style,
-        ...(p.styles || []),
-        p.room,
-        ...(p.rooms || []),
-        p.description,
-        p.longDescription || "",
-        p.material || "",
-        p.technique || "",
-        p.badge || "",
-        p.sizes ? "frame framed unframed sizes" : "",
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-
-      // Every specific search token must match somewhere in the product
-      const matchSearch = activeTokens.every((token) => searchable.includes(token));
-
-      return matchRoom && matchSearch;
-    });
+    let v = filterCatalog(catalog, q, filter, style);
 
     if (sort === "low") v = [...v].sort((a, b) => a.price - b.price);
     if (sort === "high") v = [...v].sort((a, b) => b.price - a.price);
     return v;
-  }, [catalog, q, filter, sort]);
+  }, [catalog, q, filter, style, sort]);
 
   return (
     <>
       {/* ElevenLabs-style Segmented Filter Bar */}
       <div className="flex flex-col gap-4 border-b border-[#EBE8E4] pb-6 md:flex-row md:items-center md:justify-between">
         {/* Category Filter */}
-        <div className="flex items-center gap-6 sm:gap-7 overflow-x-auto py-1">
+        <div className="flex min-w-0 max-w-full items-center gap-6 sm:gap-7 overflow-x-auto py-1">
           {rooms.map((r) => {
             const isActive = filter === r;
             return (
@@ -207,13 +146,15 @@ function ShopBrowserContent({
         </div>
 
         {/* Search & Sort Controls */}
-        <div className="flex gap-2 sm:gap-3">
-          <label className="relative flex-1 sm:w-64">
+        <div className="grid min-w-0 gap-3 sm:grid-cols-[minmax(0,1fr)_auto_auto]">
+          <label className="relative min-w-0">
+            <span className="sr-only">Search artworks</span>
             <Search
               className="absolute left-3.5 top-3.5 text-[#777169]"
               size={15}
             />
             <input
+              type="search"
               className="input pl-10 text-xs rounded-full border-[#EBE8E4] focus:border-black"
               value={q}
               onChange={(e) => setQ(e.target.value)}
@@ -221,7 +162,9 @@ function ShopBrowserContent({
             />
           </label>
 
+          <label><span className="sr-only">Artwork style</span><select className="input text-xs" value={style} onChange={event => setStyle(event.target.value)}><option value="All">All styles</option>{styles.map(value => <option key={value}>{value}</option>)}</select></label>
           <label className="relative">
+            <span className="sr-only">Sort artworks</span>
             <SlidersHorizontal
               className="absolute left-3.5 top-3.5 text-[#777169]"
               size={15}
@@ -258,6 +201,7 @@ function ShopBrowserContent({
             onClick={() => {
               setQ("");
               setFilter("All");
+              setStyle('All');
             }}
             className="pill-btn pill-btn-active mt-4 text-xs"
           >

@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo, useState } from 'react';
+import dynamic from 'next/dynamic';
 import Image from "next/image";
 import Link from "next/link";
 import type { StorefrontMedia } from "@/lib/storefront-media";
@@ -10,16 +12,22 @@ import { Reveal } from "./reveal";
 import { HeroStudio } from "./hero-studio";
 import { BentoShowcase } from "./bento-showcase";
 import { CraftTicker } from "./craft-ticker";
-import { CollectorVoice } from "./collector-voice";
-import { ArtworkCarousel } from "./artwork-carousel";
+import { DeferredSection } from './deferred-section';
+import { filterCatalog } from '@/lib/filter-catalog';
+
+const CollectorVoice = dynamic(() => import('./collector-voice').then(module => module.CollectorVoice));
 
 export function Home({ initialProducts, media }: { initialProducts?: Product[]; media: StorefrontMedia[] }) {
   const { catalog, catalogError } = useCatalog(initialProducts);
+  const [query, setQuery] = useState('');
+  const [room, setRoom] = useState('All');
+  const [style, setStyle] = useState('All');
+  const rooms = useMemo(() => [...new Set(catalog.flatMap(product => product.rooms || [product.room]))].filter(Boolean), [catalog]);
+  const styles = useMemo(() => [...new Set(catalog.flatMap(product => product.styles || [product.style]))].filter(Boolean), [catalog]);
+  const collection = useMemo(() => filterCatalog(catalog, query, room, style), [catalog, query, room, style]);
 
   return (
     <>
-      <ArtworkCarousel scenes={media.filter(scene => scene.carouselOrder !== undefined).sort((a,b) => a.carouselOrder! - b.carouselOrder!)} />
-
       {/* 2. Micro Ticker / Craft Provenance Bar (GSAP Text Rotator) */}
       <CraftTicker />
 
@@ -45,9 +53,15 @@ export function Home({ initialProducts, media }: { initialProducts?: Product[]; 
           </div>
         </Reveal>
 
+        <form role="search" aria-label="Search the collection" onSubmit={event => event.preventDefault()} className="mb-8 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto_auto]">
+          <label className="min-w-0"><span className="sr-only">Search collection</span><input type="search" className="input w-full text-sm" placeholder="Search the collection…" value={query} onChange={event => setQuery(event.target.value)} /></label>
+          <label><span className="sr-only">Collection room</span><select className="input w-full text-sm" value={room} onChange={event => setRoom(event.target.value)}><option value="All">All rooms</option>{rooms.map(value => <option key={value}>{value}</option>)}</select></label>
+          <label><span className="sr-only">Collection style</span><select className="input w-full text-sm" value={style} onChange={event => setStyle(event.target.value)}><option value="All">All styles</option>{styles.map(value => <option key={value}>{value}</option>)}</select></label>
+        </form>
         {catalog.length === 0 && <p role="status">{catalogError ? "The collection is unavailable. Please try again shortly." : "No artworks are available yet."}</p>}
+        {catalog.length > 0 && collection.length === 0 && <div role="status" className="py-8 text-sm"><p>No artworks match these filters.</p><button type="button" className="pill-btn mt-3" onClick={() => { setQuery(''); setRoom('All'); setStyle('All'); }}>Clear collection filters</button></div>}
         <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4">
-          {catalog.map((p) => (
+          {collection.map((p) => (
             <Reveal key={p.id}>
               <ProductCard product={p} />
             </Reveal>
@@ -108,6 +122,7 @@ export function Home({ initialProducts, media }: { initialProducts?: Product[]; 
               src={media[0].image}
               alt={media[0].alt}
               fill
+              sizes="(max-width: 1023px) calc(100vw - 40px), 52vw"
               className="object-cover"
             />}
           </div>
@@ -141,7 +156,7 @@ export function Home({ initialProducts, media }: { initialProducts?: Product[]; 
       </section>
 
       {/* 7. Collector Voice (GSAP Animated Social Proof & Database Testimonials) */}
-      <CollectorVoice />
+      <DeferredSection minHeight={350}><CollectorVoice /></DeferredSection>
     </>
   );
 }

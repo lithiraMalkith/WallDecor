@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import localFont from 'next/font/local';
 import "./globals.css";
 import { StorefrontShell } from "@/components/storefront-shell";
 
@@ -9,6 +10,7 @@ const inter = Inter({
   variable: "--font-inter",
   display: "swap",
 });
+const displayFont = localFont({ src: '../../public/fonts/Aeonik-Bold-latin.woff2', variable: '--font-display', weight: '700', display: 'swap', preload: true });
 
 export const metadata: Metadata = {
   title: {
@@ -31,7 +33,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
-      <body className={inter.variable}>
+      <body className={`${inter.variable} ${displayFont.variable}`}>
         <StorefrontShell>{children}</StorefrontShell>
       </body>
     </html>

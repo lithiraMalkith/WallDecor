@@ -26,7 +26,7 @@ export async function fetchApi<T>(
     ...options.headers,
   };
 
-  const response = await fetch(path, { ...options, headers });
+  const response = await fetch(path, { cache: "no-store", ...options, headers });
   
   let payload: ApiResponse<T>;
   try {
@@ -43,6 +43,7 @@ export async function fetchApi<T>(
     );
   }
 
+  if (typeof window !== "undefined" && options.method && !["GET", "HEAD"].includes(options.method.toUpperCase()) && /^\/api\/(orders|custom-requests)(\/|$)/.test(path)) window.dispatchEvent(new Event("admin-records-changed"));
   return payload.data as T;
 }
 
@@ -129,8 +130,9 @@ export async function updateOrderStatus(
 // ----------------------------------------------------------------------------
 // Custom Requests
 // ----------------------------------------------------------------------------
-export async function fetchCustomRequests(): Promise<CustomRequest[]> {
-  return fetchApi<CustomRequest[]>("/api/custom-requests");
+export async function fetchCustomRequests(params?: { status?: string }): Promise<CustomRequest[]> {
+  const query = params?.status ? `?status=${encodeURIComponent(params.status)}` : '';
+  return fetchApi<CustomRequest[]>(`/api/custom-requests${query}`);
 }
 
 export async function fetchCustomRequest(id: string): Promise<CustomRequest> {

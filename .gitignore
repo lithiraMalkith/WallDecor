@@ -6,4 +6,5 @@ node_modules
 test-results/
 playwright-report/
 blob-report/
+qa-artifacts/
 scratch_cloudinary_mapping.json

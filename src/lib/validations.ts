@@ -124,7 +124,7 @@ export const customRequestSchema = z.object({
   customerPhone: z
     .string()
     .regex(/^0\d{9}$/, "Must be 10 digits starting with 0"),
-  designUploadUrls: z.array(z.string()).default([]),
+    designUploadUrls: z.array(z.url().refine(value => value.startsWith("https://"), "Image URLs must use HTTPS")).max(5, "Choose up to five reference images").default([]),
   sizeWidth: z.number().positive().optional(),
   sizeHeight: z.number().positive().optional(),
   sizeLabel: z.string().optional(),

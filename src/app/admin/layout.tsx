@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -142,6 +142,35 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [roleSwitcherOpen, setRoleSwitcherOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const sidebar = useRef<HTMLElement>(null);
+  const menuTrigger = useRef<HTMLButtonElement>(null);
+  const closeMenu = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 1023px)');
+    const update = () => { setIsMobile(media.matches); if (!media.matches) setMobileOpen(false); };
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile || !mobileOpen) return;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    closeMenu.current?.focus();
+    const keydown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { event.preventDefault(); setMobileOpen(false); }
+      if (event.key !== 'Tab') return;
+      const elements = Array.from(sidebar.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input, select, textarea') || []).filter(element => element.getClientRects().length > 0);
+      const first = elements[0], last = elements[elements.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+    };
+    document.addEventListener('keydown', keydown);
+    return () => { document.body.style.overflow = overflow; document.removeEventListener('keydown', keydown); menuTrigger.current?.focus({ preventScroll: true }); };
+  }, [isMobile, mobileOpen]);
 
   // Auto-close mobile drawer on route change
   useEffect(() => {
@@ -167,22 +196,29 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen bg-white text-brand-text flex flex-col antialiased">
+    <div className="admin-shell h-dvh overflow-hidden bg-white text-brand-text flex flex-col antialiased">
       {/* Mobile Drawer Overlay */}
       {mobileOpen && (
-        <div
+        <button
+          type="button"
+          aria-label="Dismiss navigation menu"
           onClick={() => setMobileOpen(false)}
           className="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 lg:hidden"
         />
       )}
 
-      <div className="flex flex-1">
+      <div className="flex min-h-0 flex-1">
         {/* ================================================================== */}
         {/* SIDEBAR                                                            */}
         {/* ================================================================== */}
         <aside
+          ref={sidebar}
+          aria-label="Admin navigation"
+          role={isMobile && mobileOpen ? 'dialog' : undefined}
+          aria-modal={isMobile && mobileOpen ? true : undefined}
+          inert={isMobile && !mobileOpen}
           className={cn(
-            "fixed top-0 bottom-0 left-0 z-50 bg-white border-r border-brand-border flex flex-col transition-all duration-300 ease-in-out",
+            "fixed top-0 bottom-0 left-0 z-50 h-dvh max-w-[calc(100vw-2rem)] bg-white border-r border-brand-border flex flex-col transition-all duration-300 ease-in-out",
             // Mobile sliding
             mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
             // Desktop width
@@ -191,7 +227,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           )}
         >
           {/* Brand Header */}
-          <div className="h-16 px-4 flex items-center justify-between border-b border-brand-border">
+          <div className="h-16 shrink-0 px-4 flex items-center justify-between border-b border-brand-border">
             <Link
               href="/admin"
               className="flex items-center gap-3 overflow-hidden"
@@ -213,6 +249,8 @@ function AdminShell({ children }: { children: React.ReactNode }) {
 
             {/* Mobile close button */}
             <button
+              ref={closeMenu}
+              aria-label="Close navigation menu"
               onClick={() => setMobileOpen(false)}
               className="p-1 rounded-lg text-brand-muted hover:text-brand-text lg:hidden"
             >
@@ -221,7 +259,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           </div>
 
           {/* Navigation Links */}
-          <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto custom-scrollbar">
+          <nav className="min-h-0 flex-1 px-3 py-4 space-y-1 overflow-y-auto custom-scrollbar">
             {filteredNavItems.map((item) => {
               const Icon = item.icon;
               const active = isItemActive(item.href);
@@ -230,6 +268,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={() => setMobileOpen(false)}
                   title={sidebarCollapsed ? item.label : undefined}
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all group relative",
@@ -258,7 +297,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           </nav>
 
           {/* User Profile & Role Switcher in Sidebar Footer */}
-          <div className="p-3 border-t border-brand-border bg-brand-surface">
+          <div className="shrink-0 p-3 border-t border-brand-border bg-brand-surface">
             {/* Role Switcher Pill */}
             <div className="relative">
               <button
@@ -345,16 +384,19 @@ function AdminShell({ children }: { children: React.ReactNode }) {
         {/* MAIN WRAPPER & TOP BAR                                             */}
         {/* ================================================================== */}
         <div
+          inert={isMobile && mobileOpen}
           className={cn(
-            "flex-1 flex flex-col min-w-0 transition-all duration-300",
+            "flex-1 flex flex-col min-h-0 min-w-0 transition-all duration-300",
             sidebarCollapsed ? "lg:pl-[76px]" : "lg:pl-[264px]",
           )}
         >
           {/* Top Bar */}
-          <header className="sticky top-0 z-30 h-16 bg-white/85 backdrop-blur-md border-b border-brand-border px-4 lg:px-8 flex items-center justify-between">
+          <header className="relative z-30 h-16 shrink-0 bg-white/85 backdrop-blur-md border-b border-brand-border px-4 lg:px-8 flex items-center justify-between">
             <div className="flex items-center gap-3">
               {/* Mobile Menu Trigger */}
               <button
+                ref={menuTrigger}
+                aria-expanded={mobileOpen}
                 onClick={() => setMobileOpen(true)}
                 className="p-2 rounded-lg text-brand-muted hover:text-brand-text hover:bg-brand-surface lg:hidden"
                 aria-label="Open navigation menu"
@@ -409,7 +451,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           </header>
 
           {/* Main Content Area */}
-          <main className="flex-1 p-4 lg:p-8 max-w-7xl w-full mx-auto">
+          <main id="admin-content" className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain p-4 lg:p-8 max-w-7xl w-full mx-auto">
             {children}
           </main>
         </div>

@@ -3,8 +3,7 @@ import type { StorefrontMedia } from "@/lib/storefront-media";
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 
 export function ArtworkCarousel({ scenes }: { scenes: StorefrontMedia[] }) {
   const cards = useMemo(() => [...scenes, ...scenes, ...scenes], [scenes]);
@@ -25,11 +24,16 @@ export function ArtworkCarousel({ scenes }: { scenes: StorefrontMedia[] }) {
     media.addEventListener("change", preference);
     let frame = 0;
     let previous = 0;
+    let renderedOffset = NaN;
+    let renderedWidth = NaN;
+    let idle: number | undefined;
     let width = viewport.current?.clientWidth ?? 1280;
     const observer = new ResizeObserver(([entry]) => { width = entry.contentRect.width; });
     if (viewport.current) observer.observe(viewport.current);
 
     const animate = (time: number) => {
+      // This slow-moving strip needs at most 30 updates per second.
+      if (previous && time - previous < 1000 / 30) { frame = requestAnimationFrame(animate); return; }
       const state = motion.current;
       const elapsed = previous ? Math.min(time - previous, 50) : 0;
       previous = time;
@@ -42,6 +46,10 @@ export function ArtworkCarousel({ scenes }: { scenes: StorefrontMedia[] }) {
         state.target += elapsed * 0.018;
       }
       state.offset += (state.target - state.offset) * (state.reduced ? 1 : 1 - Math.exp(-elapsed / 100));
+      if (Math.abs(state.offset - state.target) < 0.01) state.offset = state.target;
+      if (Math.abs(state.offset - renderedOffset) < 0.01 && width === renderedWidth) { frame = requestAnimationFrame(animate); return; }
+      renderedOffset = state.offset;
+      renderedWidth = width;
       cardRefs.current.forEach((card, index) => {
         if (!card) return;
         const position = ((index * state.stride - state.offset + cycle * 0.5) % cycle + cycle) % cycle - cycle * 0.5;
@@ -52,22 +60,41 @@ export function ArtworkCarousel({ scenes }: { scenes: StorefrontMedia[] }) {
         const x = position * (1 + 0.06 * edge * edge);
         const lift = -6 * edge * edge;
         const turn = Math.max(-32, Math.min(32, -curve * (isMobile ? 18 : 24)));
-        card.style.width = `${cardWidth}px`;
-        card.style.height = `${cardHeight}px`;
-        card.style.transform = `translate3d(${x - cardWidth / 2}px, ${-cardHeight / 2 + lift}px, 0) perspective(550px) rotateY(${turn}deg) scale(${scale})`;
-        card.style.zIndex = String(Math.round(edge * 100));
         const visible = Math.abs(x) < width / 2 + cardWidth * scale / 2;
-        card.style.visibility = visible ? "visible" : "hidden";
-        card.tabIndex = visible ? 0 : -1;
-        if (visible) card.removeAttribute("aria-hidden");
-        else card.setAttribute("aria-hidden", "true");
+        if (!visible) {
+          if (card.style.visibility !== 'hidden') { card.style.visibility = 'hidden'; card.tabIndex = -1; card.setAttribute('aria-hidden', 'true'); }
+          return;
+        }
+        if (card.style.width !== `${cardWidth}px`) card.style.width = `${cardWidth}px`;
+        if (card.style.height !== `${cardHeight}px`) card.style.height = `${cardHeight}px`;
+        card.style.transform = `translate3d(${x - cardWidth / 2}px, ${-cardHeight / 2 + lift}px, 0) perspective(550px) rotateY(${turn}deg) scale(${scale})`;
+        const order = String(Math.round(edge * 100));
+        if (card.style.zIndex !== order) card.style.zIndex = order;
+        if (card.style.visibility !== 'visible') { card.style.visibility = 'visible'; card.tabIndex = 0; card.removeAttribute('aria-hidden'); }
       });
       frame = requestAnimationFrame(animate);
     };
-    frame = requestAnimationFrame(animate);
+    // Let the first photographs paint before starting decorative movement.
+    // Loading remains eager; only autoplay waits for an idle rendering opportunity.
+    let ready = false;
+    const start = () => {
+      const run = () => { ready = true; if (!frame) frame = requestAnimationFrame(animate); };
+      if ('requestIdleCallback' in window) idle = window.requestIdleCallback(run, { timeout: 1500 });
+      else run();
+    };
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
+    const visibility = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) { cancelAnimationFrame(frame); frame = 0; }
+      else if (ready && !frame) { previous = 0; frame = requestAnimationFrame(animate); }
+    });
+    if (viewport.current) visibility.observe(viewport.current);
     return () => {
       cancelAnimationFrame(frame);
+      if (idle !== undefined) window.cancelIdleCallback(idle);
+      window.removeEventListener('load', start);
       observer.disconnect();
+      visibility.disconnect();
       media.removeEventListener("change", preference);
     };
   }, [cards.length]);
@@ -79,18 +106,6 @@ export function ArtworkCarousel({ scenes }: { scenes: StorefrontMedia[] }) {
   };
 
   return (
-    <section className="art-hero" aria-labelledby="art-hero-title">
-      <div className="art-hero-intro">
-        <span className="art-hero-badge">Handcrafted in Sri Lanka. Made for your home.</span>
-        <h1 id="art-hero-title">A little texture.<br />A whole lot of feeling.</h1>
-        <p>Turn your walls into something wonderful with<br className="hidden sm:block" /> hand-sculpted art. Natural textures, thoughtful details,<br className="hidden sm:block" /> and a little piece of Ceylon.</p>
-        <span className="hero-sketch-marks" aria-hidden="true">//</span>
-        <div className="hero-side-note" aria-hidden="true">
-          <span>Good things<br />take shape</span>
-          <svg viewBox="0 0 130 85" fill="none"><path d="M5 15C135 0 128 58 84 67m0 0 7-17m-7 17 19-1" /></svg>
-        </div>
-      </div>
-
       <div
         ref={viewport}
         className="art-carousel"
@@ -142,8 +157,10 @@ export function ArtworkCarousel({ scenes }: { scenes: StorefrontMedia[] }) {
           <Link
             key={`${scene.image}-${index}`}
             href={scene.href}
+            prefetch={false}
             ref={(element) => { cardRefs.current[index] = element; }}
             className="art-carousel-card"
+            style={{ '--initial-index': index > cards.length / 2 ? index - cards.length : index } as CSSProperties}
             aria-label={`${scene.title} — ${scene.href === "/custom-order" ? "commission your artwork" : "explore the gallery"}`}
             draggable={false}
             onDragStart={(event) => event.preventDefault()}
@@ -154,15 +171,11 @@ export function ArtworkCarousel({ scenes }: { scenes: StorefrontMedia[] }) {
               motion.current.target = destination + Math.round((motion.current.offset - destination) / cycle) * cycle;
             }}
           >
-            <Image src={scene.image} alt={scene.alt} fill sizes="(max-width: 640px) 150px, 174px" loading="eager" draggable={false} />
+            <Image src={scene.image} alt={scene.alt} fill sizes="(max-width: 640px) 180px, 210px" decoding={index === 0 ? 'sync' : 'async'} fetchPriority={index === 0 ? 'high' : 'low'} loading={index === 0 ? 'eager' : 'lazy'} draggable={false} />
             <span className="art-card-title">{scene.title}</span>
           </Link>
         ))}
       </div>
 
-      <div className="art-hero-action">
-        <Link href="/shop" className="art-hero-cta">Find your wall art <ArrowUpRight size={19} /></Link>
-      </div>
-    </section>
   );
 }
